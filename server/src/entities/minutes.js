@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
 import mongoose from "mongoose";
 
 const segmentSchema = new mongoose.Schema(
@@ -17,13 +19,23 @@ const signatrueSchema = new mongoose.Schema(
   { _id: false },
 );
 
-const minutesSchema = new mongoose.Schema({
-  name: String,
-  id: mongoose.Schema.Types.UUID,
-  color: String,
-  segments: [segmentSchema],
-  startTime: Date,
-  signatures: [signatrueSchema],
+const minutesSchema = new mongoose.Schema(
+  {
+    name: String,
+    color: String,
+    segments: [segmentSchema],
+    startTime: Date,
+    signatures: [signatrueSchema],
+  },
+  { versionKey: false },
+);
+
+// This removes the default _id object and replaces it with id in string format
+minutesSchema.set("toJSON", {
+  transform: (_document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+  },
 });
 
 const Minutes = mongoose.model("Minutes", minutesSchema);
