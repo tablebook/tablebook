@@ -9,7 +9,7 @@ const minutesSchema = (enforceId = true) =>
     color: z.string(),
     segments: z.array(segmentSchema),
     startTime: z.string().datetime(),
-    signature: z.array(signatureSchema),
+    signatures: z.array(signatureSchema),
   });
 
 export default minutesSchema;
