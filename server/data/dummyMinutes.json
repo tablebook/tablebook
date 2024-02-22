@@ -1,0 +1,18 @@
+{
+  "name": "test minutes",
+  "color": "#000000",
+  "segments": [
+    {
+      "name":"test segment",
+      "content": "this is the first segment"
+    }
+  ],
+  "startTime": "2024-02-22T00:00:00Z",
+  "signatures": [
+    {
+      "signer": "Test User",
+      "timestamp": "2024-02-22T00:00:00Z",
+      "image": "4rhcj2349rcym3498xfjxqm89324rcqo3m94trcq349"
+    }
+  ]
+}

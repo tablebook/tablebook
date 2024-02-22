@@ -9,6 +9,7 @@
         "sourceType": "module"
     },
     "rules": {
-        "import/extensions": ["error", "ignorePackages"]
+        "import/extensions": ["error", "ignorePackages"],
+        "no-console": 0
     }
 }
