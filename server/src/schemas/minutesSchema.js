@@ -1,6 +1,6 @@
 import { z } from "zod";
-import segmentSchema from "./segmentSchema";
-import signatureSchema from "./signatureSchema";
+import segmentSchema from "./segmentSchema.js";
+import signatureSchema from "./signatureSchema.js";
 
 const minutesSchema = (enforceId = true) =>
   z.object({
