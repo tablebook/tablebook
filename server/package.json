@@ -22,6 +22,7 @@
     "prettier": "^3.2.5"
   },
   "dependencies": {
+    "zod": "^3.22.4",
     "cross-env": "^7.0.3"
   }
 }
