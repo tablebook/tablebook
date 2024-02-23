@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  verification:
+  build:
     runs-on: ubuntu-latest
 
     timeout-minutes: 5
@@ -25,7 +25,7 @@ jobs:
 
       - name: Install the Server dependencies
         working-directory: ./server
-        run: npm install
+        run: npm ci
 
       - name: Run Lint on Server
         working-directory: ./server
@@ -33,7 +33,7 @@ jobs:
 
       - name: Install the Client dependencies
         working-directory: ./client
-        run: npm install
+        run: npm ci
 
       - name: Run Lint on Client
         working-directory: ./client
