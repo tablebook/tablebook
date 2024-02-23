@@ -1,0 +1,44 @@
+name: Branch Verification
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 5
+
+    steps:
+      - name: Fetch code
+        uses: actions/checkout@v4.1.1
+
+      - name: Install Node
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: "20.x"
+
+      - name: Install the Server dependencies
+        working-directory: ./server
+        run: npm ci
+
+      - name: Run Lint on Server
+        working-directory: ./server
+        run: npm run lint
+
+      - name: Install the Client dependencies
+        working-directory: ./client
+        run: npm ci
+
+      - name: Run Lint on Client
+        working-directory: ./client
+        run: npm run lint
+
+      - name: Run the build script for client
+        working-directory: ./client
+        run: npm run build
