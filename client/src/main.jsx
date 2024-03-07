@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import App from "./App.jsx";
 
 const colorTheme = createTheme({
   palette: {
@@ -18,7 +18,7 @@ const colorTheme = createTheme({
       default: "#F53C3C",
     },
     confirm: {
-      default: "#00FF1A"
+      default: "#00FF1A",
     },
   },
 });
