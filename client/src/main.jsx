@@ -7,18 +7,23 @@ const colorTheme = createTheme({
   palette: {
     primary: {
       main: "#7E83A0",
+      contrastText: "#ffffff",
     },
     secondary: {
       main: "#F3C297",
+      contrastText: "#000000",
     },
     background: {
-      default: "#FFE3BE",
+      main: "#FFE3BE",
+      contrastText: "#000000",
     },
     delete: {
-      default: "#F53C3C",
+      main: "#F53C3C",
+      contrastText: "#000000",
     },
     confirm: {
-      default: "#00FF1A",
+      main: "#00FF1A",
+      contrastText: "#000000",
     },
   },
 });
