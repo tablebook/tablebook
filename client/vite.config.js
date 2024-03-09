@@ -26,6 +26,7 @@ export default defineConfig({
           setup(build) {
             build.onLoad({ filter: /(src)\/.*\.js$/ }, async (args) => ({
               loader: "jsx",
+              // eslint-disable-next-line no-undef
               contents: await fs.readFile(args.path, "utf8"),
             }));
           },
