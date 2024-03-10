@@ -1,65 +1,87 @@
-import { styled, Box, Link, Button } from "@mui/material";
+import { Box, Link, Button, useTheme } from "@mui/material";
 
 const TopBar = () => {
-  const TopBarContainer = styled(Box)(({ theme }) => ({
-    backgroundColor: theme.palette.primary.main,
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    display: "flex",
-    alignItems: "center",
-  }));
+  const theme = useTheme();
 
-  const TopBarButton = styled(Button)(() => ({
-    marginRight: "2%",
-  }));
+  const styles = {
+    topBarContainer: {
+      backgroundColor: theme.palette.primary.main,
+      position: "fixed",
+      width: "100vw",
+      display: "flex",
+      alignItems: "center",
+    },
 
-  const logoLink = {
-    paddingLeft: "1%",
-    paddingRight: "1%",
-  };
+    topBarButton: {
+      mx: 1.5,
+    },
 
-  const buttonsBox = {
-    display: "flex",
-    width: "100%",
-    justifyContent: "end",
+    logoLink: {
+      px: 1,
+    },
+
+    buttonsBox: {
+      display: "flex",
+      width: "100vw",
+      justifyContent: "end",
+    },
   };
 
   return (
     <>
-      <TopBarContainer>
+      <Box sx={styles.topBarContainer}>
         <Link
           href="/"
           variant="h3"
           color="primary.contrastText"
           underline="hover"
-          sx={logoLink}
+          sx={styles.logoLink}
         >
           TableBook
         </Link>
-        <Box sx={buttonsBox}>
-          <TopBarButton variant="contained" color="secondary">
+
+        <Box sx={styles.buttonsBox}>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={styles.topBarButton}
+          >
             Create New
-          </TopBarButton>
+          </Button>
 
-          <TopBarButton variant="contained" color="secondary">
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={styles.topBarButton}
+          >
             Revert
-          </TopBarButton>
+          </Button>
 
-          <TopBarButton variant="contained" color="secondary">
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={styles.topBarButton}
+          >
             Save
-          </TopBarButton>
+          </Button>
 
-          <TopBarButton variant="contained" color="secondary">
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={styles.topBarButton}
+          >
             Share
-          </TopBarButton>
+          </Button>
 
-          <TopBarButton variant="contained" color="secondary">
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={styles.topBarButton}
+          >
             Print PDF
-          </TopBarButton>
+          </Button>
         </Box>
-      </TopBarContainer>
+      </Box>
     </>
   );
 };
