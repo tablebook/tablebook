@@ -22,9 +22,9 @@ if (nodeEnv === "production" && !mongodbProdConnectionstring) {
   process.exit();
 }
 
-if (nodeEnv !== "production" && !mongodbDevConnectionstring) {
+if (nodeEnv === "development" && !mongodbDevConnectionstring) {
   console.error(
-    "NODE_ENV set to development/test, but MONGODB_DEV_CONNECTION_STRING is not set. Aborting.",
+    "NODE_ENV set to development, but MONGODB_DEV_CONNECTION_STRING is not set. Aborting.",
   );
   process.exit();
 }
