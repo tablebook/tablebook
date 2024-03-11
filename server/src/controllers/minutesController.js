@@ -14,7 +14,7 @@ minutesController.get("/:id", async (request, response) => {
   const minutes = await minutesService.getMinutesById(id);
 
   if (!minutes) {
-    sendMinutesNotFound(response);
+    return sendMinutesNotFound(response);
   }
 
   return response.json(minutes);
@@ -35,7 +35,7 @@ minutesController.put("/:id", async (request, response) => {
   const updatedMinutes = await minutesService.updateMinutes(id, minutesBody);
 
   if (!updatedMinutes) {
-    sendMinutesNotFound(response);
+    return sendMinutesNotFound(response);
   }
 
   return response.json(updatedMinutes);
@@ -46,7 +46,7 @@ minutesController.delete("/:id", async (request, response) => {
   const deletedMinutes = await minutesService.deleteMinutesById(id);
 
   if (!deletedMinutes) {
-    sendMinutesNotFound(response);
+    return sendMinutesNotFound(response);
   }
 
   return response.json(deletedMinutes);

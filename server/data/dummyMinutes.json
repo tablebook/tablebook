@@ -9,11 +9,11 @@
       ]
     }
   ],
-  "startTime": "2024-02-22T00:00:00Z",
+  "startTime": "2024-02-22T00:00:00.000Z",
   "signatures": [
     {
       "signer": "Test User",
-      "timestamp": "2024-02-22T00:00:00Z",
+      "timestamp": "2024-02-22T00:00:00.000Z",
       "image": "4rhcj2349rcym3498xfjxqm89324rcqo3m94trcq349"
     }
   ]
