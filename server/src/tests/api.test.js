@@ -11,6 +11,9 @@ describe("minutesApi", () => {
   let mongoDbServer; // Virtual/In-memory mongodb server for running tests without external dependencies
   let minutesInDb;
 
+  const validNonExistentId = "65edcc9eb413f592f45351b1";
+  const invalidId = "65edcc9e";
+
   beforeAll(async () => {
     mongoDbServer = await MongoMemoryServer.create();
     await mongoose.connect(mongoDbServer.getUri());
@@ -37,7 +40,7 @@ describe("minutesApi", () => {
     });
 
     it("should respond with 404 and error message when id doesn't exist in the database", async () => {
-      const response = await api.get(`${baseUrl}/65edcc9eb413f592f45351b1`);
+      const response = await api.get(`${baseUrl}/${validNonExistentId}`);
       expect(response.status).toBe(404);
       expect(response.body.error).toEqual(
         "Minutes not found with the given id",
@@ -45,7 +48,7 @@ describe("minutesApi", () => {
     });
 
     it("should respond with 400 and validation error message when id isn't a valid mongodb id (hexadecimal value with 24 characters)", async () => {
-      const response = await api.get(`${baseUrl}/65edcc9e`);
+      const response = await api.get(`${baseUrl}/${invalidId}`);
       expect(response.status).toBe(400);
       expect(response.body.error).toEqual(
         'Validation error: Invalid MongoDB id at "id"',
@@ -84,7 +87,7 @@ describe("minutesApi", () => {
 
     it("should respond with 400 and error message when given invalid id (hexadecimal value with 24 characters)", async () => {
       const response = await api
-        .put(`${baseUrl}/65edcc9eb413f59`)
+        .put(`${baseUrl}/${invalidId}`)
         .send({ ...dummyMinutes, name: "updated minutes" });
 
       expect(response.status).toBe(400);
@@ -95,18 +98,18 @@ describe("minutesApi", () => {
 
     it("should respond with 400 and error message when given invalid body", async () => {
       const response = await api
-        .put(`${baseUrl}/65edcc9eb413f59`)
+        .put(`${baseUrl}/${validNonExistentId}`)
         .send({ ...dummyMinutes, name: undefined });
 
       expect(response.status).toBe(400);
       expect(response.body.error).toEqual(
-        'Validation error: Invalid MongoDB id at "id"',
+        'Validation error: Required at "name"',
       );
     });
 
     it("should respond with 404 and error message when id doesn't exist in the database", async () => {
       const response = await api
-        .put(`${baseUrl}/65edcc9eb413f592f45351b1`)
+        .put(`${baseUrl}/${validNonExistentId}`)
         .send({ ...dummyMinutes, name: "updated minutes" });
 
       expect(response.status).toBe(404);
@@ -125,7 +128,7 @@ describe("minutesApi", () => {
     });
 
     it("should respond with 400 and validation error message when id isn't a valid mongodb id (hexadecimal value with 24 characters)", async () => {
-      const response = await api.delete(`${baseUrl}/65edcc9eb413f59`);
+      const response = await api.delete(`${baseUrl}/${invalidId}`);
 
       expect(response.status).toBe(400);
       expect(response.body.error).toEqual(
@@ -134,7 +137,7 @@ describe("minutesApi", () => {
     });
 
     it("should respond with 404 and error message when id doesn't exist in the database", async () => {
-      const response = await api.delete(`${baseUrl}/65edcc9eb413f592f45351b1`);
+      const response = await api.delete(`${baseUrl}/${validNonExistentId}`);
 
       expect(response.status).toBe(404);
       expect(response.body.error).toEqual(
