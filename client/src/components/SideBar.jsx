@@ -1,4 +1,4 @@
-import { Box, Button, useTheme } from "@mui/material";
+import { Box, Button, useTheme, Typography } from "@mui/material";
 
 const SideBar = () => {
   const theme = useTheme();
@@ -60,14 +60,14 @@ const SideBar = () => {
   return (
     <Box sx={styles.sideBarContainer}>
       <Box sx={styles.colorPickerContainer}>
-        <Box sx={styles.colorPickerTitle}>
+        <Typography sx={styles.colorPickerTitle}>
           PRIMARY COLOR
           <Box sx={styles.colorPickerSmallBox} />
-        </Box>
-        <Box sx={styles.colorPickerTitle}>
+        </Typography>
+        <Typography sx={styles.colorPickerTitle}>
           SECONDARY COLOR
           <Box sx={styles.colorPickerSmallBox} />
-        </Box>
+        </Typography>
       </Box>
 
       <Box sx={styles.languagePickerContainer}>*flag*</Box>
