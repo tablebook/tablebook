@@ -41,14 +41,14 @@ const SideBar = () => {
             textAlign: 'center',
             width: 230,
             mt: 1,
-            mb: 5
+            mb: 14
         },
         buttonContainer: {
             display: "flex",
             flexDirection: "column",
             width: 180,
             mt: 3,
-            mb: 15,
+            mb: 5,
         },
         sideBarButton: {
             p: 2,
