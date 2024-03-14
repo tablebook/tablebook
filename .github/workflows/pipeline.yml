@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  verification:
     runs-on: ubuntu-latest
 
     timeout-minutes: 5
@@ -31,6 +31,10 @@ jobs:
         working-directory: ./server
         run: npm run lint
 
+      - name: Run tests on Server
+        working-directory: ./server
+        run: npm test
+
       - name: Install the Client dependencies
         working-directory: ./client
         run: npm ci
@@ -38,6 +42,10 @@ jobs:
       - name: Run Lint on Client
         working-directory: ./client
         run: npm run lint
+
+      - name: Run tests on Client
+        working-directory: ./client
+        run: npm test
 
       - name: Run the build script for client
         working-directory: ./client
