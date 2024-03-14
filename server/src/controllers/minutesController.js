@@ -43,7 +43,7 @@ minutesController.put("/:token", async (request, response) => {
   const { id, writeAccess } = await parseJwt(token);
 
   if (!writeAccess) {
-    return response.status(401);
+    return response.sendStatus(401);
   }
 
   const minutesBody = await minutesSchema.parseAsync(request.body);
@@ -64,7 +64,7 @@ minutesController.delete("/:token", async (request, response) => {
   const { id, writeAccess } = await parseJwt(token);
 
   if (!writeAccess) {
-    return response.status(401);
+    return response.sendStatus(401);
   }
 
   const deletedMinutes = await minutesService.deleteMinutesById(id);

@@ -143,6 +143,13 @@ describe("minutesApi", () => {
         "Minutes not found with the given token",
       );
     });
+
+    it("should respond with 401 when writeAccess is false in the token", async () => {
+      const token = getTokenWithoutWriteAccess(minutesInDb.id);
+      const response = await api.put(`${baseUrl}/${token}`);
+
+      expect(response.status).toBe(401);
+    });
   });
 
   describe("delete", () => {
@@ -169,6 +176,13 @@ describe("minutesApi", () => {
       expect(response.body.error).toEqual(
         "Minutes not found with the given token",
       );
+    });
+
+    it("should respond with 401 when writeAccess is false in the token", async () => {
+      const token = getTokenWithoutWriteAccess(minutesInDb.id);
+      const response = await api.delete(`${baseUrl}/${token}`);
+
+      expect(response.status).toBe(401);
     });
   });
 });
