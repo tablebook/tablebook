@@ -1,15 +1,18 @@
 import { Router as createRouter } from "express";
+
 import minutesService from "../services/minutesService.js";
 import minutesSchema from "../schemas/minutesSchema.js";
-import idParamsSchema from "../schemas/idParamsSchema.js";
+import {
+  createJwt,
+  parseJwt,
+  sendMinutesNotFound,
+} from "./minutesController.helpers.js";
 
 const minutesController = createRouter();
 
-const sendMinutesNotFound = (response) =>
-  response.status(404).json({ error: "Minutes not found with the given id" });
-
-minutesController.get("/:id", async (request, response) => {
-  const { id } = await idParamsSchema.parseAsync(request.params);
+minutesController.get("/:token", async (request, response) => {
+  const { token } = request.params;
+  const { id, writeAccess } = await parseJwt(token);
 
   const minutes = await minutesService.getMinutesById(id);
 
@@ -17,7 +20,9 @@ minutesController.get("/:id", async (request, response) => {
     return sendMinutesNotFound(response);
   }
 
-  return response.json(minutes);
+  const responseBody = { data: minutes, writeAccess };
+
+  return response.json(responseBody);
 });
 
 minutesController.post("/", async (request, response) => {
@@ -25,11 +30,22 @@ minutesController.post("/", async (request, response) => {
 
   const createdMinutes = await minutesService.createMinutes(minutesBody);
 
-  return response.json(createdMinutes);
+  const readToken = createJwt(createdMinutes.id, false);
+  const writeToken = createJwt(createdMinutes.id, true);
+
+  const responseBody = { data: createdMinutes, readToken, writeToken };
+
+  return response.status(201).json(responseBody);
 });
 
-minutesController.put("/:id", async (request, response) => {
-  const { id } = await idParamsSchema.parseAsync(request.params);
+minutesController.put("/:token", async (request, response) => {
+  const { token } = request.params;
+  const { id, writeAccess } = await parseJwt(token);
+
+  if (!writeAccess) {
+    return response.sendStatus(401);
+  }
+
   const minutesBody = await minutesSchema.parseAsync(request.body);
 
   const updatedMinutes = await minutesService.updateMinutes(id, minutesBody);
@@ -38,18 +54,28 @@ minutesController.put("/:id", async (request, response) => {
     return sendMinutesNotFound(response);
   }
 
-  return response.json(updatedMinutes);
+  const responseBody = { data: updatedMinutes };
+
+  return response.json(responseBody);
 });
 
-minutesController.delete("/:id", async (request, response) => {
-  const { id } = await idParamsSchema.parseAsync(request.params);
+minutesController.delete("/:token", async (request, response) => {
+  const { token } = request.params;
+  const { id, writeAccess } = await parseJwt(token);
+
+  if (!writeAccess) {
+    return response.sendStatus(401);
+  }
+
   const deletedMinutes = await minutesService.deleteMinutesById(id);
 
   if (!deletedMinutes) {
     return sendMinutesNotFound(response);
   }
 
-  return response.json(deletedMinutes);
+  const responseBody = { data: deletedMinutes };
+
+  return response.json(responseBody);
 });
 
 export default minutesController;
