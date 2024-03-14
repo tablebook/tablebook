@@ -8,6 +8,8 @@ const mongodbDevConnectionstring = process.env.MONGODB_DEV_CONNECTION_STRING;
 
 const port = Number(process.env.PORT) || 8080; // If doesn't exist OR not a number, defaults as 8080
 
+const secret = process.env.SECRET;
+
 // Errorhandling
 
 if (!nodeEnv) {
@@ -29,6 +31,11 @@ if (nodeEnv === "development" && !mongodbDevConnectionstring) {
   process.exit();
 }
 
+if (!secret) {
+  console.error("SECRET is not set. Aborting.");
+  process.exit();
+}
+
 // Decide db connectionstring based on node env
 
 const dbConnectionstring =
@@ -40,6 +47,7 @@ const environment = {
   nodeEnv,
   dbConnectionstring,
   port,
+  secret,
 };
 
 export default environment;
