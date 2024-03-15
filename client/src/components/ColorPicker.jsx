@@ -2,15 +2,14 @@ import { useState, useRef, useEffect } from "react";
 import { Box } from "@mui/material";
 import { HexColorPicker, HexColorInput } from "react-colorful";
 
-const ColorPicker = ({ initialColor }) => {
+const ColorPicker = ({ onColorChange, currColor }) => {
     const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
-    const [selectedColor, setSelectedColor] = useState(initialColor);
 
     const popover = useRef();
     const smallbox = useRef();
   
     const handleColorChange = (color) => {
-      setSelectedColor(color);
+      onColorChange(color);
     };
   
     const toggleColorPicker = () => {
@@ -34,7 +33,7 @@ const ColorPicker = ({ initialColor }) => {
     
     const styles = {
         colorPickerBox: {
-            backgroundColor: selectedColor,
+            backgroundColor: currColor,
             border: 1,
             position: "relative",
             width: 24,
@@ -45,6 +44,7 @@ const ColorPicker = ({ initialColor }) => {
         colorPicker: {
             position: "absolute",
             zIndex: "999",
+            left: "92%"
         },
         colorPickerMap: {
             width: 150,
@@ -70,8 +70,8 @@ const ColorPicker = ({ initialColor }) => {
         />
         {isColorPickerOpen && (
             <Box sx={styles.colorPicker} ref={popover}>
-                <HexColorPicker color={selectedColor} onChange={handleColorChange} style={styles.colorPickerMap}/>
-                <HexColorInput color={selectedColor} onChange={handleColorChange} style={styles.colorPickerInput}/>
+                <HexColorPicker onChange={handleColorChange} style={styles.colorPickerMap}/>
+                <HexColorInput onChange={handleColorChange} style={styles.colorPickerInput}/>
             </Box>
             )}
       </Box>

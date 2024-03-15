@@ -3,10 +3,26 @@ import { Box, Button, useTheme, Typography } from "@mui/material";
 import ColorPicker from "./ColorPicker";
 
 const SideBar = () => {
-  const [primaryColor, setPrimaryColor] = useState("#aabbcc");
-  const [secondaryColor, setSecondaryColor] = useState("#116ecb");
+  const [primaryColor, setPrimaryColor] = useState(sessionStorage.getItem("primaryColor") || "#000000");
+  const [secondaryColor, setSecondaryColor] = useState(sessionStorage.getItem("secondaryColor") || "#ffffff");
   
   const theme = useTheme();
+
+  const restoreDefaults = () => {
+    setPrimaryColor("#000000");
+    setSecondaryColor("#ffffff");
+    console.log("restore called");
+  };
+
+  const handlePrimaryColorChange = (color) => {
+    setPrimaryColor(color);
+    sessionStorage.setItem("primaryColor", color);
+  };
+
+  const handleSecondaryColorChange = (color) => {
+    setSecondaryColor(color);
+    sessionStorage.setItem("secondaryColor", color);
+  };
 
   const styles = {
     sideBarContainer: {
@@ -20,8 +36,16 @@ const SideBar = () => {
       justifyContent: "center",
     },
     colorPickerContainer: {
-      width: 260,
-      position: "relative"
+      width: 230,
+      position: "relative",
+      display: "flex",
+      flexDirection: "column"
+    },
+    customizeTitle: {
+      fontSize: 22,
+      textAlign: "center",
+      fontStyle: "italic",
+      fontWeight: "bold"
     },
     colorPickerTitle: {
       backgroundColor: theme.palette.secondary.main,
@@ -33,27 +57,23 @@ const SideBar = () => {
       boxShadow: 1,
       py: 2,
       px: 2,
-      my: 3,
+      my: 1,
       mx: 1,
     },
-    colorPickerPrimaryBox: {
-      backgroundColor: "#ffffff",
-      borderRadius: 1.5,
-      border: 1,
-      height: 24,
-      width: 24,
+    restoreButtonContainer: {
+      mt: 1,
+      display: "flex",
+      justifyContent: "center",
     },
-    colorPickerSecondaryBox: {
-      backgroundColor: "#ffffff",
-      borderRadius: 1.5,
-      border: 1,
-      height: 24,
-      width: 24,
+    restoreButton: {
+      width: 170,
+      fontSize: 12,
+      border: 0.5,
     },
     languagePickerContainer: {
       textAlign: "center",
       width: 230,
-      mt: 1,
+      mt: 4,
       mb: 14,
     },
     buttonContainer: {
@@ -73,13 +93,23 @@ const SideBar = () => {
   return (
     <Box sx={styles.sideBarContainer}>
       <Box sx={styles.colorPickerContainer}>
+      <Typography sx={styles.customizeTitle}>Customize:</Typography>
         <Box sx={styles.colorPickerTitle}>
-          <Typography>PRIMARY COLOR</Typography>
-          <ColorPicker initialColor={primaryColor}/>
+          <Typography>Text color</Typography>
+          <ColorPicker onColorChange={handlePrimaryColorChange} currColor={primaryColor}/>
         </Box>
         <Box sx={styles.colorPickerTitle}>
-          <Typography>SECONDARY COLOR</Typography>
-          <ColorPicker initialColor={secondaryColor}/>
+          <Typography>Background color</Typography>
+          <ColorPicker onColorChange={handleSecondaryColorChange} currColor={secondaryColor}/>
+        </Box>
+        <Box sx={styles.restoreButtonContainer}>
+          <Button 
+           variant="contained" 
+           color="secondary" 
+           sx={styles.restoreButton}
+           onClick={restoreDefaults}>
+            Restore defaults
+          </Button>
         </Box>
       </Box>
 
