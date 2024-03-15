@@ -1,6 +1,11 @@
+import { useState } from "react";
 import { Box, Button, useTheme, Typography } from "@mui/material";
+import ColorPicker from "./ColorPicker";
 
 const SideBar = () => {
+  const [primaryColor, setPrimaryColor] = useState("#aabbcc");
+  const [secondaryColor, setSecondaryColor] = useState("#116ecb");
+  
   const theme = useTheme();
 
   const styles = {
@@ -16,6 +21,7 @@ const SideBar = () => {
     },
     colorPickerContainer: {
       width: 260,
+      position: "relative"
     },
     colorPickerTitle: {
       backgroundColor: theme.palette.secondary.main,
@@ -30,7 +36,14 @@ const SideBar = () => {
       my: 3,
       mx: 1,
     },
-    colorPickerSmallBox: {
+    colorPickerPrimaryBox: {
+      backgroundColor: "#ffffff",
+      borderRadius: 1.5,
+      border: 1,
+      height: 24,
+      width: 24,
+    },
+    colorPickerSecondaryBox: {
       backgroundColor: "#ffffff",
       borderRadius: 1.5,
       border: 1,
@@ -60,14 +73,14 @@ const SideBar = () => {
   return (
     <Box sx={styles.sideBarContainer}>
       <Box sx={styles.colorPickerContainer}>
-        <Typography sx={styles.colorPickerTitle}>
-          PRIMARY COLOR
-          <Box sx={styles.colorPickerSmallBox} />
-        </Typography>
-        <Typography sx={styles.colorPickerTitle}>
-          SECONDARY COLOR
-          <Box sx={styles.colorPickerSmallBox} />
-        </Typography>
+        <Box sx={styles.colorPickerTitle}>
+          <Typography>PRIMARY COLOR</Typography>
+          <ColorPicker initialColor={primaryColor}/>
+        </Box>
+        <Box sx={styles.colorPickerTitle}>
+          <Typography>SECONDARY COLOR</Typography>
+          <ColorPicker initialColor={secondaryColor}/>
+        </Box>
       </Box>
 
       <Box sx={styles.languagePickerContainer}>*flag*</Box>
