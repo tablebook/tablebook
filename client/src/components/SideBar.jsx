@@ -3,25 +3,24 @@ import { Box, Button, useTheme, Typography } from "@mui/material";
 import ColorPicker from "./ColorPicker";
 
 const SideBar = () => {
-  const [primaryColor, setPrimaryColor] = useState(sessionStorage.getItem("primaryColor") || "#000000");
-  const [secondaryColor, setSecondaryColor] = useState(sessionStorage.getItem("secondaryColor") || "#ffffff");
+  const [textColor, setTextColor] = useState(sessionStorage.getItem("textColor") || "#000000");
+  const [backgroundColor, setBackgroundColor] = useState(sessionStorage.getItem("backgroundColor") || "#ffffff");
   
   const theme = useTheme();
 
   const restoreDefaults = () => {
-    setPrimaryColor("#000000");
-    setSecondaryColor("#ffffff");
-    console.log("restore called");
+    setTextColor("#000000");
+    setBackgroundColor("#ffffff");
   };
 
-  const handlePrimaryColorChange = (color) => {
-    setPrimaryColor(color);
-    sessionStorage.setItem("primaryColor", color);
+  const handleTextColorChange = (color) => {
+    setTextColor(color);
+    sessionStorage.setItem("textColor", color);
   };
 
-  const handleSecondaryColorChange = (color) => {
-    setSecondaryColor(color);
-    sessionStorage.setItem("secondaryColor", color);
+  const handleBackgroundColorChange = (color) => {
+    setBackgroundColor(color);
+    sessionStorage.setItem("backgroundColor", color);
   };
 
   const styles = {
@@ -96,11 +95,11 @@ const SideBar = () => {
       <Typography sx={styles.customizeTitle}>Customize:</Typography>
         <Box sx={styles.colorPickerTitle}>
           <Typography>Text color</Typography>
-          <ColorPicker onColorChange={handlePrimaryColorChange} currColor={primaryColor}/>
+          <ColorPicker onColorChange={handleTextColorChange} currColor={textColor}/>
         </Box>
         <Box sx={styles.colorPickerTitle}>
           <Typography>Background color</Typography>
-          <ColorPicker onColorChange={handleSecondaryColorChange} currColor={secondaryColor}/>
+          <ColorPicker onColorChange={handleBackgroundColorChange} currColor={backgroundColor}/>
         </Box>
         <Box sx={styles.restoreButtonContainer}>
           <Button 
@@ -112,9 +111,9 @@ const SideBar = () => {
           </Button>
         </Box>
       </Box>
-
-      <Box sx={styles.languagePickerContainer}>*flag*</Box>
-
+      <Box sx={styles.languagePickerContainer}>
+        *flag*
+      </Box>
       <Box sx={styles.buttonContainer}>
         <Button variant="contained" color="secondary" sx={styles.sideBarButton}>
           Add a field
