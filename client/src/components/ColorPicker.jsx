@@ -1,10 +1,13 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Box } from "@mui/material";
 import { HexColorPicker, HexColorInput } from "react-colorful";
 
 const ColorPicker = ({ initialColor }) => {
     const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
     const [selectedColor, setSelectedColor] = useState(initialColor);
+
+    const popover = useRef();
+    const smallbox = useRef();
   
     const handleColorChange = (color) => {
       setSelectedColor(color);
@@ -14,10 +17,21 @@ const ColorPicker = ({ initialColor }) => {
         setIsColorPickerOpen(!isColorPickerOpen);
     };
 
-    const useClickOutside = () => {
-
-    };
-
+    useEffect(() => {
+            let handler = (event) => {
+                if (popover.current && 
+                    !popover.current.contains(event.target) && 
+                    !smallbox.current.contains(event.target)) 
+                {
+                    setIsColorPickerOpen(false);
+                }
+            };
+            document.addEventListener("mousedown", handler);
+            return() => {
+                document.removeEventListener("mousedown", handler);
+            };
+    }, []);
+    
     const styles = {
         colorPickerBox: {
             backgroundColor: selectedColor,
@@ -35,18 +49,19 @@ const ColorPicker = ({ initialColor }) => {
     }
   
     return (
-      <div>
+      <Box>
         <Box
+          ref={smallbox}
           onClick={toggleColorPicker}
           style={styles.colorPickerBox}
         />
         {isColorPickerOpen && (
-            <Box sx={styles.colorPicker}>
+            <Box sx={styles.colorPicker} ref={popover}>
                 <HexColorPicker color={selectedColor} onChange={handleColorChange} />
                 <HexColorInput color={selectedColor} onChange={handleColorChange} />
             </Box>
             )}
-      </div>
+      </Box>
     );
   };
 
