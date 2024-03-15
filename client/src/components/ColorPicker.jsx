@@ -35,12 +35,12 @@ const ColorPicker = ({ initialColor }) => {
     const styles = {
         colorPickerBox: {
             backgroundColor: selectedColor,
-            border: 10,
+            border: 1,
             position: "relative",
             width: 24,
             height: 24,
             cursor: "pointer",
-            borderRadius: 5,
+            borderRadius: 1.5,
         },
         colorPicker: {
             position: "absolute",
@@ -66,7 +66,7 @@ const ColorPicker = ({ initialColor }) => {
         <Box
           ref={smallbox}
           onClick={toggleColorPicker}
-          style={styles.colorPickerBox}
+          sx={styles.colorPickerBox}
         />
         {isColorPickerOpen && (
             <Box sx={styles.colorPicker} ref={popover}>
