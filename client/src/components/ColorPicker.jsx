@@ -45,7 +45,20 @@ const ColorPicker = ({ initialColor }) => {
         colorPicker: {
             position: "absolute",
             zIndex: "999",
-        }
+        },
+        colorPickerMap: {
+            width: 150,
+            height: 150,
+            border: "1px solid black",
+            borderRadius: "10px"
+        },
+        colorPickerInput: {
+            marginTop: 3,
+            marginLeft: 44,
+            width: 60,
+            borderRadius: 5,
+            border: "1px solid black",
+        },
     }
   
     return (
@@ -57,8 +70,8 @@ const ColorPicker = ({ initialColor }) => {
         />
         {isColorPickerOpen && (
             <Box sx={styles.colorPicker} ref={popover}>
-                <HexColorPicker color={selectedColor} onChange={handleColorChange} />
-                <HexColorInput color={selectedColor} onChange={handleColorChange} />
+                <HexColorPicker color={selectedColor} onChange={handleColorChange} style={styles.colorPickerMap}/>
+                <HexColorInput color={selectedColor} onChange={handleColorChange} style={styles.colorPickerInput}/>
             </Box>
             )}
       </Box>
