@@ -7,14 +7,21 @@ describe("SideBar", () => {
     render(<SideBar />);
   });
 
-  test("renders the primary color box", () => {
-    const primaryColorBox = screen.getByText("PRIMARY COLOR");
+  test("renders the primary color element", () => {
+    const primaryColorBox = screen.getByText("Text color");
     expect(primaryColorBox).toBeDefined();
   });
 
-  test("renders the secondary color box", () => {
-    const secondaryColorBox = screen.getByText("SECONDARY COLOR");
+  test("renders the secondary color element", () => {
+    const secondaryColorBox = screen.getByText("Background color");
     expect(secondaryColorBox).toBeDefined();
+  });
+
+  test("renders the restore defaults button", () => {
+    const restoreButton = screen.getByText("Restore defaults", {
+      selector: "button",
+    });
+    expect(restoreButton).toBeDefined();
   });
 
   test("renders the add a field button", () => {

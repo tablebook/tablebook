@@ -1,16 +1,22 @@
 import { useState } from "react";
 import { Box, Button, useTheme, Typography } from "@mui/material";
-import ColorPicker from "./ColorPicker";
+import ColorPicker from "./ColorPicker.jsx";
 
 const SideBar = () => {
-  const [textColor, setTextColor] = useState(sessionStorage.getItem("textColor") || "#000000");
-  const [backgroundColor, setBackgroundColor] = useState(sessionStorage.getItem("backgroundColor") || "#ffffff");
-  
+  const [textColor, setTextColor] = useState(
+    sessionStorage.getItem("textColor") || "#000000",
+  );
+  const [backgroundColor, setBackgroundColor] = useState(
+    sessionStorage.getItem("backgroundColor") || "#ffffff",
+  );
+
   const theme = useTheme();
 
   const restoreDefaults = () => {
     setTextColor("#000000");
     setBackgroundColor("#ffffff");
+    sessionStorage.setItem("textColor", "#000000");
+    sessionStorage.setItem("backgroundColor", "#ffffff");
   };
 
   const handleTextColorChange = (color) => {
@@ -38,13 +44,13 @@ const SideBar = () => {
       width: 230,
       position: "relative",
       display: "flex",
-      flexDirection: "column"
+      flexDirection: "column",
     },
     customizeTitle: {
       fontSize: 22,
       textAlign: "center",
       fontStyle: "italic",
-      fontWeight: "bold"
+      fontWeight: "bold",
     },
     colorPickerTitle: {
       backgroundColor: theme.palette.secondary.main,
@@ -92,28 +98,33 @@ const SideBar = () => {
   return (
     <Box sx={styles.sideBarContainer}>
       <Box sx={styles.colorPickerContainer}>
-      <Typography sx={styles.customizeTitle}>Customize:</Typography>
+        <Typography sx={styles.customizeTitle}>Customize:</Typography>
         <Box sx={styles.colorPickerTitle}>
           <Typography>Text color</Typography>
-          <ColorPicker onColorChange={handleTextColorChange} currColor={textColor}/>
+          <ColorPicker
+            onColorChange={handleTextColorChange}
+            currColor={textColor}
+          />
         </Box>
         <Box sx={styles.colorPickerTitle}>
           <Typography>Background color</Typography>
-          <ColorPicker onColorChange={handleBackgroundColorChange} currColor={backgroundColor}/>
+          <ColorPicker
+            onColorChange={handleBackgroundColorChange}
+            currColor={backgroundColor}
+          />
         </Box>
         <Box sx={styles.restoreButtonContainer}>
-          <Button 
-           variant="contained" 
-           color="secondary" 
-           sx={styles.restoreButton}
-           onClick={restoreDefaults}>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={styles.restoreButton}
+            onClick={restoreDefaults}
+          >
             Restore defaults
           </Button>
         </Box>
       </Box>
-      <Box sx={styles.languagePickerContainer}>
-        *flag*
-      </Box>
+      <Box sx={styles.languagePickerContainer}>*flag*</Box>
       <Box sx={styles.buttonContainer}>
         <Button variant="contained" color="secondary" sx={styles.sideBarButton}>
           Add a field
