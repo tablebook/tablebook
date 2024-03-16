@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 const segmentSchema = new mongoose.Schema(
   {
     name: String,
-    content: [String],
+    content: String,
   },
   { _id: false },
 );
@@ -22,7 +22,10 @@ const signatrueSchema = new mongoose.Schema(
 const minutesSchema = new mongoose.Schema(
   {
     name: String,
-    color: String,
+    colors: {
+      primary: String,
+      secondary: String,
+    },
     segments: [segmentSchema],
     startTime: Date,
     signatures: [signatrueSchema],

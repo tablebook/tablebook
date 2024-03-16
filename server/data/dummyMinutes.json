@@ -1,12 +1,13 @@
 {
   "name": "test minutes",
-  "color": "#000000",
+  "colors": {
+    "primary": "#000000",
+    "secondary": "#000000"
+  },
   "segments": [
     {
-      "name":"test segment",
-      "content": [
-        "this is the first segment"
-      ]
+      "name": "test segment",
+      "content": "this is the first segment"
     }
   ],
   "startTime": "2024-02-22T00:00:00.000Z",
