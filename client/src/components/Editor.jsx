@@ -79,7 +79,7 @@ const Editor = () => {
         <Box sx={styles.titleContainer}>
           <InputBase
             name="title"
-            placeholder="Enter the title"
+            placeholder="Enter main title"
             fullWidth
             inputProps={{ style: styles.titleText }}
           />
