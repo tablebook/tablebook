@@ -13,7 +13,10 @@ const signatureSchema = z.object({
 
 const minutesSchema = z.object({
   name: z.string(),
-  color: z.string(),
+  colors: z.object({
+    primary: z.string(),
+    secondary: z.string(),
+  }),
   segments: z.array(segmentSchema),
   startTime: z.string().datetime(),
   signatures: z.array(signatureSchema),

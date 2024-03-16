@@ -22,7 +22,10 @@ const signatrueSchema = new mongoose.Schema(
 const minutesSchema = new mongoose.Schema(
   {
     name: String,
-    color: String,
+    colors: {
+      primary: String,
+      secondary: String,
+    },
     segments: [segmentSchema],
     startTime: Date,
     signatures: [signatrueSchema],

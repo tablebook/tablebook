@@ -1,9 +1,12 @@
 {
   "name": "test minutes",
-  "color": "#000000",
+  "colors": {
+    "primary": "#000000",
+    "secondary": "#000000"
+  },
   "segments": [
     {
-      "name":"test segment",
+      "name": "test segment",
       "content": "this is the first segment"
     }
   ],
