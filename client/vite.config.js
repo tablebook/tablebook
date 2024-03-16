@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import fs from "fs";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -24,10 +25,9 @@ export default defineConfig({
         {
           name: "load-js-files-as-jsx",
           setup(build) {
-            build.onLoad({ filter: /(src)\/.*\.js$/ }, async (args) => ({
+            build.onLoad({ filter: /(src)\/.*\.js$/ }, (args) => ({
               loader: "jsx",
-              // eslint-disable-next-line no-undef
-              contents: await fs.readFile(args.path, "utf8"),
+              contents: fs.readFileSync(args.path, "utf8"),
             }));
           },
         },
