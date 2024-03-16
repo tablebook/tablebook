@@ -1,7 +1,33 @@
+import { useState } from "react";
 import { Box, Button, useTheme, Typography } from "@mui/material";
+import ColorPicker from "./ColorPicker.jsx";
 
 const SideBar = () => {
+  const [textColor, setTextColor] = useState(
+    sessionStorage.getItem("textColor") || "#000000",
+  );
+  const [backgroundColor, setBackgroundColor] = useState(
+    sessionStorage.getItem("backgroundColor") || "#ffffff",
+  );
+
   const theme = useTheme();
+
+  const restoreDefaults = () => {
+    setTextColor("#000000");
+    setBackgroundColor("#ffffff");
+    sessionStorage.setItem("textColor", "#000000");
+    sessionStorage.setItem("backgroundColor", "#ffffff");
+  };
+
+  const handleTextColorChange = (color) => {
+    setTextColor(color);
+    sessionStorage.setItem("textColor", color);
+  };
+
+  const handleBackgroundColorChange = (color) => {
+    setBackgroundColor(color);
+    sessionStorage.setItem("backgroundColor", color);
+  };
 
   const styles = {
     sideBarContainer: {
@@ -15,7 +41,16 @@ const SideBar = () => {
       justifyContent: "center",
     },
     colorPickerContainer: {
-      width: 260,
+      width: 230,
+      position: "relative",
+      display: "flex",
+      flexDirection: "column",
+    },
+    customizeTitle: {
+      fontSize: 22,
+      textAlign: "center",
+      fontStyle: "italic",
+      fontWeight: "bold",
     },
     colorPickerTitle: {
       backgroundColor: theme.palette.secondary.main,
@@ -27,20 +62,23 @@ const SideBar = () => {
       boxShadow: 1,
       py: 2,
       px: 2,
-      my: 3,
+      my: 1,
       mx: 1,
     },
-    colorPickerSmallBox: {
-      backgroundColor: "#ffffff",
-      borderRadius: 1.5,
-      border: 1,
-      height: 24,
-      width: 24,
+    restoreButtonContainer: {
+      mt: 1,
+      display: "flex",
+      justifyContent: "center",
+    },
+    restoreButton: {
+      width: 170,
+      fontSize: 12,
+      border: 0.5,
     },
     languagePickerContainer: {
       textAlign: "center",
       width: 230,
-      mt: 1,
+      mt: 4,
       mb: 14,
     },
     buttonContainer: {
@@ -60,18 +98,33 @@ const SideBar = () => {
   return (
     <Box sx={styles.sideBarContainer}>
       <Box sx={styles.colorPickerContainer}>
-        <Typography sx={styles.colorPickerTitle}>
-          PRIMARY COLOR
-          <Box sx={styles.colorPickerSmallBox} />
-        </Typography>
-        <Typography sx={styles.colorPickerTitle}>
-          SECONDARY COLOR
-          <Box sx={styles.colorPickerSmallBox} />
-        </Typography>
+        <Typography sx={styles.customizeTitle}>Customize:</Typography>
+        <Box sx={styles.colorPickerTitle}>
+          <Typography>Text color</Typography>
+          <ColorPicker
+            onColorChange={handleTextColorChange}
+            currColor={textColor}
+          />
+        </Box>
+        <Box sx={styles.colorPickerTitle}>
+          <Typography>Background color</Typography>
+          <ColorPicker
+            onColorChange={handleBackgroundColorChange}
+            currColor={backgroundColor}
+          />
+        </Box>
+        <Box sx={styles.restoreButtonContainer}>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={styles.restoreButton}
+            onClick={restoreDefaults}
+          >
+            Restore defaults
+          </Button>
+        </Box>
       </Box>
-
       <Box sx={styles.languagePickerContainer}>*flag*</Box>
-
       <Box sx={styles.buttonContainer}>
         <Button variant="contained" color="secondary" sx={styles.sideBarButton}>
           Add a field
