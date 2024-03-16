@@ -17,15 +17,23 @@ const EditorButtons = () => {
 
   return (
     <Box sx={styles.buttonsContainer}>
-      <IconButton size="small" sx={styles.iconButton}>
+      <IconButton size="small" sx={styles.iconButton} data-testid="upButton">
         <KeyboardArrowUpIcon fontSize="large" />
       </IconButton>
 
-      <IconButton size="small" sx={styles.iconButton}>
+      <IconButton
+        size="small"
+        sx={styles.iconButton}
+        data-testid="deleteButton"
+      >
         <DeleteIcon fontSize="large" />
       </IconButton>
 
-      <IconButton size="small" sx={{ ...styles.iconButton, mb: 2 }}>
+      <IconButton
+        size="small"
+        sx={{ ...styles.iconButton, mb: 2 }}
+        data-testid="downButton"
+      >
         <KeyboardArrowDownIcon fontSize="large" />
       </IconButton>
     </Box>
