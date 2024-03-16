@@ -1,4 +1,6 @@
 import { Box, useTheme, Typography, InputBase } from "@mui/material";
+import EditorButtons from "./EditorButtons.jsx";
+import Content from "./Content.jsx";
 
 const Editor = () => {
   const theme = useTheme();
@@ -21,6 +23,12 @@ const Editor = () => {
     sideContainer: {
       width: 200,
       backgroundColor: theme.palette.background.main,
+    },
+
+    contentContainer: {
+      display: "flex",
+      flexDirection: "column",
+      width: 1000,
     },
 
     titleContainer: {
@@ -75,6 +83,16 @@ const Editor = () => {
             fullWidth
             inputProps={{ style: styles.titleText }}
           />
+        </Box>
+      </Box>
+
+      <Box sx={styles.segmentContainer}>
+        <Box sx={styles.sideContainer}>
+          <EditorButtons />
+        </Box>
+
+        <Box sx={styles.contentContainer}>
+          <Content />
         </Box>
       </Box>
 
