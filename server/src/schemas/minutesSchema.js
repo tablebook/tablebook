@@ -1,6 +1,15 @@
 import { z } from "zod";
-import segmentSchema from "./segmentSchema.js";
-import signatureSchema from "./signatureSchema.js";
+
+const segmentSchema = z.object({
+  name: z.string(),
+  content: z.string(),
+});
+
+const signatureSchema = z.object({
+  signer: z.string(),
+  timestamp: z.string().datetime(),
+  image: z.string(),
+});
 
 const minutesSchema = z.object({
   name: z.string(),

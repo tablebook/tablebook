@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 const segmentSchema = new mongoose.Schema(
   {
     name: String,
-    content: [String],
+    content: String,
   },
   { _id: false },
 );

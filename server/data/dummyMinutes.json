@@ -4,9 +4,7 @@
   "segments": [
     {
       "name":"test segment",
-      "content": [
-        "this is the first segment"
-      ]
+      "content": "this is the first segment"
     }
   ],
   "startTime": "2024-02-22T00:00:00.000Z",
