@@ -16,7 +16,7 @@ const EditorButtons = () => {
   };
 
   return (
-    <Box sx={styles.buttonsContainer}>
+    <Box sx={styles.buttonsContainer} data-testid="editor-buttons">
       <IconButton size="small" sx={styles.iconButton} data-testid="upButton">
         <KeyboardArrowUpIcon fontSize="large" />
       </IconButton>

@@ -1,4 +1,4 @@
-import { InputBase } from "@mui/material";
+import { Box, InputBase } from "@mui/material";
 
 const Content = () => {
   const styles = {
@@ -21,7 +21,7 @@ const Content = () => {
   };
 
   return (
-    <>
+    <Box data-testid="content-component">
       <InputBase
         name="contentTitle"
         placeholder="Enter the title"
@@ -37,7 +37,7 @@ const Content = () => {
         inputProps={{ style: styles.contentText }}
         sx={styles.contentInput}
       />
-    </>
+    </Box>
   );
 };
 
