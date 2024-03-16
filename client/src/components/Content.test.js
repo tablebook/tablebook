@@ -2,7 +2,7 @@ import { expect, test, describe, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import Content from "./Content.jsx";
 
-describe("EditorButtons", () => {
+describe("Content", () => {
   beforeEach(() => {
     render(<Content />);
   });
