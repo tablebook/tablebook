@@ -9,7 +9,8 @@
 ## Server
 
 - The server is created with [Node](https://nodejs.org/en) and runs an [Express](https://expressjs.com/) server with [CRUD](https://www.freecodecamp.org/news/crud-operations-explained/) endpoints for storing minutes.
-- All requests are validated with [Zod](https://zod.dev/).
+- Server also serves the client files from the URL root
+- All API requests are validated with [Zod](https://zod.dev/).
 - The database connection is handled with [Mongoose](https://mongoosejs.com/).
 
 ### Server testing
@@ -27,7 +28,8 @@
 1. Setup the environment
   a. See `.env.template` for reference.
   b. The `docker-compose.dev.yml` on reposity root level can be used for running the database locally. Connectionstring would then be something like this: `mongodb://localhost:27017/tablebook_dev` the last part is the name of the database and can be chosen freely.
-2. Run the server with...
+2. Build the client if you want the server to serve the client files from the URL root
+3. Run the server with...
   a. `npm start` for production
   b. `npm run dev` for development (hot reload)
   c. `npm test` for running tests
