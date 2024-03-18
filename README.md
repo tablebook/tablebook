@@ -18,7 +18,7 @@
 - Server is tested using integration tests that also test the database.
 - [Jest](https://jestjs.io/) is used to run the tests.
 - Tests run requests on the API using [SuperTest](https://www.npmjs.com/package/supertest).
-- An in-memory is created with [mongodb-memory-server](https://github.com/nodkz/mongodb-memory-server) when tests are run.
+- An in-memory database is created with [mongodb-memory-server](https://github.com/nodkz/mongodb-memory-server) when tests are run.
   - This allows running the tests without setting up an external database. Running tests inside a [CI](https://www.geeksforgeeks.org/what-is-ci-cd/) pipeline is also easier.
   - If we would've used a database where running an in-memory database isn't
   possible, [Testcontainers](https://testcontainers.com/) would be a great alternative. It just requires an environment with [Docker](https://www.docker.com/) to work.
