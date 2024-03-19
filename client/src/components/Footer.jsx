@@ -6,8 +6,6 @@ const Footer = () => {
   const styles = {
     footerContainer: {
       backgroundColor: theme.palette.footer.main,
-      position: "fixed",
-      bottom: 0,
       width: "100vw",
       display: "flex",
       justifyContent: "center",
