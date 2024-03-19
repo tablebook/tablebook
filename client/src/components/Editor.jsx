@@ -12,6 +12,7 @@ const Editor = () => {
       minHeight: "80dvh",
       width: "40vw",
       minWidth: 400,
+      maxWidth: 1200,
       backgroundColor: theme.palette.paper.main,
     },
 
