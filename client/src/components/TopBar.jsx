@@ -6,7 +6,6 @@ const TopBar = () => {
   const styles = {
     topBarContainer: {
       backgroundColor: theme.palette.primary.main,
-      position: "fixed",
       width: "100vw",
       display: "flex",
       alignItems: "center",
