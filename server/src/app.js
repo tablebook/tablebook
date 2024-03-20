@@ -7,20 +7,17 @@ import fs from "fs";
 import minutesController from "./controllers/minutesController.js";
 import errorHandler from "./utils/errorHandler.js";
 
-const clientIndexPath = path.join(
-  __dirname,
-  "..",
-  "..",
-  "client",
-  "dist",
-  "index.html",
-);
+const clientDistPath = path.join(__dirname, "..", "..", "client", "dist");
+
+const clientIndexPath = path.join(clientDistPath, "index.html");
 
 const app = express();
 
 app.use(helmet());
 
 app.use(express.json());
+
+app.use(express.static(clientDistPath));
 
 app.use("/api/minutes", minutesController);
 
