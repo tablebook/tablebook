@@ -39,7 +39,7 @@ const TopBar = () => {
       <Box sx={styles.topBarContainer}>
         <Link href="/" underline="hover" color="primary.contrastText">
           <Box sx={styles.titleContainer}>
-            <Box component="img" src="/favicon.png" />
+            <Box component="img" src="/images/logo.png" />
             <Typography variant="h3">TableBook</Typography>
           </Box>
         </Link>
