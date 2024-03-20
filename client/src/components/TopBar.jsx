@@ -24,7 +24,7 @@ const TopBar = () => {
 
     titleContainer: {
       display: "flex",
-      backgroundColor: "#FFE3BE",
+      backgroundColor: theme.palette.background.main,
       height: 60,
       borderRadius: 9,
       boxShadow: 3,
@@ -39,11 +39,7 @@ const TopBar = () => {
       <Box sx={styles.topBarContainer}>
         <Link href="/" underline="hover" color="primary.contrastText">
           <Box sx={styles.titleContainer}>
-            <img
-              src="/favicon.png"
-              alt="image failed to load"
-              style={styles.image}
-            />
+            <Box component="img" src="/favicon.png" />
             <Typography variant="h3">TableBook</Typography>
           </Box>
         </Link>
