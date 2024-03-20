@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Box, useTheme } from "@mui/material";
 import TopBar from "./components/TopBar.jsx";
 import SideBar from "./components/SideBar.jsx";
@@ -7,6 +8,15 @@ import SignatureModal from "./components/SignatureModal.jsx";
 
 function App() {
   const theme = useTheme();
+
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [signatureImage, setSignatureImage] = useState(null);
+
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
+  const handleSaveSignature = (signatureDataURL) => {
+    setSignatureImage(signatureDataURL);
+  };
 
   const styles = {
     outerContainer: {
@@ -45,7 +55,7 @@ function App() {
       <Box sx={styles.outerContainer}>
         <TopBar />
         <Box sx={styles.innerContainer}>
-          <SideBar />
+          <SideBar handleModalOpen={handleModalOpen} />
           <Box sx={styles.editorContainer}>
             <Editor />
             {/* mimics editor buttons to center the paper */}
@@ -56,7 +66,11 @@ function App() {
         </Box>
         <Footer />
       </Box>
-      <SignatureModal />
+      <SignatureModal
+        open={isModalOpen}
+        onClose={handleModalClose}
+        onSave={handleSaveSignature}
+      />
     </>
   );
 }
