@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Button, useTheme, Typography } from "@mui/material";
 import ColorPicker from "./ColorPicker.jsx";
 
-const SideBar = () => {
+const SideBar = ({ handleModalOpen }) => {
   const [textColor, setTextColor] = useState(
     sessionStorage.getItem("textColor") || "#000000",
   );
@@ -128,7 +128,12 @@ const SideBar = () => {
         <Button variant="contained" color="secondary" sx={styles.sideBarButton}>
           Add a field
         </Button>
-        <Button variant="contained" color="secondary" sx={styles.sideBarButton}>
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={styles.sideBarButton}
+          onClick={handleModalOpen}
+        >
           Sign
         </Button>
         <Button variant="contained" color="secondary" sx={styles.sideBarButton}>

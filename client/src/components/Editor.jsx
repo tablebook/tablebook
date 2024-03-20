@@ -2,7 +2,7 @@ import { Box, useTheme, Typography, InputBase } from "@mui/material";
 import EditorButtons from "./EditorButtons.jsx";
 import Content from "./Content.jsx";
 
-const Editor = () => {
+const Editor = ({ signatureImage }) => {
   const theme = useTheme();
 
   const styles = {
@@ -63,13 +63,30 @@ const Editor = () => {
     },
 
     signatureContainer: {
+      display: "flex",
+      flexDirection: "column",
       flex: 1,
+      justifyContent: "flex-end",
+    },
+
+    signatureImage: {
+      maxHeight: 40,
+      maxWidth: 160,
+      objectFit: "contain",
+      alignSelf: "flex-start",
+    },
+
+    signatureLine: {
+      borderTop: "2px solid black",
+      width: 170,
     },
 
     dateContainer: {
       display: "flex",
+      flexDirection: "column",
       flex: 1,
-      justifyContent: "end",
+      justifyContent: "flex-end",
+      alignItems: "flex-end",
     },
   };
 
@@ -102,7 +119,17 @@ const Editor = () => {
         <Box sx={styles.bottomContentContainer}>
           <Box sx={styles.dateAndSignatureContainer}>
             <Box sx={styles.signatureContainer}>
-              <Typography variant="h5">Signature</Typography>
+              {signatureImage && (
+                <Box
+                  sx={styles.signatureImage}
+                  component="img"
+                  src={signatureImage}
+                  alt="Signature"
+                />
+              )}
+              <Typography variant="h5" sx={styles.signatureLine}>
+                Signature
+              </Typography>
             </Box>
             <Box sx={styles.dateContainer}>
               <Typography variant="h5">Date</Typography>
