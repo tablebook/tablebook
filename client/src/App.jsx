@@ -57,7 +57,7 @@ function App() {
         <Box sx={styles.innerContainer}>
           <SideBar handleModalOpen={handleModalOpen} />
           <Box sx={styles.editorContainer}>
-            <Editor />
+            <Editor signatureImage={signatureImage} />
             {/* mimics editor buttons to center the paper */}
             <Box sx={styles.editorButtonsImitation} />
           </Box>
