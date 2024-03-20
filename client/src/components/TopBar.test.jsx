@@ -8,7 +8,7 @@ describe("TopBar", () => {
   });
 
   test("renders the title", () => {
-    const titleElement = screen.getByText("TableBook").closest('a');
+    const titleElement = screen.getByText("TableBook").closest("a");
     expect(titleElement).toBeDefined();
     expect(titleElement.href).toEqual("http://localhost:3000/");
   });

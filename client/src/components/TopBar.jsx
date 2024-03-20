@@ -30,7 +30,7 @@ const TopBar = () => {
       boxShadow: 3,
       pl: 2,
       pr: 4,
-      ml: 2
+      ml: 2,
     },
   };
 
@@ -39,7 +39,11 @@ const TopBar = () => {
       <Box sx={styles.topBarContainer}>
         <Link href="/" underline="hover" color="primary.contrastText">
           <Box sx={styles.titleContainer}>
-            <img src="/favicon.png" alt="image failed to load" style={styles.image}/>
+            <img
+              src="/favicon.png"
+              alt="image failed to load"
+              style={styles.image}
+            />
             <Typography variant="h3">TableBook</Typography>
           </Box>
         </Link>
