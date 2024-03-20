@@ -1,4 +1,4 @@
-import { Box, Link, Button, useTheme } from "@mui/material";
+import { Box, Link, Button, useTheme, Typography } from "@mui/material";
 
 const TopBar = () => {
   const theme = useTheme();
@@ -7,6 +7,7 @@ const TopBar = () => {
     topBarContainer: {
       backgroundColor: theme.palette.primary.main,
       width: "100vw",
+      height: 80,
       display: "flex",
       alignItems: "center",
     },
@@ -15,28 +16,32 @@ const TopBar = () => {
       mx: 1.5,
     },
 
-    logoLink: {
-      px: 1,
-    },
-
     buttonsBox: {
       display: "flex",
       width: "100vw",
       justifyContent: "end",
+    },
+
+    titleContainer: {
+      display: "flex",
+      backgroundColor: "#FFE3BE",
+      height: 60,
+      borderRadius: 9,
+      boxShadow: 3,
+      pl: 2,
+      pr: 4,
+      ml: 2
     },
   };
 
   return (
     <>
       <Box sx={styles.topBarContainer}>
-        <Link
-          href="/"
-          variant="h3"
-          color="primary.contrastText"
-          underline="hover"
-          sx={styles.logoLink}
-        >
-          TableBook
+        <Link href="/" underline="hover" color="primary.contrastText">
+          <Box sx={styles.titleContainer}>
+            <img src="/favicon.png" alt="image failed to load" style={styles.image}/>
+            <Typography variant="h3">TableBook</Typography>
+          </Box>
         </Link>
 
         <Box sx={styles.buttonsBox}>
