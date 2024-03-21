@@ -1,13 +1,11 @@
-
 beforeEach(() => {
-  cy.visit("/")
+  cy.visit("/");
+});
 
-})
+describe("Page", () => {
+  it("loads", () => {});
 
-describe('Page', () => {
-  it('loads', () => {})
-
-  it('displays tablebook content', () => {
-    cy.contains(/tablebook/i)
-  })
-})
+  it("displays tablebook content", () => {
+    cy.contains(/tablebook/i);
+  });
+});

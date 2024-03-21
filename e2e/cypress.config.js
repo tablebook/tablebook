@@ -1,10 +1,10 @@
-require('dotenv').config()
+require("dotenv").config();
 const { defineConfig } = require("cypress");
 
-const baseUrl = process.env.CYPRESS_BASE_URL
+const baseUrl = process.env.CYPRESS_BASE_URL;
 
-if(!baseUrl){
-  throw Error("CYPRESS_BASE_URL not set. Exiting...")
+if (!baseUrl) {
+  throw Error("CYPRESS_BASE_URL not set. Exiting...");
 }
 
 module.exports = defineConfig({
@@ -12,6 +12,6 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    baseUrl
+    baseUrl,
   },
 });

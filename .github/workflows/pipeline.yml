@@ -53,6 +53,14 @@ jobs:
         working-directory: ./client
         run: npm run build
 
+      - name: Install E2E test dependencies
+        working-directory: ./e2e
+        run: npm ci
+
+      - name: Run Lint on E2E tests
+        working-directory: ./e2e
+        run: npm run lint
+
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.10.0
         with:
@@ -60,15 +68,11 @@ jobs:
 
       - name: Start server
         working-directory: ./server
-        run: npm start & # "&" should leave the server running
+        run: npm start & # "&" leaves the server running
         env:
           SECRET: testsecret
           MONGODB_CONNECTION_STRING: mongodb://localhost:27017/tablebook_test
           PORT: 8080
-
-      - name: Install E2E test dependencies
-        working-directory: ./e2e
-        run: npm ci
 
       - name: Run end-to-end tests
         uses: cypress-io/github-action@v6
