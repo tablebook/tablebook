@@ -41,9 +41,9 @@ export const MinutesContextProvider = (props) => {
   };
 
   return (
-    <MinutesContextProvider value={{ minutes, updateMinutes }}>
+    <MinutesContext.Provider value={{ minutes, updateMinutes }}>
       {props.children}
-    </MinutesContextProvider>
+    </MinutesContext.Provider>
   );
 };
 
