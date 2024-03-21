@@ -23,14 +23,8 @@ export const MinutesContextProvider = (props) => {
         content: "",
       },
     ],
-    startTime: "",
-    signatures: [
-      {
-        signer: "",
-        timestamp: "",
-        image: "",
-      },
-    ],
+    startTime: null,
+    signatures: [],
   });
 
   const updateMinutes = (newMinutesData) => {
