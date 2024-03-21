@@ -66,6 +66,10 @@ jobs:
           MONGODB_CONNECTION_STRING: mongodb://localhost:27017/tablebook_test
           PORT: 8080
 
+      - name: Install E2E test dependencies
+        working-directory: ./e2e
+        run: npm ci
+
       - name: Run end-to-end tests
         uses: cypress-io/github-action@v6
         env:
