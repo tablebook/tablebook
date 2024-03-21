@@ -13,4 +13,4 @@ services:
     environment:
       PORT: 8080
       MONGODB_CONNECTION_STRING: mongodb://mongodb:27017/tablebook_dev
-      SECRET: tyhstghse5gegse
+      SECRET: devsecretnottobeusedinproduction

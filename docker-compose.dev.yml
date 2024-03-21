@@ -37,8 +37,9 @@ services:
     volumes:
       - ./server:/usr/src/app/server
     environment:
-      - PORT=8080
-      - MONGODB_DEV_CONNECTION_STRING=mongodb://localhost:27017/tablebook_dev
+      PORT: 8080
+      MONGODB_DEV_CONNECTION_STRING: mongodb://localhost:27017/tablebook_dev
+      SECRET: devsecretnottobeusedinproduction
     ports:
       - 8080:8080
     depends_on:
