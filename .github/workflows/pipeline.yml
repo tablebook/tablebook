@@ -1,4 +1,4 @@
-name: Branch Verification
+name: CI
 
 on:
   push:
