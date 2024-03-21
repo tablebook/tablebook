@@ -1,5 +1,13 @@
+
+beforeEach(() => {
+  cy.visit("/")
+
+})
+
 describe('Page', () => {
-  it('loads', () => {
-    cy.visit("/")
+  it('loads', () => {})
+
+  it('displays tablebook content', () => {
+    cy.contains(/tablebook/i)
   })
 })
