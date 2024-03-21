@@ -49,6 +49,28 @@ jobs:
         working-directory: ./client
         run: npm test
 
-      - name: Run the build script for client
+      - name: Build the Client
         working-directory: ./client
         run: npm run build
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.10.0
+        with:
+          mongodb-version: '6.0'
+
+      - name: Start server
+        working-directory: ./server
+        run: npm start & # "&" should leave the server running
+        env:
+          SECRET: testsecret
+          MONGODB_CONNECTION_STRING: mongodb://localhost:27017/tablebook_test
+          PORT: 8080
+
+      - name: Run end-to-end tests
+        uses: cypress-io/github-action@v6
+        env:
+          CYPRESS_BASE_URL: http://localhost:8080
+        with:
+          command: npm test
+          wait-on: http://localhost:8080
+          working-directory: ./e2e
