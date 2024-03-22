@@ -99,6 +99,11 @@ const Editor = () => {
     },
   };
 
+  const handleTitleChange = (event) => {
+    const newTitle = event.target.value;
+    updateMinutes({ name: newTitle });
+  };
+
   return (
     <Box sx={styles.editorContainer}>
       <Box sx={styles.segmentContainer}>
@@ -107,8 +112,10 @@ const Editor = () => {
           <InputBase
             name="title"
             placeholder="Enter main title"
+            value={minutes.name}
             fullWidth
             inputProps={{ style: styles.titleText }}
+            onChange={handleTitleChange}
           />
         </Box>
       </Box>
