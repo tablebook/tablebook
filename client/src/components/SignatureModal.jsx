@@ -1,9 +1,11 @@
-import { useRef } from "react";
+import { useRef, useContext } from "react";
 import { Box, Button, Modal, Typography, useTheme } from "@mui/material";
 import SignatureCanvas from "react-signature-canvas";
+import MinutesContext from "../contexts/MinutesContext.jsx";
 
-const SignatureModal = ({ open, onClose, onSave }) => {
+const SignatureModal = ({ open, onClose }) => {
   const theme = useTheme();
+  const [, updateMinutes] = useContext(MinutesContext);
   const signaturePadRef = useRef(null);
 
   const styles = {
@@ -45,9 +47,12 @@ const SignatureModal = ({ open, onClose, onSave }) => {
       const dataURL = signaturePadRef.current
         .getTrimmedCanvas()
         .toDataURL("image/png");
-      onSave(dataURL);
+      const signature = {
+        image: dataURL,
+      };
+      updateMinutes({ signatures: [signature] });
     } else {
-      onSave(null);
+      updateMinutes({ signatures: [] });
     }
     onClose();
   };

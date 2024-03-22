@@ -1,9 +1,12 @@
+import { useContext } from "react";
 import { Box, useTheme, Typography, InputBase } from "@mui/material";
 import EditorButtons from "./EditorButtons.jsx";
 import Content from "./Content.jsx";
+import MinutesContext from "../contexts/MinutesContext.jsx";
 
-const Editor = ({ signatureImage }) => {
+const Editor = () => {
   const theme = useTheme();
+  const [minutes, updateMinutes] = useContext(MinutesContext);
 
   const styles = {
     editorContainer: {
@@ -13,7 +16,7 @@ const Editor = ({ signatureImage }) => {
       width: "40vw",
       minWidth: 400,
       maxWidth: 1200,
-      backgroundColor: theme.palette.paper.main,
+      backgroundColor: minutes.colors.secondary,
     },
 
     segmentContainer: {
@@ -40,6 +43,7 @@ const Editor = ({ signatureImage }) => {
     titleText: {
       fontSize: "2rem",
       textAlign: "center",
+      color: minutes.colors.primary,
     },
 
     bottomContainer: {
@@ -77,7 +81,8 @@ const Editor = ({ signatureImage }) => {
     },
 
     signatureLine: {
-      borderTop: "2px solid black",
+      borderTop: `2px solid`,
+      color: minutes.colors.primary,
       width: 170,
     },
 
@@ -88,6 +93,15 @@ const Editor = ({ signatureImage }) => {
       justifyContent: "flex-end",
       alignItems: "flex-end",
     },
+
+    dateText: {
+      color: minutes.colors.primary,
+    },
+  };
+
+  const handleTitleChange = (event) => {
+    const newTitle = event.target.value;
+    updateMinutes({ name: newTitle });
   };
 
   return (
@@ -98,32 +112,36 @@ const Editor = ({ signatureImage }) => {
           <InputBase
             name="title"
             placeholder="Enter main title"
+            value={minutes.name}
             fullWidth
             inputProps={{ style: styles.titleText }}
+            onChange={handleTitleChange}
           />
         </Box>
       </Box>
 
-      <Box sx={styles.segmentContainer}>
-        <Box sx={styles.sideContainer}>
-          <EditorButtons />
-        </Box>
+      {minutes.segments.map((segment, index) => (
+        <Box sx={styles.segmentContainer} key={index}>
+          <Box sx={styles.sideContainer}>
+            <EditorButtons />
+          </Box>
 
-        <Box sx={styles.contentContainer}>
-          <Content />
+          <Box sx={styles.contentContainer}>
+            <Content segmentIndex={index} />
+          </Box>
         </Box>
-      </Box>
+      ))}
 
       <Box sx={styles.bottomContainer}>
         <Box sx={styles.sideContainer}></Box>
         <Box sx={styles.bottomContentContainer}>
           <Box sx={styles.dateAndSignatureContainer}>
             <Box sx={styles.signatureContainer}>
-              {signatureImage && (
+              {minutes.signatures.length > 0 && minutes.signatures[0].image && (
                 <Box
                   sx={styles.signatureImage}
                   component="img"
-                  src={signatureImage}
+                  src={minutes.signatures[0].image}
                   alt="Signature"
                 />
               )}
@@ -132,7 +150,9 @@ const Editor = ({ signatureImage }) => {
               </Typography>
             </Box>
             <Box sx={styles.dateContainer}>
-              <Typography variant="h5">Date</Typography>
+              <Typography variant="h5" sx={styles.dateText}>
+                Date
+              </Typography>
             </Box>
           </Box>
         </Box>

@@ -10,13 +10,9 @@ function App() {
   const theme = useTheme();
 
   const [isModalOpen, setModalOpen] = useState(false);
-  const [signatureImage, setSignatureImage] = useState(null);
 
   const handleModalOpen = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
-  const handleSaveSignature = (signatureDataURL) => {
-    setSignatureImage(signatureDataURL);
-  };
 
   const styles = {
     outerContainer: {
@@ -57,7 +53,7 @@ function App() {
         <Box sx={styles.innerContainer}>
           <SideBar handleModalOpen={handleModalOpen} />
           <Box sx={styles.editorContainer}>
-            <Editor signatureImage={signatureImage} />
+            <Editor />
             {/* mimics editor buttons to center the paper */}
             <Box sx={styles.editorButtonsImitation} />
           </Box>
@@ -66,11 +62,7 @@ function App() {
         </Box>
         <Footer />
       </Box>
-      <SignatureModal
-        open={isModalOpen}
-        onClose={handleModalClose}
-        onSave={handleSaveSignature}
-      />
+      <SignatureModal open={isModalOpen} onClose={handleModalClose} />
     </>
   );
 }

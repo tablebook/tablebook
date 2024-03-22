@@ -2,20 +2,29 @@ import { expect, test, describe, beforeEach, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
 import SignatureModal from "./SignatureModal.jsx";
-
+import MinutesContext from "../contexts/MinutesContext.jsx";
 import theme from "../theme";
 
 describe("SignatureModal", () => {
-  let onSaveMock;
   let onCloseMock;
+  let updateMinutesMock;
 
   beforeEach(async () => {
-    onSaveMock = vi.fn();
     onCloseMock = vi.fn();
+    updateMinutesMock = vi.fn();
+
+    const MockedProvider = ({ children }) => (
+      <MinutesContext.Provider value={[{}, updateMinutesMock]}>
+        {children}
+      </MinutesContext.Provider>
+    );
+
     render(
-      <ThemeProvider theme={theme}>
-        <SignatureModal open={true} onClose={onCloseMock} onSave={onSaveMock} />
-      </ThemeProvider>,
+      <MockedProvider>
+        <ThemeProvider theme={theme}>
+          <SignatureModal open={true} onClose={onCloseMock} />
+        </ThemeProvider>
+      </MockedProvider>,
     );
   });
 
@@ -39,11 +48,14 @@ describe("SignatureModal", () => {
     expect(confirmButton).toBeDefined();
   });
 
-  test("calls onSave and returns imageURL when confirm button is clicked", () => {
+  test("clicking confirm button generates imageURL", () => {
     const confirmButton = screen.getByText("Confirm", { selector: "button" });
     fireEvent.click(confirmButton);
-    expect(onSaveMock).toHaveBeenCalled();
-    expect(onSaveMock.mock.calls[0][0]).toMatch(/^data:image\/png;base64,/);
+    expect(updateMinutesMock).toHaveBeenCalledWith({
+      signatures: [
+        { image: expect.stringMatching(/^data:image\/png;base64,/) },
+      ],
+    });
   });
 
   test("renders cancel button", () => {
