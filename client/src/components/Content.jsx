@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Box, InputBase } from "@mui/material";
 import MinutesContext from "../contexts/MinutesContext.jsx";
 
-const Content = () => {
+const Content = ({ segmentIndex }) => {
   const [minutes, updateMinutes] = useContext(MinutesContext);
 
   const styles = {
@@ -26,22 +26,40 @@ const Content = () => {
     },
   };
 
+  const handleTitleChange = (event) => {
+    const newTitle = event.target.value;
+    const newSegments = structuredClone(minutes.segments);
+    newSegments[segmentIndex].name = newTitle;
+    updateMinutes({ segments: newSegments });
+  };
+
+  const handleContentChange = (event) => {
+    const newContent = event.target.value;
+    const newSegments = structuredClone(minutes.segments);
+    newSegments[segmentIndex].content = newContent;
+    updateMinutes({ segments: newSegments });
+  };
+
   return (
     <Box data-testid="content-component">
       <InputBase
         name="contentTitle"
         placeholder="Enter the title"
+        value={minutes.segments[segmentIndex].name}
         fullWidth
         inputProps={{ style: styles.contentTitleText }}
         sx={styles.contentTitleInput}
+        onChange={handleTitleChange}
       />
       <InputBase
         name="content"
         placeholder="Enter the content"
+        value={minutes.segments[segmentIndex].content}
         fullWidth
         multiline
         inputProps={{ style: styles.contentText }}
         sx={styles.contentInput}
+        onChange={handleContentChange}
       />
     </Box>
   );

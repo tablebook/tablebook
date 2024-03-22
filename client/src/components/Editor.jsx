@@ -120,15 +120,17 @@ const Editor = () => {
         </Box>
       </Box>
 
-      <Box sx={styles.segmentContainer}>
-        <Box sx={styles.sideContainer}>
-          <EditorButtons />
-        </Box>
+      {minutes.segments.map((segment, index) => (
+        <Box sx={styles.segmentContainer} key={index}>
+          <Box sx={styles.sideContainer}>
+            <EditorButtons />
+          </Box>
 
-        <Box sx={styles.contentContainer}>
-          <Content />
+          <Box sx={styles.contentContainer}>
+            <Content segmentIndex={index} />
+          </Box>
         </Box>
-      </Box>
+      ))}
 
       <Box sx={styles.bottomContainer}>
         <Box sx={styles.sideContainer}></Box>
