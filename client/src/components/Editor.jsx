@@ -1,9 +1,12 @@
+import { useContext } from "react";
 import { Box, useTheme, Typography, InputBase } from "@mui/material";
 import EditorButtons from "./EditorButtons.jsx";
 import Content from "./Content.jsx";
+import MinutesContext from "../contexts/MinutesContext.jsx";
 
-const Editor = ({ signatureImage }) => {
+const Editor = () => {
   const theme = useTheme();
+  const [minutes, updateMinutes] = useContext(MinutesContext);
 
   const styles = {
     editorContainer: {
@@ -119,11 +122,11 @@ const Editor = ({ signatureImage }) => {
         <Box sx={styles.bottomContentContainer}>
           <Box sx={styles.dateAndSignatureContainer}>
             <Box sx={styles.signatureContainer}>
-              {signatureImage && (
+              {minutes.signatures.length > 0 && minutes.signatures[0].image && (
                 <Box
                   sx={styles.signatureImage}
                   component="img"
-                  src={signatureImage}
+                  src={minutes.signatures[0].image}
                   alt="Signature"
                 />
               )}
