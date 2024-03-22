@@ -16,7 +16,7 @@ const Editor = () => {
       width: "40vw",
       minWidth: 400,
       maxWidth: 1200,
-      backgroundColor: theme.palette.paper.main,
+      backgroundColor: minutes.colors.secondary,
     },
 
     segmentContainer: {
@@ -43,6 +43,7 @@ const Editor = () => {
     titleText: {
       fontSize: "2rem",
       textAlign: "center",
+      color: minutes.colors.primary,
     },
 
     bottomContainer: {
@@ -80,7 +81,8 @@ const Editor = () => {
     },
 
     signatureLine: {
-      borderTop: "2px solid black",
+      borderTop: `2px solid`,
+      color: minutes.colors.primary,
       width: 170,
     },
 
@@ -90,6 +92,10 @@ const Editor = () => {
       flex: 1,
       justifyContent: "flex-end",
       alignItems: "flex-end",
+    },
+
+    dateText: {
+      color: minutes.colors.primary,
     },
   };
 
@@ -135,7 +141,9 @@ const Editor = () => {
               </Typography>
             </Box>
             <Box sx={styles.dateContainer}>
-              <Typography variant="h5">Date</Typography>
+              <Typography variant="h5" sx={styles.dateText}>
+                Date
+              </Typography>
             </Box>
           </Box>
         </Box>

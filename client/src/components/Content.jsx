@@ -1,9 +1,14 @@
+import { useContext } from "react";
 import { Box, InputBase } from "@mui/material";
+import MinutesContext from "../contexts/MinutesContext.jsx";
 
 const Content = () => {
+  const [minutes, updateMinutes] = useContext(MinutesContext);
+
   const styles = {
     contentTitleText: {
       fontSize: "1.5rem",
+      color: minutes.colors.primary,
     },
 
     contentTitleInput: {
@@ -12,6 +17,7 @@ const Content = () => {
 
     contentText: {
       fontSize: "1rem",
+      color: minutes.colors.primary,
     },
 
     contentInput: {
