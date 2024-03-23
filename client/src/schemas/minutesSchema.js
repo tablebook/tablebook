@@ -13,8 +13,8 @@ const segmentSchema = z.object({
 
 const signatureSchema = z.object({
   signer: z.string(),
-  timestamp: z.string().datetime(),
-  image: z.string(),
+  timestamp: z.string().datetime().optional(),
+  image: z.string().optional(),
 });
 
 const minutesSchema = z.object({
@@ -24,7 +24,7 @@ const minutesSchema = z.object({
     secondary: z.string(),
   }),
   segments: z.array(segmentSchema),
-  startTime: z.string().datetime(),
+  startTime: z.string().datetime().optional(),
   signatures: z.array(signatureSchema),
   id: mongoIdSchema,
 });
