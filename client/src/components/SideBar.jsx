@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { Box, Button, useTheme, Typography } from "@mui/material";
+import ReactFlagsSelect from "react-flags-select";
 import ColorPicker from "./ColorPicker.jsx";
 
 const SideBar = ({ handleModalOpen }) => {
+  const [language, setLanguage] = useState(
+    sessionStorage.getItem("language") || "GB",
+  );
   const [textColor, setTextColor] = useState(
     sessionStorage.getItem("textColor") || "#000000",
   );
@@ -27,6 +31,11 @@ const SideBar = ({ handleModalOpen }) => {
   const handleBackgroundColorChange = (color) => {
     setBackgroundColor(color);
     sessionStorage.setItem("backgroundColor", color);
+  };
+
+  const changeLanguage = (language) => {
+    setLanguage(language);
+    sessionStorage.setItem("language", language);
   };
 
   const styles = {
@@ -76,9 +85,7 @@ const SideBar = ({ handleModalOpen }) => {
     },
     languagePickerContainer: {
       textAlign: "center",
-      width: 230,
-      mt: 4,
-      mb: 14,
+      my: 4,
     },
     buttonContainer: {
       display: "flex",
@@ -123,7 +130,21 @@ const SideBar = ({ handleModalOpen }) => {
           </Button>
         </Box>
       </Box>
-      <Box sx={styles.languagePickerContainer}>*flag*</Box>
+
+      <Box sx={styles.languagePickerContainer}>
+        <ReactFlagsSelect
+          countries={["GB", "FI"]}
+          customLabels={{ GB: "English", FI: "Finnish" }}
+          showSelectedLabel={false}
+          showOptionLabel={false}
+          optionsSize={24}
+          selectedSize={24}
+          fullWidth={false}
+          selected={language}
+          onSelect={changeLanguage}
+        />
+      </Box>
+
       <Box sx={styles.buttonContainer}>
         <Button variant="contained" color="secondary" sx={styles.sideBarButton}>
           Add a field
