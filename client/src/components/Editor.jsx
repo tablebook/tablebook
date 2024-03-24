@@ -6,7 +6,7 @@ import MinutesContext from "../contexts/MinutesContext.jsx";
 
 const Editor = () => {
   const theme = useTheme();
-  const [minutes, updateMinutes] = useContext(MinutesContext);
+  const [state, updateMinutes] = useContext(MinutesContext);
 
   const styles = {
     editorContainer: {
@@ -16,7 +16,7 @@ const Editor = () => {
       width: "40vw",
       minWidth: 400,
       maxWidth: 1200,
-      backgroundColor: minutes.colors.secondary,
+      backgroundColor: state.minutes.colors.secondary,
     },
 
     segmentContainer: {
@@ -43,7 +43,7 @@ const Editor = () => {
     titleText: {
       fontSize: "2rem",
       textAlign: "center",
-      color: minutes.colors.primary,
+      color: state.minutes.colors.primary,
     },
 
     bottomContainer: {
@@ -82,7 +82,7 @@ const Editor = () => {
 
     signatureLine: {
       borderTop: `2px solid`,
-      color: minutes.colors.primary,
+      color: state.minutes.colors.primary,
       width: 170,
     },
 
@@ -95,7 +95,7 @@ const Editor = () => {
     },
 
     dateText: {
-      color: minutes.colors.primary,
+      color: state.minutes.colors.primary,
     },
   };
 
@@ -112,7 +112,7 @@ const Editor = () => {
           <InputBase
             name="title"
             placeholder="Enter main title"
-            value={minutes.name}
+            value={state.minutes.name}
             fullWidth
             inputProps={{ style: styles.titleText }}
             onChange={handleTitleChange}
@@ -120,7 +120,7 @@ const Editor = () => {
         </Box>
       </Box>
 
-      {minutes.segments.map((segment, index) => (
+      {state.minutes.segments.map((segment, index) => (
         <Box sx={styles.segmentContainer} key={index}>
           <Box sx={styles.sideContainer}>
             <EditorButtons />
@@ -137,14 +137,15 @@ const Editor = () => {
         <Box sx={styles.bottomContentContainer}>
           <Box sx={styles.dateAndSignatureContainer}>
             <Box sx={styles.signatureContainer}>
-              {minutes.signatures.length > 0 && minutes.signatures[0].image && (
-                <Box
-                  sx={styles.signatureImage}
-                  component="img"
-                  src={minutes.signatures[0].image}
-                  alt="Signature"
-                />
-              )}
+              {state.minutes.signatures.length > 0 &&
+                state.minutes.signatures[0].image && (
+                  <Box
+                    sx={styles.signatureImage}
+                    component="img"
+                    src={state.minutes.signatures[0].image}
+                    alt="Signature"
+                  />
+                )}
               <Typography variant="h5" sx={styles.signatureLine}>
                 Signature
               </Typography>
