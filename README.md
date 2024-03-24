@@ -27,13 +27,13 @@
 1. [Node](https://nodejs.org/en) 20.x is required
 2. Run `npm install` on both directories: `/client` and `/server`
 3. Setup the environment
-  a. See `.env.template` for reference.
-  b. The `docker-compose.dev.yml` on reposity root level can be used for running the database locally. Connectionstring would then be something like this: `mongodb://localhost:27017/tablebook_dev` the last part is the name of the database and can be chosen freely.
+  - See `.env.template` for reference.
+  - The `docker-compose.dev.yml` on reposity root level can be used for running the database locally. Connectionstring would then be something like this: `mongodb://localhost:27017/tablebook_dev` the last part is the name of the database and can be chosen freely.
 4. Build the client if you want the server to serve the client files from the URL root
 5. Run the server with...
-  a. `npm start` for production
-  b. `npm run dev` for development (hot reload)
-  c. `npm test` for running tests
+  - `npm start` for production
+  - `npm run dev` for development (hot reload)
+  - `npm test` for running tests
 
 ### API Documentation
 
@@ -102,5 +102,5 @@ services:
 1. Setup server (and build the client). See instructions [here](#server-setup).
 2. Install E2E dependencies by running `npm install` in `/e2e` directory.
 4. Run the tests with `npm test` in the `/e2e` directory
-  a. If you encounter problems when running Cypress on Linux, follow the Cypress [Linux Prerequisites](https://docs.cypress.io/guides/getting-started/installing-cypress#Linux-Prerequisites) instructions.
+  - If you encounter problems when running Cypress on Linux, follow the Cypress [Linux Prerequisites](https://docs.cypress.io/guides/getting-started/installing-cypress#Linux-Prerequisites) instructions.
 
