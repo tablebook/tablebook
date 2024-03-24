@@ -1,18 +1,28 @@
 import { useState } from "react";
-import { Box, Button, useTheme, Typography } from "@mui/material";
-import ReactFlagsSelect from "react-flags-select";
+import {
+  Box,
+  Button,
+  useTheme,
+  Typography,
+  List,
+  ListItemButton,
+} from "@mui/material";
+import { useTranslation } from "react-i18next";
 import ColorPicker from "./ColorPicker.jsx";
+import flagFin from "../i18n/locales/flags/fin.svg";
+import flagEn from "../i18n/locales/flags/en.svg";
 
 const SideBar = ({ handleModalOpen }) => {
-  const [language, setLanguage] = useState(
-    sessionStorage.getItem("language") || "GB",
-  );
+  const [openLanguagePicker, setOpenLanguagePicker] = useState(false);
+  const [language, setLanguage] = useState("en");
   const [textColor, setTextColor] = useState(
     sessionStorage.getItem("textColor") || "#000000",
   );
   const [backgroundColor, setBackgroundColor] = useState(
     sessionStorage.getItem("backgroundColor") || "#ffffff",
   );
+
+  const { t, i18n } = useTranslation();
 
   const theme = useTheme();
 
@@ -33,10 +43,13 @@ const SideBar = ({ handleModalOpen }) => {
     sessionStorage.setItem("backgroundColor", color);
   };
 
-  const changeLanguage = (language) => {
+  const handleLanguageChange = (language) => {
     setLanguage(language);
-    sessionStorage.setItem("language", language);
+    setOpenLanguagePicker(!openLanguagePicker);
+    i18n.changeLanguage(language);
   };
+
+  const flagSrc = language === "en" ? flagEn : flagFin;
 
   const styles = {
     sideBarContainer: {
@@ -85,7 +98,40 @@ const SideBar = ({ handleModalOpen }) => {
     },
     languagePickerContainer: {
       textAlign: "center",
-      my: 4,
+      mt: 4,
+      mb: 6,
+      position: "relative",
+    },
+    languageTrigger: {
+      cursor: "pointer",
+    },
+    languageDropdown: {
+      position: "absolute",
+      left: "50%",
+      top: "100%",
+      transform: "translateX(-50%)",
+      backgroundColor: "#fff",
+      boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
+      borderRadius: 1,
+    },
+    flagList: {
+      display: "flex",
+      p: 0,
+    },
+    flagListItem: {
+      display: "flex",
+      justifyContent: "center",
+      padding: 1.5,
+      "&:hover": {
+        backgroundColor: "#f0f0f0",
+      },
+    },
+    flag: {
+      width: 30,
+      height: "auto",
+      border: 1,
+      borderRadius: 1,
+      boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
     },
     buttonContainer: {
       display: "flex",
@@ -104,7 +150,7 @@ const SideBar = ({ handleModalOpen }) => {
   return (
     <Box sx={styles.sideBarContainer}>
       <Box sx={styles.colorPickerContainer}>
-        <Typography sx={styles.customizeTitle}>Customize:</Typography>
+        <Typography sx={styles.customizeTitle}>{t("customize")}:</Typography>
         <Box sx={styles.colorPickerTitle}>
           <Typography>Text color</Typography>
           <ColorPicker
@@ -132,17 +178,45 @@ const SideBar = ({ handleModalOpen }) => {
       </Box>
 
       <Box sx={styles.languagePickerContainer}>
-        <ReactFlagsSelect
-          countries={["GB", "FI"]}
-          customLabels={{ GB: "English", FI: "Finnish" }}
-          showSelectedLabel={false}
-          showOptionLabel={false}
-          optionsSize={24}
-          selectedSize={24}
-          fullWidth={false}
-          selected={language}
-          onSelect={changeLanguage}
-        />
+        <Box
+          sx={styles.languageTrigger}
+          onClick={() => {
+            setOpenLanguagePicker(!openLanguagePicker);
+          }}
+        >
+          <Box sx={styles.flag} component="img" src={flagSrc} />
+        </Box>
+        <Box
+          sx={{
+            ...styles.languageDropdown,
+            display: openLanguagePicker ? "block" : "none",
+          }}
+        >
+          <List sx={styles.flagList}>
+            <ListItemButton
+              sx={styles.flagListItem}
+              onClick={() => handleLanguageChange("en")}
+            >
+              <Box
+                sx={styles.flag}
+                component="img"
+                src={flagEn}
+                alt="english"
+              />
+            </ListItemButton>
+            <ListItemButton
+              sx={styles.flagListItem}
+              onClick={() => changeLanguage("fin")}
+            >
+              <Box
+                sx={styles.flag}
+                component="img"
+                src={flagFin}
+                alt="finnish"
+              />
+            </ListItemButton>
+          </List>
+        </Box>
       </Box>
 
       <Box sx={styles.buttonContainer}>
