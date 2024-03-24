@@ -3,39 +3,59 @@ import { createContext, useState } from "react";
 const MinutesContext = createContext();
 
 export const MinutesContextProvider = (props) => {
-  const [minutes, setMinutes] = useState({
-    name: "",
-    colors: {
-      primary: "#000000",
-      secondary: "#FFFFFF",
+  const [state, setState] = useState({
+    minutes: {
+      name: "",
+      colors: {
+        primary: "#000000",
+        secondary: "#FFFFFF",
+      },
+      segments: [
+        {
+          name: "Agenda",
+          content: "",
+        },
+        {
+          name: "Decisions",
+          content: "",
+        },
+        {
+          name: "",
+          content: "",
+        },
+      ],
+      startTime: null,
+      signatures: [],
     },
-    segments: [
-      {
-        name: "Agenda",
-        content: "",
-      },
-      {
-        name: "Decisions",
-        content: "",
-      },
-      {
-        name: "",
-        content: "",
-      },
-    ],
-    startTime: null,
-    signatures: [],
+
+    metadata: {
+      writeAccess: null,
+      token: null,
+    },
   });
 
   const updateMinutes = (newMinutesData) => {
-    setMinutes((prevMinutes) => ({
-      ...prevMinutes,
-      ...newMinutesData,
+    setState((prevState) => ({
+      ...prevState,
+      minutes: {
+        ...prevState.minutes,
+        ...newMinutesData,
+      },
+    }));
+  };
+
+  const updateMetadata = (newMetadata) => {
+    setState((prevState) => ({
+      ...prevState,
+      metadata: {
+        ...prevState.metadata,
+        ...newMetadata,
+      },
     }));
   };
 
   return (
-    <MinutesContext.Provider value={[minutes, updateMinutes]}>
+    <MinutesContext.Provider value={[state, updateMinutes, updateMetadata]}>
       {props.children}
     </MinutesContext.Provider>
   );
