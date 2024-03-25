@@ -101,11 +101,11 @@ const SideBar = ({ handleModalOpen }) => {
       mt: 4,
       mb: 6,
       position: "relative",
-    },
-    languageTrigger: {
       cursor: "pointer",
     },
-    languageDropdown: {
+    flagList: {
+      display: "flex",
+      p: 0,
       position: "absolute",
       left: "50%",
       top: "100%",
@@ -113,10 +113,6 @@ const SideBar = ({ handleModalOpen }) => {
       backgroundColor: "#fff",
       boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
       borderRadius: 1,
-    },
-    flagList: {
-      display: "flex",
-      p: 0,
     },
     flagListItem: {
       display: "flex",
@@ -177,44 +173,40 @@ const SideBar = ({ handleModalOpen }) => {
         </Box>
       </Box>
 
-      <Box sx={styles.languagePickerContainer}>
-        <Box
-          sx={styles.languageTrigger}
-          onClick={() => {
-            setIsLanguagePickerOpen(!isLanguagePickerOpen);
-          }}
-          data-testid="flagTrigger"
-        >
-          <Box sx={styles.flag} component="img" src={flagSrc} />
-        </Box>
+      <Box
+        sx={styles.languagePickerContainer}
+        onClick={() => {
+          setIsLanguagePickerOpen(!isLanguagePickerOpen);
+        }}
+        data-testid="flagTrigger"
+      >
+        <Box sx={styles.flag} component="img" src={flagSrc} />
         {isLanguagePickerOpen && (
-          <Box sx={styles.languageDropdown}>
-            <List sx={styles.flagList}>
-              <ListItemButton
-                sx={styles.flagListItem}
-                onClick={() => handleLanguageChange("en")}
-              >
-                <Box
-                  sx={styles.flag}
-                  component="img"
-                  src={flagEn}
-                  alt="english"
-                  data-testid="flagPicker"
-                />
-              </ListItemButton>
-              <ListItemButton
-                sx={styles.flagListItem}
-                onClick={() => handleLanguageChange("fi")}
-              >
-                <Box
-                  sx={styles.flag}
-                  component="img"
-                  src={flagFi}
-                  alt="finnish"
-                />
-              </ListItemButton>
-            </List>
-          </Box>
+          <List sx={styles.flagList}>
+            <ListItemButton
+              sx={styles.flagListItem}
+              onClick={() => handleLanguageChange("en")}
+            >
+              <Box
+                sx={styles.flag}
+                component="img"
+                src={flagEn}
+                alt="english"
+                data-testid="flagPicker"
+              />
+            </ListItemButton>
+            <ListItemButton
+              sx={styles.flagListItem}
+              onClick={() => handleLanguageChange("fi")}
+            >
+              <Box
+                sx={styles.flag}
+                component="img"
+                src={flagFi}
+                alt="finnish"
+              />
+            </ListItemButton>
+          </List>
         )}
       </Box>
 
