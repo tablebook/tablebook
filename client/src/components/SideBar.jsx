@@ -13,7 +13,7 @@ import flagFin from "../i18n/locales/flags/fin.svg";
 import flagEn from "../i18n/locales/flags/en.svg";
 
 const SideBar = ({ handleModalOpen }) => {
-  const [openLanguagePicker, setOpenLanguagePicker] = useState(false);
+  const [isLanguagePickerOpen, setIsLanguagePickerOpen] = useState(false);
   const [language, setLanguage] = useState("en");
   const [textColor, setTextColor] = useState(
     sessionStorage.getItem("textColor") || "#000000",
@@ -45,7 +45,7 @@ const SideBar = ({ handleModalOpen }) => {
 
   const handleLanguageChange = (language) => {
     setLanguage(language);
-    setOpenLanguagePicker(!openLanguagePicker);
+    setIsLanguagePickerOpen(!isLanguagePickerOpen);
     i18n.changeLanguage(language);
   };
 
@@ -181,42 +181,41 @@ const SideBar = ({ handleModalOpen }) => {
         <Box
           sx={styles.languageTrigger}
           onClick={() => {
-            setOpenLanguagePicker(!openLanguagePicker);
+            setIsLanguagePickerOpen(!isLanguagePickerOpen);
           }}
+          data-testid="flagTrigger"
         >
           <Box sx={styles.flag} component="img" src={flagSrc} />
         </Box>
-        <Box
-          sx={{
-            ...styles.languageDropdown,
-            display: openLanguagePicker ? "block" : "none",
-          }}
-        >
-          <List sx={styles.flagList}>
-            <ListItemButton
-              sx={styles.flagListItem}
-              onClick={() => handleLanguageChange("en")}
-            >
-              <Box
-                sx={styles.flag}
-                component="img"
-                src={flagEn}
-                alt="english"
-              />
-            </ListItemButton>
-            <ListItemButton
-              sx={styles.flagListItem}
-              onClick={() => changeLanguage("fin")}
-            >
-              <Box
-                sx={styles.flag}
-                component="img"
-                src={flagFin}
-                alt="finnish"
-              />
-            </ListItemButton>
-          </List>
-        </Box>
+        {isLanguagePickerOpen && (
+          <Box sx={styles.languageDropdown}>
+            <List sx={styles.flagList}>
+              <ListItemButton
+                sx={styles.flagListItem}
+                onClick={() => handleLanguageChange("en")}
+              >
+                <Box
+                  sx={styles.flag}
+                  component="img"
+                  src={flagEn}
+                  alt="english"
+                  data-testid="flagPicker"
+                />
+              </ListItemButton>
+              <ListItemButton
+                sx={styles.flagListItem}
+                onClick={() => handleLanguageChange("fin")}
+              >
+                <Box
+                  sx={styles.flag}
+                  component="img"
+                  src={flagFin}
+                  alt="finnish"
+                />
+              </ListItemButton>
+            </List>
+          </Box>
+        )}
       </Box>
 
       <Box sx={styles.buttonContainer}>

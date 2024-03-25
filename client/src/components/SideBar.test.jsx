@@ -1,5 +1,5 @@
 import { expect, test, describe, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import SideBar from "./SideBar.jsx";
 
 describe("SideBar", () => {
@@ -22,6 +22,20 @@ describe("SideBar", () => {
       selector: "button",
     });
     expect(restoreButton).toBeDefined();
+  });
+
+  test("render the flag trigger button", () => {
+    const flagTrigger = screen.getByTestId("flagTrigger");
+    expect(flagTrigger).toBeInTheDocument();
+  });
+
+  test("open flag picker on click of flag tigger button and close on reclick", () => {
+    const flagTrigger = screen.getByTestId("flagTrigger");
+    fireEvent.click(flagTrigger);
+    const flagPicker = screen.getByTestId("flagPicker");
+    expect(flagPicker).toBeInTheDocument();
+    fireEvent.click(flagTrigger);
+    expect(flagPicker).not.toBeInTheDocument();
   });
 
   test("renders the add a field button", () => {

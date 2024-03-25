@@ -1,3 +1,9 @@
 {
-    "customize": "customize"
+    "customize": "customize",
+    "textColor": "Text color",
+    "backgroundColor": "Background color",
+    "restoreDefaults": "Restore Defaults",
+    "addAField": "Add a field",
+    "sign": "Sign",
+    "preview": "Preview"
 }

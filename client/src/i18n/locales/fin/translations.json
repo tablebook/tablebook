@@ -1,3 +1,9 @@
 {
-    "customize": "kustomoi"
+    "customize": "kustomoi",
+    "textColor": "Tekstin väri",
+    "backgroundColor": "Taustan väri",
+    "restoreDefaults": "Alkuperäiset",
+    "addAField": "Lisää kenttä",
+    "sign": "Allekirjoita",
+    "preview": "Esikatsele"
 }
