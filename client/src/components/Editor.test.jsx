@@ -7,23 +7,30 @@ import theme from "../theme";
 
 describe("Editor", () => {
   const mockedContext = {
-    name: "",
-    colors: {
-      primary: "#000000",
-      secondary: "#FFFFFF",
+    minutes: {
+      name: "",
+      colors: {
+        primary: "#000000",
+        secondary: "#FFFFFF",
+      },
+      segments: [
+        {
+          name: "Agenda",
+          content: "Some content",
+        },
+        {
+          name: "Decisions",
+          content: "Some content",
+        },
+      ],
+      startTime: null,
+      signatures: [],
     },
-    segments: [
-      {
-        name: "Agenda",
-        content: "Some content",
-      },
-      {
-        name: "Decisions",
-        content: "Some content",
-      },
-    ],
-    startTime: null,
-    signatures: [],
+
+    metadata: {
+      writeAccess: null,
+      token: null,
+    },
   };
 
   const MockedProvider = ({ children }) => (
@@ -49,12 +56,14 @@ describe("Editor", () => {
 
   test("renders the righ amount of editor buttons", () => {
     const editorButtons = screen.getAllByTestId("editor-buttons");
-    expect(editorButtons).toHaveLength(mockedContext.segments.length);
+    expect(editorButtons).toHaveLength(mockedContext.minutes.segments.length);
   });
 
   test("renders the righ amount of content components", () => {
     const contentComponent = screen.getAllByTestId("content-component");
-    expect(contentComponent).toHaveLength(mockedContext.segments.length);
+    expect(contentComponent).toHaveLength(
+      mockedContext.minutes.segments.length,
+    );
   });
 
   test("renders signature and date sections", () => {

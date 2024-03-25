@@ -3,12 +3,12 @@ import { Box, InputBase } from "@mui/material";
 import MinutesContext from "../contexts/MinutesContext.jsx";
 
 const Content = ({ segmentIndex }) => {
-  const [minutes, updateMinutes] = useContext(MinutesContext);
+  const [state, updateMinutes] = useContext(MinutesContext);
 
   const styles = {
     contentTitleText: {
       fontSize: "1.5rem",
-      color: minutes.colors.primary,
+      color: state.minutes.colors.primary,
     },
 
     contentTitleInput: {
@@ -17,7 +17,7 @@ const Content = ({ segmentIndex }) => {
 
     contentText: {
       fontSize: "1rem",
-      color: minutes.colors.primary,
+      color: state.minutes.colors.primary,
     },
 
     contentInput: {
@@ -28,14 +28,14 @@ const Content = ({ segmentIndex }) => {
 
   const handleTitleChange = (event) => {
     const newTitle = event.target.value;
-    const newSegments = structuredClone(minutes.segments);
+    const newSegments = structuredClone(state.minutes.segments);
     newSegments[segmentIndex].name = newTitle;
     updateMinutes({ segments: newSegments });
   };
 
   const handleContentChange = (event) => {
     const newContent = event.target.value;
-    const newSegments = structuredClone(minutes.segments);
+    const newSegments = structuredClone(state.minutes.segments);
     newSegments[segmentIndex].content = newContent;
     updateMinutes({ segments: newSegments });
   };
@@ -45,7 +45,7 @@ const Content = ({ segmentIndex }) => {
       <InputBase
         name="contentTitle"
         placeholder="Enter the title"
-        value={minutes.segments[segmentIndex].name}
+        value={state.minutes.segments[segmentIndex].name}
         fullWidth
         inputProps={{ style: styles.contentTitleText }}
         sx={styles.contentTitleInput}
@@ -54,7 +54,7 @@ const Content = ({ segmentIndex }) => {
       <InputBase
         name="content"
         placeholder="Enter the content"
-        value={minutes.segments[segmentIndex].content}
+        value={state.minutes.segments[segmentIndex].content}
         fullWidth
         multiline
         inputProps={{ style: styles.contentText }}

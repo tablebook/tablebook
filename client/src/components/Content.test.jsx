@@ -5,23 +5,30 @@ import Content from "./Content.jsx";
 
 describe("Content", () => {
   const mockedContext = {
-    name: "",
-    colors: {
-      primary: "#000000",
-      secondary: "#FFFFFF",
+    minutes: {
+      name: "",
+      colors: {
+        primary: "#000000",
+        secondary: "#FFFFFF",
+      },
+      segments: [
+        {
+          name: "Test title",
+          content: "Test content",
+        },
+        {
+          name: "Decisions",
+          content: "Some content",
+        },
+      ],
+      startTime: null,
+      signatures: [],
     },
-    segments: [
-      {
-        name: "Test title",
-        content: "Test content",
-      },
-      {
-        name: "Decisions",
-        content: "Some content",
-      },
-    ],
-    startTime: null,
-    signatures: [],
+
+    metadata: {
+      writeAccess: null,
+      token: null,
+    },
   };
 
   beforeEach(() => {
