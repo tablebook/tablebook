@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import ColorPicker from "./ColorPicker.jsx";
-import flagFin from "../i18n/locales/flags/fin.svg";
+import flagFi from "../i18n/locales/flags/fi.svg";
 import flagEn from "../i18n/locales/flags/en.svg";
 
 const SideBar = ({ handleModalOpen }) => {
@@ -49,7 +49,7 @@ const SideBar = ({ handleModalOpen }) => {
     i18n.changeLanguage(language);
   };
 
-  const flagSrc = language === "en" ? flagEn : flagFin;
+  const flagSrc = language === "en" ? flagEn : flagFi;
 
   const styles = {
     sideBarContainer: {
@@ -204,12 +204,12 @@ const SideBar = ({ handleModalOpen }) => {
               </ListItemButton>
               <ListItemButton
                 sx={styles.flagListItem}
-                onClick={() => handleLanguageChange("fin")}
+                onClick={() => handleLanguageChange("fi")}
               >
                 <Box
                   sx={styles.flag}
                   component="img"
-                  src={flagFin}
+                  src={flagFi}
                   alt="finnish"
                 />
               </ListItemButton>

@@ -1,11 +1,11 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import enTranslations from "./locales/en/translations.json";
-import finTranslations from "./locales/fin/translations.json";
+import fiTranslations from "./locales/fi/translations.json";
 
 const resources = {
   en: { translations: enTranslations },
-  fin: { translations: finTranslations },
+  fi: { translations: fiTranslations },
 };
 
 i18n.use(initReactI18next).init({
@@ -16,6 +16,6 @@ i18n.use(initReactI18next).init({
   defaultNS: "translations",
 });
 
-i18n.languages = ["en", "fin"];
+i18n.languages = ["en", "fi"];
 
 export default i18n;
