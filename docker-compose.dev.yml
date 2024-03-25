@@ -21,6 +21,7 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./client:/usr/src/app/client
+      - /usr/src/app/client/node_modules/
     ports:
       - 5173:5173
     depends_on:
@@ -36,6 +37,7 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./server:/usr/src/app/server
+      - /usr/src/app/server/node_modules/
     environment:
       PORT: 8080
       MONGODB_DEV_CONNECTION_STRING: mongodb://localhost:27017/tablebook_dev
