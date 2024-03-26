@@ -1,10 +1,10 @@
-version: '3.8'
 services:
   mongodb:
     image: mongo:latest
     ports:
       - "27017:27017"
     restart: always
+    attach: false
   app:
     image: 'tablebook'
     build: .
@@ -14,3 +14,4 @@ services:
       PORT: 8080
       MONGODB_CONNECTION_STRING: mongodb://mongodb:27017/tablebook_dev
       SECRET: devsecretnottobeusedinproduction
+
