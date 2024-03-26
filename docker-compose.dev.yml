@@ -1,27 +1,27 @@
-version: '3.8'
 services:
   mongodb:
     image: mongo:latest
-    network_mode: "host"
     ports:
       - "27017:27017"
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
       interval: 10s
-      timeout: 10s
+      timeout: 5s
       retries: 3
       start_period: 20s
     restart: unless-stopped
+    attach: false
 
   client:
     image: client
-    network_mode: "host"
     build:
       context: ./client
       dockerfile: Dockerfile.dev
     volumes:
       - ./client:/usr/src/app/client
       - /usr/src/app/client/node_modules/
+    environment:
+      VITE_PROXY_TARGET: http://server:8080
     ports:
       - 5173:5173
     depends_on:
@@ -31,7 +31,6 @@ services:
 
   server:
     image: server
-    network_mode: "host"
     build:
       context: ./server
       dockerfile: Dockerfile.dev
@@ -40,7 +39,7 @@ services:
       - /usr/src/app/server/node_modules/
     environment:
       PORT: 8080
-      MONGODB_DEV_CONNECTION_STRING: mongodb://localhost:27017/tablebook_dev
+      MONGODB_DEV_CONNECTION_STRING: mongodb://mongodb:27017/tablebook_dev
       SECRET: devsecretnottobeusedinproduction
     ports:
       - 8080:8080
