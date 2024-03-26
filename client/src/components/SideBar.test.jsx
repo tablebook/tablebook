@@ -1,10 +1,55 @@
 import { expect, test, describe, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
+import MinutesContext from "../contexts/MinutesContext.jsx";
 import SideBar from "./SideBar.jsx";
 
 describe("SideBar", () => {
+  const mockedContext = {
+    minutes: {
+      name: "",
+      colors: {
+        primary: "#0000FF",
+        secondary: "#FF00FF",
+      },
+    },
+  };
+
+  const MockedProvider = ({ children }) => (
+    <MinutesContext.Provider value={[mockedContext]}>
+      {children}
+    </MinutesContext.Provider>
+  );
+
   beforeEach(() => {
-    render(<SideBar />);
+    render(
+      <MockedProvider>
+        <SideBar />
+      </MockedProvider>,
+    );
+  });
+
+  test("color picker colors are equal to editor colors", () => {
+    const colorPickerBoxes = screen.getAllByTestId("color-picker-box");
+    const backgroundColor = window
+      .getComputedStyle(colorPickerBoxes[0])
+      .getPropertyValue("background-color");
+    const rgbMatch = backgroundColor.match(/rgb\((\d+), (\d+), (\d+)\)/);
+    if (rgbMatch) {
+      const red = parseInt(rgbMatch[1], 10)
+        .toString(16)
+        .toUpperCase()
+        .padStart(2, "0");
+      const green = parseInt(rgbMatch[2], 10)
+        .toString(16)
+        .toUpperCase()
+        .padStart(2, "0");
+      const blue = parseInt(rgbMatch[3], 10)
+        .toString(16)
+        .toUpperCase()
+        .padStart(2, "0");
+      const actualHex = `#${red}${green}${blue}`;
+      expect(actualHex).toBe(mockedContext.minutes.colors.primary);
+    }
   });
 
   test("renders the primary color element", () => {
