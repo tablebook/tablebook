@@ -15,12 +15,8 @@ import flagEn from "../i18n/locales/flags/en.svg";
 const SideBar = ({ handleModalOpen }) => {
   const [isLanguagePickerOpen, setIsLanguagePickerOpen] = useState(false);
   const [language, setLanguage] = useState("en");
-  const [textColor, setTextColor] = useState(
-    sessionStorage.getItem("textColor") || "#000000",
-  );
-  const [backgroundColor, setBackgroundColor] = useState(
-    sessionStorage.getItem("backgroundColor") || "#ffffff",
-  );
+  const [textColor, setTextColor] = useState("#000000");
+  const [backgroundColor, setBackgroundColor] = useState("#ffffff");
 
   const { t, i18n } = useTranslation();
 
@@ -29,18 +25,14 @@ const SideBar = ({ handleModalOpen }) => {
   const restoreDefaults = () => {
     setTextColor("#000000");
     setBackgroundColor("#ffffff");
-    sessionStorage.setItem("textColor", "#000000");
-    sessionStorage.setItem("backgroundColor", "#ffffff");
   };
 
   const handleTextColorChange = (color) => {
     setTextColor(color);
-    sessionStorage.setItem("textColor", color);
   };
 
   const handleBackgroundColorChange = (color) => {
     setBackgroundColor(color);
-    sessionStorage.setItem("backgroundColor", color);
   };
 
   const handleLanguageChange = (language) => {
