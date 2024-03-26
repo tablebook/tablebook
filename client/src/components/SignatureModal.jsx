@@ -41,6 +41,30 @@ const SignatureModal = ({ open }) => {
       bgcolor: theme.palette.paper.main,
     },
 
+    signerContainer: {
+      width: 500,
+      bgcolor: theme.palette.paper.main,
+    },
+
+    signerText: {
+      fontSize: "2rem",
+      textAlign: "center",
+    },
+
+    timestampContainer: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      my: 4,
+    },
+
+    timestampCheckboxStyle: {
+      color: theme.palette.primary.contrastText,
+      "&.Mui-checked": {
+        color: theme.palette.primary.contrastText,
+      },
+    },
+
     buttonsBox: {
       display: "flex",
       width: 400,
@@ -49,6 +73,8 @@ const SignatureModal = ({ open }) => {
   };
 
   const handleModalClose = () => {
+    setSigner("");
+    setIsChecked(true);
     setSigner("");
     setIsChecked(true);
     updateEditor({ isModalOpen: false });
@@ -111,7 +137,7 @@ const SignatureModal = ({ open }) => {
             onChange={(e) => setIsChecked(e.target.checked)}
             sx={styles.timestampCheckboxStyle}
           />
-          <Typography>Insert current date on minutes</Typography>
+          <Typography>Insert current timestamp on minutes</Typography>
         </Box>
         <Box sx={styles.buttonsBox}>
           <Button variant="contained" color="primary" onClick={clearSignature}>
