@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   Box,
   Button,
@@ -9,30 +9,52 @@ import {
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import ColorPicker from "./ColorPicker.jsx";
+import MinutesContext from "../contexts/MinutesContext.jsx";
 import flagFi from "../i18n/locales/flags/fi.svg";
 import flagEn from "../i18n/locales/flags/en.svg";
 
 const SideBar = ({ handleModalOpen }) => {
   const [isLanguagePickerOpen, setIsLanguagePickerOpen] = useState(false);
   const [language, setLanguage] = useState("en");
-  const [textColor, setTextColor] = useState("#000000");
-  const [backgroundColor, setBackgroundColor] = useState("#ffffff");
+  const [colorState, updateMinutes] = useContext(MinutesContext);
 
   const { t, i18n } = useTranslation();
 
   const theme = useTheme();
 
+  // debouncer is to delay state updates, because rapid
+  // state updates on color picker throws error
+  const debounce = (func, wait) => {
+    let timeoutId = null;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, wait);
+    };
+  };
+
+  const updateColor = debounce((type, color) => {
+    updateMinutes({
+      colors: {
+        ...colorState.minutes.colors,
+        [type]: color,
+      },
+    });
+  }, 2);
+
+  const defaultColors = {
+    primary: "#000000",
+    secondary: "#FFFFFF",
+  };
+
   const restoreDefaults = () => {
-    setTextColor("#000000");
-    setBackgroundColor("#ffffff");
-  };
-
-  const handleTextColorChange = (color) => {
-    setTextColor(color);
-  };
-
-  const handleBackgroundColorChange = (color) => {
-    setBackgroundColor(color);
+    updateMinutes({
+      colors: {
+        primary: defaultColors.primary,
+        secondary: defaultColors.secondary,
+      },
+    });
   };
 
   const handleLanguageChange = (language) => {
@@ -142,15 +164,15 @@ const SideBar = ({ handleModalOpen }) => {
         <Box sx={styles.colorPickerTitle}>
           <Typography>Text color</Typography>
           <ColorPicker
-            onColorChange={handleTextColorChange}
-            currColor={textColor}
+            onColorChange={(color) => updateColor("primary", color)}
+            currColor={colorState.minutes.colors.primary}
           />
         </Box>
         <Box sx={styles.colorPickerTitle}>
           <Typography>Background color</Typography>
           <ColorPicker
-            onColorChange={handleBackgroundColorChange}
-            currColor={backgroundColor}
+            onColorChange={(color) => updateColor("secondary", color)}
+            currColor={colorState.minutes.colors.secondary}
           />
         </Box>
         <Box sx={styles.restoreButtonContainer}>

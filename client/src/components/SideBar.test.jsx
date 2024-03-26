@@ -1,10 +1,48 @@
 import { expect, test, describe, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
+import MinutesContext from "../contexts/MinutesContext.jsx";
 import SideBar from "./SideBar.jsx";
 
 describe("SideBar", () => {
+  const mockedContext = {
+    minutes: {
+      name: "",
+      colors: {
+        primary: "#000000",
+        secondary: "#FFFFFF",
+      },
+      segments: [
+        {
+          name: "Agenda",
+          content: "Some content",
+        },
+        {
+          name: "Decisions",
+          content: "Some content",
+        },
+      ],
+      startTime: null,
+      signatures: [],
+    },
+
+    metadata: {
+      writeAccess: null,
+      token: null,
+    },
+  };
+
+  const MockedProvider = ({ children }) => (
+    <MinutesContext.Provider value={[mockedContext]}>
+      {children}
+    </MinutesContext.Provider>
+  );
+
   beforeEach(() => {
-    render(<SideBar />);
+    render(
+      <MockedProvider>
+        <SideBar />
+      </MockedProvider>,
+    );
   });
 
   test("renders the primary color element", () => {
