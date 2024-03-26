@@ -75,15 +75,15 @@ function Editor() {
 
     signatureImage: {
       maxHeight: 40,
-      maxWidth: 160,
+      maxWidth: 150,
       objectFit: "contain",
       alignSelf: "flex-start",
     },
 
-    signatureLine: {
+    signatureAndDateLine: {
       borderTop: `2px solid`,
       color: state.minutes.colors.primary,
-      width: 170,
+      width: 150,
     },
 
     dateContainer: {
@@ -147,11 +147,34 @@ function Editor() {
                     alt="Signature"
                   />
                 )}
-              <Typography variant="h5" sx={styles.signatureLine}>
-                Signature
-              </Typography>
+              <Box sx={styles.signatureAndDateLine} />
+              {state.minutes.signatures.length > 0 &&
+                !!state.minutes.signatures[0].signer && (
+                  <Typography variant="h5">
+                    {state.minutes.signatures[0].signer}
+                  </Typography>
+                )}
+              <Typography variant="h5">Signature</Typography>
             </Box>
             <Box sx={styles.dateContainer}>
+              {state.minutes.signatures.length > 0 &&
+                state.minutes.signatures[0].timestamp && (
+                  <Box sx={styles.dateContainer}>
+                    <Typography variant="h5" sx={styles.dateText}>
+                      {
+                        new Date(state.minutes.signatures[0].timestamp)
+                          .toISOString()
+                          .split("T")[0]
+                      }
+                    </Typography>
+                    <Typography variant="h5" sx={styles.dateText}>
+                      {new Date(state.minutes.signatures[0].timestamp)
+                        .toISOString()
+                        .slice(11, 16)}
+                    </Typography>
+                  </Box>
+                )}
+              <Box sx={styles.signatureAndDateLine} />
               <Typography variant="h5" sx={styles.dateText}>
                 Date
               </Typography>
