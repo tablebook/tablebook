@@ -8,26 +8,9 @@ describe("SideBar", () => {
     minutes: {
       name: "",
       colors: {
-        primary: "#000000",
-        secondary: "#FFFFFF",
+        primary: "#0000FF",
+        secondary: "#FF00FF",
       },
-      segments: [
-        {
-          name: "Agenda",
-          content: "Some content",
-        },
-        {
-          name: "Decisions",
-          content: "Some content",
-        },
-      ],
-      startTime: null,
-      signatures: [],
-    },
-
-    metadata: {
-      writeAccess: null,
-      token: null,
     },
   };
 
@@ -43,6 +26,30 @@ describe("SideBar", () => {
         <SideBar />
       </MockedProvider>,
     );
+  });
+
+  test("color picker colors are equal to editor colors", () => {
+    const colorPickerBoxes = screen.getAllByTestId("color-picker-box");
+    const backgroundColor = window
+      .getComputedStyle(colorPickerBoxes[0])
+      .getPropertyValue("background-color");
+    const rgbMatch = backgroundColor.match(/rgb\((\d+), (\d+), (\d+)\)/);
+    if (rgbMatch) {
+      const red = parseInt(rgbMatch[1], 10)
+        .toString(16)
+        .toUpperCase()
+        .padStart(2, "0");
+      const green = parseInt(rgbMatch[2], 10)
+        .toString(16)
+        .toUpperCase()
+        .padStart(2, "0");
+      const blue = parseInt(rgbMatch[3], 10)
+        .toString(16)
+        .toUpperCase()
+        .padStart(2, "0");
+      const actualHex = `#${red}${green}${blue}`;
+      expect(actualHex).toBe(mockedContext.minutes.colors.primary);
+    }
   });
 
   test("renders the primary color element", () => {
