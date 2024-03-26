@@ -21,6 +21,8 @@ app.use(express.static(clientDistPath));
 
 app.use("/api/minutes", minutesController);
 
+app.get("/api/healthz", (request, response) => response.sendStatus(200));
+
 app.use(errorHandler);
 
 app.get("/api/*", (req, res) => {
