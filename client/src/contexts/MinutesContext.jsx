@@ -30,7 +30,8 @@ export const MinutesContextProvider = (props) => {
 
     metadata: {
       writeAccess: null,
-      token: null,
+      writeToken: null,
+      readToken: null,
     },
   });
 
