@@ -1,7 +1,14 @@
 import { Box, Link, Button, useTheme, Typography } from "@mui/material";
+import { useContext } from "react";
+import EditorContext from "../contexts/EditorContext.jsx";
+// eslint-disable-next-line import/extensions
+import minutesService from "../services/minutesService.js";
+import MinutesContext from "../contexts/MinutesContext.jsx";
 
 const TopBar = () => {
   const theme = useTheme();
+  const [, updateEditor] = useContext(EditorContext);
+  const [minutesState, , updateMetadata] = useContext(MinutesContext);
 
   const styles = {
     topBarContainer: {
@@ -32,6 +39,30 @@ const TopBar = () => {
       pr: 4,
       ml: 2,
     },
+  };
+
+  const handleShareClicked = async (event) => {
+    const shareButton = event.currentTarget;
+    if (
+      // eslint-disable-next-line no-restricted-globals, no-alert
+      !confirm(
+        "This action will store the document in the cloud where it will be accessible to anyone with the provided link. Are you sure?",
+      )
+    ) {
+      return;
+    }
+
+    const createdMinutes = await minutesService.createMinutes(
+      minutesState.minutes,
+    );
+
+    updateMetadata({
+      writeAccess: true,
+      writeToken: createdMinutes.writeToken,
+      readToken: createdMinutes.readToken,
+    });
+
+    updateEditor({ sharePopupAnchorElement: shareButton });
   };
 
   return (
@@ -73,6 +104,7 @@ const TopBar = () => {
             variant="contained"
             color="secondary"
             sx={styles.topBarButton}
+            onClick={handleShareClicked}
           >
             Share
           </Button>
