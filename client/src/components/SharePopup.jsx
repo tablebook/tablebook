@@ -5,9 +5,9 @@ import {
   Popover,
   TextField,
   Typography,
+  useTheme,
 } from "@mui/material";
 import { useContext } from "react";
-import { useTheme } from "@emotion/react";
 import LinkIcon from "@mui/icons-material/Link";
 
 import EditorContext from "../contexts/EditorContext.jsx";
@@ -47,6 +47,7 @@ const SharePopup = () => {
     const inputElementValue = inputElement.value;
 
     inputElement.focus();
+    inputElement.select();
 
     navigator.clipboard.writeText(inputElementValue);
   };
