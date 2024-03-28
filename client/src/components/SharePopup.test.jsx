@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@mui/material/styles";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import MinutesContext from "../contexts/MinutesContext.jsx";
 import {
@@ -13,12 +13,15 @@ import theme from "../theme";
 describe("SharePopup", () => {
   const updateEditorMock = vi.fn();
 
-  beforeEach(async () => {
+  beforeEach(() => {
     render(
       <MinutesContext.Provider value={[mockMinutesContextState]}>
         <EditorContext.Provider
           value={[
-            { ...mockEditorContextState, sharePopupAnchorElement: <button /> },
+            {
+              ...mockEditorContextState,
+              sharePopupAnchorElement: document.createElement("button"),
+            },
             updateEditorMock,
           ]}
         >
@@ -28,6 +31,11 @@ describe("SharePopup", () => {
         </EditorContext.Provider>
       </MinutesContext.Provider>,
     );
+
+    // This does something for the popup element to properly finish doing all it's logic so that warnings are not given.
+    // The warning indicates that it would still doing something after the test is done.
+    // Vitest waitFor doesn't work
+    waitFor(() => {});
   });
 
   afterEach(async () => {

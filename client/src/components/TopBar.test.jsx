@@ -1,5 +1,5 @@
 import { expect, test, describe, beforeEach, afterEach, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
 import TopBar from "./TopBar.jsx";
 import MinutesContext from "../contexts/MinutesContext.jsx";
@@ -94,26 +94,23 @@ describe("TopBar", () => {
       shareButton.click();
 
       // Waits for async calls to finish
-      await vi.waitFor(
-        () => {
-          expect(window.confirm).toHaveBeenCalledOnce();
-          expect(mockCreateMinutes).toHaveBeenCalledOnce();
-          expect(updateMetadataMock).toHaveBeenCalledOnce();
-          expect(updateMetadataMock).toHaveBeenCalledWith({
-            writeAccess: true,
-            writeToken: "writeaccesstoken",
-            readToken: "readaccesstoken",
-          });
-          expect(updateEditorMock).toHaveBeenCalledOnce();
-          expect(
-            updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
-          ).toBeDefined();
-          expect(
-            updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
-          ).toHaveRole("button");
-        },
-        { timeout: 100 },
-      );
+      await waitFor(() => {
+        expect(window.confirm).toHaveBeenCalledOnce();
+        expect(mockCreateMinutes).toHaveBeenCalledOnce();
+        expect(updateMetadataMock).toHaveBeenCalledOnce();
+        expect(updateMetadataMock).toHaveBeenCalledWith({
+          writeAccess: true,
+          writeToken: "writeaccesstoken",
+          readToken: "readaccesstoken",
+        });
+        expect(updateEditorMock).toHaveBeenCalledOnce();
+        expect(
+          updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
+        ).toBeDefined();
+        expect(
+          updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
+        ).toHaveRole("button");
+      });
     });
   });
 
