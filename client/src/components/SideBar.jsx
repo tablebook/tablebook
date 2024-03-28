@@ -57,10 +57,10 @@ function SideBar({ handleModalOpen }) {
     });
   };
 
-  const handleLanguageChange = (language) => {
-    setLanguage(language);
+  const handleLanguageChange = (newLanguage) => {
+    setLanguage(newLanguage);
     setIsLanguagePickerOpen(!isLanguagePickerOpen);
-    i18n.changeLanguage(language);
+    i18n.changeLanguage(newLanguage);
   };
 
   const flagSrc = language === "en" ? flagEn : flagFi;

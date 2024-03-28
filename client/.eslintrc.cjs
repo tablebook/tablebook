@@ -12,8 +12,6 @@ module.exports = {
       "warn",
       { allowConstantExport: true },
     ],
-    "import/no-unresolved": "off",
-    "no-shadow": "off",
     "import/no-extraneous-dependencies": "off",
     "react/prop-types": "off",
     "no-alert": "off",
