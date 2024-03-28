@@ -33,17 +33,10 @@ describe("Content", () => {
   };
 
   beforeEach(() => {
-    function MockedProvider({ children }) {
-      return (
-        <MinutesContext.Provider value={[mockedContext]}>
-          {children}
-        </MinutesContext.Provider>
-      );
-    }
     render(
-      <MockedProvider>
+      <MinutesContext.Provider value={[mockedContext]}>
         <Content segmentIndex={0} />
-      </MockedProvider>,
+      </MinutesContext.Provider>,
     );
   });
 

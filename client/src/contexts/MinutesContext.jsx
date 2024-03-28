@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useMemo, useState } from "react";
 
 const MinutesContext = createContext();
 
@@ -55,8 +55,13 @@ export function MinutesContextProvider({ children }) {
     }));
   };
 
+  const contextValues = useMemo(
+    () => [state, updateMinutes, updateMetadata],
+    [state],
+  );
+
   return (
-    <MinutesContext.Provider value={[state, updateMinutes, updateMetadata]}>
+    <MinutesContext.Provider value={contextValues}>
       {children}
     </MinutesContext.Provider>
   );

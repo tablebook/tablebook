@@ -15,19 +15,11 @@ describe("SideBar", () => {
     },
   };
 
-  function MockedProvider({ children }) {
-    return (
-      <MinutesContext.Provider value={[mockedContext]}>
-        {children}
-      </MinutesContext.Provider>
-    );
-  }
-
   beforeEach(() => {
     render(
-      <MockedProvider>
+      <MinutesContext.Provider value={[mockedContext]}>
         <SideBar />
-      </MockedProvider>,
+      </MinutesContext.Provider>,
     );
   });
 

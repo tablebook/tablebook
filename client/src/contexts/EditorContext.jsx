@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useMemo, useState } from "react";
 
 const EditorContext = createContext();
 
@@ -16,8 +16,10 @@ export function EditorContextProvider({ children }) {
     }));
   };
 
+  const contextValues = useMemo(() => [editor, updateEditor], [editor]);
+
   return (
-    <EditorContext.Provider value={[editor, updateEditor]}>
+    <EditorContext.Provider value={contextValues}>
       {children}
     </EditorContext.Provider>
   );

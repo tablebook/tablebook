@@ -14,20 +14,12 @@ describe("SignatureModal", () => {
     onCloseMock = vi.fn();
     updateMinutesMock = vi.fn();
 
-    function MockedProvider({ children }) {
-      return (
-        <MinutesContext.Provider value={[{}, updateMinutesMock]}>
-          {children}
-        </MinutesContext.Provider>
-      );
-    }
-
     render(
-      <MockedProvider>
+      <MinutesContext.Provider value={[{}, updateMinutesMock]}>
         <ThemeProvider theme={theme}>
           <SignatureModal open onClose={onCloseMock} />
         </ThemeProvider>
-      </MockedProvider>,
+      </MinutesContext.Provider>,
     );
   });
 
