@@ -15,12 +15,11 @@ describe("SharePopup", () => {
 
   beforeEach(async () => {
     render(
-      <MinutesContext.Provider
-        value={[mockMinutesContextState, updateEditorMock]}
-      >
+      <MinutesContext.Provider value={[mockMinutesContextState]}>
         <EditorContext.Provider
           value={[
             { ...mockEditorContextState, sharePopupAnchorElement: <button /> },
+            updateEditorMock,
           ]}
         >
           <ThemeProvider theme={theme}>

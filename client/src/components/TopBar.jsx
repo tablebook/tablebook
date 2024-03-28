@@ -1,8 +1,7 @@
 import { Box, Link, Button, useTheme, Typography } from "@mui/material";
 import { useContext } from "react";
 import EditorContext from "../contexts/EditorContext.jsx";
-// eslint-disable-next-line import/extensions
-import minutesService from "../services/minutesService.js";
+import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext.jsx";
 
 const TopBar = () => {
@@ -44,8 +43,7 @@ const TopBar = () => {
   const handleShareClicked = async (event) => {
     const shareButton = event.currentTarget;
     if (
-      // eslint-disable-next-line no-restricted-globals, no-alert
-      !confirm(
+      !window.confirm(
         "This action will store the document in the cloud where it will be accessible to anyone with the provided link. Are you sure?",
       )
     ) {

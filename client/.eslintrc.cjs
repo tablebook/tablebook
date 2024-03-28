@@ -22,6 +22,7 @@ module.exports = {
     'import/no-unresolved': 'off',
     'no-shadow': 'off',
     'import/no-extraneous-dependencies': 'off',
-    'react/prop-types': 'off'
+    'react/prop-types': 'off',
+    'no-alert': 'off'
   },
 }
