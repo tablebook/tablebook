@@ -41,12 +41,18 @@ function LoadingPage() {
   useEffect(() => {
     if (token) {
       const handleToken = async () => {
-        const minutesResponse = await minutesService.getMinutesByToken(token);
+        try {
+          const minutesResponse = await minutesService.getMinutesByToken(token);
 
-        updateMinutes(minutesResponse.data);
+          updateMinutes(minutesResponse.data);
 
-        updateMetadata({ writeAccess: minutesResponse.writeAccess });
-        navigate("/minutes", { replace: true });
+          updateMetadata({ writeAccess: minutesResponse.writeAccess });
+        } catch (error) {
+          // This await is needed to show the alert before navigation is executed
+          await alert("There was a problem loading minutes");
+        } finally {
+          navigate("/minutes", { replace: true });
+        }
       };
       handleToken();
     }
