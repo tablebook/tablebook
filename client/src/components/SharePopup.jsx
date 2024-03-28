@@ -84,11 +84,13 @@ const SharePopup = () => {
         <Box sx={styles.innerContainer}>
           <Typography>Read link</Typography>
           <TextField
+            data-testid="read-only-link"
             value={baseUrl + (minutesState.metadata.readToken ?? "")}
             InputProps={inputProps}
           />
           <Typography>Edit link</Typography>
           <TextField
+            data-testid="write-link"
             value={baseUrl + (minutesState.metadata.writeToken ?? "")}
             InputProps={inputProps}
           />
