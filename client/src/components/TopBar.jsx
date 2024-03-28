@@ -3,6 +3,8 @@ import React, { useContext } from "react";
 import EditorContext from "../contexts/EditorContext";
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
+import logoImage from "../assets/images/logo.png";
+import Image from "./Image";
 
 function TopBar() {
   const theme = useTheme();
@@ -67,7 +69,7 @@ function TopBar() {
     <Box sx={styles.topBarContainer}>
       <Link href="/" underline="hover" color="primary.contrastText">
         <Box sx={styles.titleContainer}>
-          <Box component="img" src="/images/logo.png" />
+          <Image src={logoImage} />
           <Typography variant="h3">TableBook</Typography>
         </Box>
       </Link>
