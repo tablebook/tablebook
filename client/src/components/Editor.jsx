@@ -121,7 +121,7 @@ function Editor() {
       </Box>
 
       {state.minutes.segments.map((segment, index) => (
-        <Box sx={styles.segmentContainer} key={index}>
+        <Box sx={styles.segmentContainer}>
           <Box sx={styles.sideContainer}>
             <EditorButtons />
           </Box>
