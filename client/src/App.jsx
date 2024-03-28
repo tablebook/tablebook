@@ -5,6 +5,7 @@ import SideBar from "./components/SideBar.jsx";
 import Editor from "./components/Editor.jsx";
 import Footer from "./components/Footer.jsx";
 import SignatureModal from "./components/SignatureModal.jsx";
+import SharePopup from "./components/SharePopup.jsx";
 
 function App() {
   const theme = useTheme();
@@ -63,6 +64,7 @@ function App() {
         <Footer />
       </Box>
       <SignatureModal open={isModalOpen} onClose={handleModalClose} />
+      <SharePopup />
     </>
   );
 }

@@ -5,7 +5,8 @@ const EditorContext = createContext();
 export const EditorContextProvider = (props) => {
   const [editor, setEditor] = useState({
     language: "EN",
-    isModalOpen: false,
+    isSignatureModalOpen: false,
+    sharePopupAnchorElement: null,
   });
 
   const updateEditor = (newEditorData) => {
