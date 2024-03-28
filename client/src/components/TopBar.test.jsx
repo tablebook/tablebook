@@ -112,6 +112,28 @@ describe("TopBar", () => {
         ).toHaveRole("button");
       });
     });
+
+    test("doesn't do anything when confirm dialogue is cancelled", async () => {
+      window.confirm.mockReturnValueOnce(false);
+      const mockCreateMinutes = vi.spyOn(minutesService, "createMinutes");
+      mockCreateMinutes.mockResolvedValueOnce({
+        data: {},
+        writeToken: "writeaccesstoken",
+        readToken: "readaccesstoken",
+      });
+
+      const shareButton = screen.getByText("Share", {
+        selector: "button",
+      });
+
+      shareButton.click();
+
+      // Waits for async calls to finish
+      await waitFor(() => {
+        expect(window.confirm).toHaveBeenCalledOnce();
+        expect(mockCreateMinutes).not.toHaveBeenCalled();
+      });
+    });
   });
 
   test("renders print pdf button", () => {
