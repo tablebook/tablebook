@@ -63,8 +63,13 @@ describe("TopBar", () => {
   });
 
   describe("Share button", () => {
-    const mockConfirm = vi.fn();
-    vi.stubGlobal("confirm", mockConfirm);
+    beforeEach(() => {
+      vi.stubGlobal("confirm", vi.fn());
+    });
+
+    afterEach(() => {
+      vi.unstubAllGlobals();
+    });
 
     test("renders", () => {
       const shareButton = screen.getByText("Share", {

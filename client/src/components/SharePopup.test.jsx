@@ -82,14 +82,16 @@ describe("SharePopup", () => {
   });
 
   describe("Clipboard", () => {
-    const writeText = vi.fn();
-
     beforeEach(() => {
-      Object.assign(navigator, {
+      vi.stubGlobal("navigator", {
         clipboard: {
-          writeText,
+          writeText: vi.fn(),
         },
       });
+    });
+
+    afterEach(() => {
+      vi.unstubAllGlobals();
     });
 
     test("copies read link copy button copies to clipboard", () => {
