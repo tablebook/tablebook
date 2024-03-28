@@ -1,6 +1,7 @@
+import React from "react";
 import { expect, test, describe, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import EditorButtons from "./EditorButtons.jsx";
+import EditorButtons from "./EditorButtons";
 
 describe("EditorButtons", () => {
   beforeEach(() => {

@@ -1,7 +1,8 @@
+import React from "react";
 import { expect, test, describe, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import MinutesContext from "../contexts/MinutesContext.jsx";
-import SideBar from "./SideBar.jsx";
+import MinutesContext from "../contexts/MinutesContext";
+import SideBar from "./SideBar";
 
 describe("SideBar", () => {
   const mockedContext = {
@@ -14,17 +15,11 @@ describe("SideBar", () => {
     },
   };
 
-  const MockedProvider = ({ children }) => (
-    <MinutesContext.Provider value={[mockedContext]}>
-      {children}
-    </MinutesContext.Provider>
-  );
-
   beforeEach(() => {
     render(
-      <MockedProvider>
+      <MinutesContext.Provider value={[mockedContext]}>
         <SideBar />
-      </MockedProvider>,
+      </MinutesContext.Provider>,
     );
   });
 

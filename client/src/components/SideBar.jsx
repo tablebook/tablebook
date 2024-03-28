@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import {
   Box,
   Button,
@@ -8,12 +8,12 @@ import {
   ListItemButton,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import ColorPicker from "./ColorPicker.jsx";
-import MinutesContext from "../contexts/MinutesContext.jsx";
+import ColorPicker from "./ColorPicker";
+import MinutesContext from "../contexts/MinutesContext";
 import flagFi from "../i18n/locales/flags/fi.svg";
 import flagEn from "../i18n/locales/flags/en.svg";
 
-const SideBar = ({ handleModalOpen }) => {
+function SideBar({ handleModalOpen }) {
   const [isLanguagePickerOpen, setIsLanguagePickerOpen] = useState(false);
   const [language, setLanguage] = useState("en");
   const [colorState, updateMinutes] = useContext(MinutesContext);
@@ -57,10 +57,10 @@ const SideBar = ({ handleModalOpen }) => {
     });
   };
 
-  const handleLanguageChange = (language) => {
-    setLanguage(language);
+  const handleLanguageChange = (newLanguage) => {
+    setLanguage(newLanguage);
     setIsLanguagePickerOpen(!isLanguagePickerOpen);
-    i18n.changeLanguage(language);
+    i18n.changeLanguage(newLanguage);
   };
 
   const flagSrc = language === "en" ? flagEn : flagFi;
@@ -242,6 +242,6 @@ const SideBar = ({ handleModalOpen }) => {
       </Box>
     </Box>
   );
-};
+}
 
 export default SideBar;

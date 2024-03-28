@@ -1,11 +1,11 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Box, useTheme } from "@mui/material";
-import TopBar from "./components/TopBar.jsx";
-import SideBar from "./components/SideBar.jsx";
-import Editor from "./components/Editor.jsx";
-import Footer from "./components/Footer.jsx";
-import SignatureModal from "./components/SignatureModal.jsx";
-import SharePopup from "./components/SharePopup.jsx";
+import TopBar from "./components/TopBar";
+import SideBar from "./components/SideBar";
+import Editor from "./components/Editor";
+import Footer from "./components/Footer";
+import SignatureModal from "./components/SignatureModal";
+import SharePopup from "./components/SharePopup";
 
 function App() {
   const theme = useTheme();

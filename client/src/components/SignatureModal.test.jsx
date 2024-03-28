@@ -1,8 +1,9 @@
+import React from "react";
 import { expect, test, describe, beforeEach, vi } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
-import SignatureModal from "./SignatureModal.jsx";
-import MinutesContext from "../contexts/MinutesContext.jsx";
+import SignatureModal from "./SignatureModal";
+import MinutesContext from "../contexts/MinutesContext";
 import theme from "../theme";
 
 describe("SignatureModal", () => {
@@ -13,18 +14,12 @@ describe("SignatureModal", () => {
     onCloseMock = vi.fn();
     updateMinutesMock = vi.fn();
 
-    const MockedProvider = ({ children }) => (
-      <MinutesContext.Provider value={[{}, updateMinutesMock]}>
-        {children}
-      </MinutesContext.Provider>
-    );
-
     render(
-      <MockedProvider>
+      <MinutesContext.Provider value={[{}, updateMinutesMock]}>
         <ThemeProvider theme={theme}>
-          <SignatureModal open={true} onClose={onCloseMock} />
+          <SignatureModal open onClose={onCloseMock} />
         </ThemeProvider>
-      </MockedProvider>,
+      </MinutesContext.Provider>,
     );
   });
 

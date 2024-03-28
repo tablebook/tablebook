@@ -1,6 +1,7 @@
+import React from "react";
 import { Box, Button, Link, Typography, useTheme } from "@mui/material";
 
-const Footer = () => {
+function Footer() {
   const theme = useTheme();
 
   const styles = {
@@ -38,7 +39,7 @@ const Footer = () => {
           <Typography variant="h5">Report</Typography>
         </Button>
         <Link
-          href={"https://github.com/tablebook/tablebook"}
+          href="https://github.com/tablebook/tablebook"
           variant="h5"
           color="footer.contrastText"
           underline="hover"
@@ -52,6 +53,6 @@ const Footer = () => {
       </Box>
     </Box>
   );
-};
+}
 
 export default Footer;

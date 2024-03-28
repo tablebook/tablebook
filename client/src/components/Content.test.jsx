@@ -1,46 +1,16 @@
+import React from "react";
 import { expect, test, describe, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import MinutesContext from "../contexts/MinutesContext.jsx";
-import Content from "./Content.jsx";
+import MinutesContext from "../contexts/MinutesContext";
+import Content from "./Content";
+import { mockMinutesContextState } from "../util/test.helpers";
 
 describe("Content", () => {
-  const mockedContext = {
-    minutes: {
-      name: "",
-      colors: {
-        primary: "#000000",
-        secondary: "#FFFFFF",
-      },
-      segments: [
-        {
-          name: "Test title",
-          content: "Test content",
-        },
-        {
-          name: "Decisions",
-          content: "Some content",
-        },
-      ],
-      startTime: null,
-      signatures: [],
-    },
-
-    metadata: {
-      writeAccess: null,
-      token: null,
-    },
-  };
-
   beforeEach(() => {
-    const MockedProvider = ({ children }) => (
-      <MinutesContext.Provider value={[mockedContext]}>
-        {children}
-      </MinutesContext.Provider>
-    );
     render(
-      <MockedProvider>
+      <MinutesContext.Provider value={[mockMinutesContextState]}>
         <Content segmentIndex={0} />
-      </MockedProvider>,
+      </MinutesContext.Provider>,
     );
   });
 
@@ -56,11 +26,11 @@ describe("Content", () => {
 
   test("title has the correct value", () => {
     const contentTitleInput = screen.getByPlaceholderText("Enter the title");
-    expect(contentTitleInput.value).toBe("Test title");
+    expect(contentTitleInput.value).toBe("Agenda");
   });
 
   test("content has the correct value", () => {
     const contentTitleInput = screen.getByPlaceholderText("Enter the content");
-    expect(contentTitleInput.value).toBe("Test content");
+    expect(contentTitleInput.value).toBe("Some content");
   });
 });

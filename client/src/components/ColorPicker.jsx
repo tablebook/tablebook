@@ -1,8 +1,8 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Box } from "@mui/material";
 import { HexColorPicker, HexColorInput } from "react-colorful";
 
-const ColorPicker = ({ onColorChange, currColor }) => {
+function ColorPicker({ onColorChange, currColor }) {
   const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
 
   const popover = useRef();
@@ -87,6 +87,6 @@ const ColorPicker = ({ onColorChange, currColor }) => {
       )}
     </Box>
   );
-};
+}
 
 export default ColorPicker;

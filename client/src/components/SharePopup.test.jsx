@@ -1,13 +1,14 @@
+import React from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import { render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
-import MinutesContext from "../contexts/MinutesContext.jsx";
+import MinutesContext from "../contexts/MinutesContext";
 import {
   mockEditorContextState,
   mockMinutesContextState,
 } from "../util/test.helpers";
-import EditorContext from "../contexts/EditorContext.jsx";
-import SharePopup from "./SharePopup.jsx";
+import EditorContext from "../contexts/EditorContext";
+import SharePopup from "./SharePopup";
 import theme from "../theme";
 
 describe("SharePopup", () => {
