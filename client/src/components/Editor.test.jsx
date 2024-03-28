@@ -1,8 +1,9 @@
+import React from "react";
 import { expect, test, describe, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
-import Editor from "./Editor.jsx";
-import MinutesContext from "../contexts/MinutesContext.jsx";
+import Editor from "./Editor";
+import MinutesContext from "../contexts/MinutesContext";
 import theme from "../theme";
 
 describe("Editor", () => {
@@ -33,11 +34,13 @@ describe("Editor", () => {
     },
   };
 
-  const MockedProvider = ({ children }) => (
-    <MinutesContext.Provider value={[mockedContext]}>
-      {children}
-    </MinutesContext.Provider>
-  );
+  function MockedProvider({ children }) {
+    return (
+      <MinutesContext.Provider value={[mockedContext]}>
+        {children}
+      </MinutesContext.Provider>
+    );
+  }
 
   beforeEach(() => {
     render(

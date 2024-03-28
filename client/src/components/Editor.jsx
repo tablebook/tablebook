@@ -1,10 +1,10 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { Box, useTheme, Typography, InputBase } from "@mui/material";
-import EditorButtons from "./EditorButtons.jsx";
-import Content from "./Content.jsx";
-import MinutesContext from "../contexts/MinutesContext.jsx";
+import EditorButtons from "./EditorButtons";
+import Content from "./Content";
+import MinutesContext from "../contexts/MinutesContext";
 
-const Editor = () => {
+function Editor() {
   const theme = useTheme();
   const [state, updateMinutes] = useContext(MinutesContext);
 
@@ -107,7 +107,7 @@ const Editor = () => {
   return (
     <Box sx={styles.editorContainer}>
       <Box sx={styles.segmentContainer}>
-        <Box sx={styles.sideContainer}></Box>
+        <Box sx={styles.sideContainer} />
         <Box sx={styles.titleContainer}>
           <InputBase
             name="title"
@@ -133,7 +133,7 @@ const Editor = () => {
       ))}
 
       <Box sx={styles.bottomContainer}>
-        <Box sx={styles.sideContainer}></Box>
+        <Box sx={styles.sideContainer} />
         <Box sx={styles.bottomContentContainer}>
           <Box sx={styles.dateAndSignatureContainer}>
             <Box sx={styles.signatureContainer}>
@@ -160,6 +160,6 @@ const Editor = () => {
       </Box>
     </Box>
   );
-};
+}
 
 export default Editor;

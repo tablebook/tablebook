@@ -1,7 +1,8 @@
+import React from "react";
 import { expect, test, describe, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import MinutesContext from "../contexts/MinutesContext.jsx";
-import Content from "./Content.jsx";
+import MinutesContext from "../contexts/MinutesContext";
+import Content from "./Content";
 
 describe("Content", () => {
   const mockedContext = {
@@ -32,11 +33,13 @@ describe("Content", () => {
   };
 
   beforeEach(() => {
-    const MockedProvider = ({ children }) => (
-      <MinutesContext.Provider value={[mockedContext]}>
-        {children}
-      </MinutesContext.Provider>
-    );
+    function MockedProvider({ children }) {
+      return (
+        <MinutesContext.Provider value={[mockedContext]}>
+          {children}
+        </MinutesContext.Provider>
+      );
+    }
     render(
       <MockedProvider>
         <Content segmentIndex={0} />

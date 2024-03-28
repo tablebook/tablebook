@@ -1,8 +1,8 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { Box, InputBase } from "@mui/material";
-import MinutesContext from "../contexts/MinutesContext.jsx";
+import MinutesContext from "../contexts/MinutesContext";
 
-const Content = ({ segmentIndex }) => {
+function Content({ segmentIndex }) {
   const [state, updateMinutes] = useContext(MinutesContext);
 
   const styles = {
@@ -63,6 +63,6 @@ const Content = ({ segmentIndex }) => {
       />
     </Box>
   );
-};
+}
 
 export default Content;

@@ -1,9 +1,10 @@
+import React from "react";
 import { Box, IconButton } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const EditorButtons = () => {
+function EditorButtons() {
   const styles = {
     buttonsContainer: {
       display: "flex",
@@ -38,6 +39,6 @@ const EditorButtons = () => {
       </IconButton>
     </Box>
   );
-};
+}
 
 export default EditorButtons;

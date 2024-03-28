@@ -1,7 +1,8 @@
+import React from "react";
 import { expect, test, describe, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
-import Footer from "./Footer.jsx";
+import Footer from "./Footer";
 
 import theme from "../theme";
 

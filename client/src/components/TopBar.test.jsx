@@ -1,9 +1,10 @@
+import React from "react";
 import { expect, test, describe, beforeEach, afterEach, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
-import TopBar from "./TopBar.jsx";
-import MinutesContext from "../contexts/MinutesContext.jsx";
-import EditorContext from "../contexts/EditorContext.jsx";
+import TopBar from "./TopBar";
+import MinutesContext from "../contexts/MinutesContext";
+import EditorContext from "../contexts/EditorContext";
 import {
   mockEditorContextState,
   mockMinutesContextState,

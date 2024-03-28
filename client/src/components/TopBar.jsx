@@ -1,10 +1,10 @@
 import { Box, Link, Button, useTheme, Typography } from "@mui/material";
-import { useContext } from "react";
-import EditorContext from "../contexts/EditorContext.jsx";
+import React, { useContext } from "react";
+import EditorContext from "../contexts/EditorContext";
 import minutesService from "../services/minutesService";
-import MinutesContext from "../contexts/MinutesContext.jsx";
+import MinutesContext from "../contexts/MinutesContext";
 
-const TopBar = () => {
+function TopBar() {
   const theme = useTheme();
   const [, updateEditor] = useContext(EditorContext);
   const [minutesState, , updateMetadata] = useContext(MinutesContext);
@@ -64,60 +64,42 @@ const TopBar = () => {
   };
 
   return (
-    <>
-      <Box sx={styles.topBarContainer}>
-        <Link href="/" underline="hover" color="primary.contrastText">
-          <Box sx={styles.titleContainer}>
-            <Box component="img" src="/images/logo.png" />
-            <Typography variant="h3">TableBook</Typography>
-          </Box>
-        </Link>
-
-        <Box sx={styles.buttonsBox}>
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={styles.topBarButton}
-          >
-            Create New
-          </Button>
-
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={styles.topBarButton}
-          >
-            Revert
-          </Button>
-
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={styles.topBarButton}
-          >
-            Save
-          </Button>
-
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={styles.topBarButton}
-            onClick={handleShareClicked}
-          >
-            Share
-          </Button>
-
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={styles.topBarButton}
-          >
-            Print PDF
-          </Button>
+    <Box sx={styles.topBarContainer}>
+      <Link href="/" underline="hover" color="primary.contrastText">
+        <Box sx={styles.titleContainer}>
+          <Box component="img" src="/images/logo.png" />
+          <Typography variant="h3">TableBook</Typography>
         </Box>
+      </Link>
+
+      <Box sx={styles.buttonsBox}>
+        <Button variant="contained" color="secondary" sx={styles.topBarButton}>
+          Create New
+        </Button>
+
+        <Button variant="contained" color="secondary" sx={styles.topBarButton}>
+          Revert
+        </Button>
+
+        <Button variant="contained" color="secondary" sx={styles.topBarButton}>
+          Save
+        </Button>
+
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={styles.topBarButton}
+          onClick={handleShareClicked}
+        >
+          Share
+        </Button>
+
+        <Button variant="contained" color="secondary" sx={styles.topBarButton}>
+          Print PDF
+        </Button>
       </Box>
-    </>
+    </Box>
   );
-};
+}
 
 export default TopBar;

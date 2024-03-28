@@ -1,6 +1,7 @@
+import React from "react";
 import { expect, test, describe, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import ColorPicker from "./ColorPicker.jsx";
+import ColorPicker from "./ColorPicker";
 
 describe("ColorPicker", () => {
   beforeEach(() => {

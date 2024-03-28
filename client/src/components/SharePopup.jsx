@@ -7,13 +7,13 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { useContext } from "react";
+import React, { useContext } from "react";
 import LinkIcon from "@mui/icons-material/Link";
 
-import EditorContext from "../contexts/EditorContext.jsx";
-import MinutesContext from "../contexts/MinutesContext.jsx";
+import EditorContext from "../contexts/EditorContext";
+import MinutesContext from "../contexts/MinutesContext";
 
-const SharePopup = () => {
+function SharePopup() {
   const theme = useTheme();
   const [editorState, updateEditor] = useContext(EditorContext);
   const [minutesState] = useContext(MinutesContext);
@@ -98,6 +98,6 @@ const SharePopup = () => {
       </Box>
     </Popover>
   );
-};
+}
 
 export default SharePopup;

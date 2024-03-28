@@ -1,9 +1,9 @@
-import { useRef, useContext } from "react";
+import React, { useRef, useContext } from "react";
 import { Box, Button, Modal, Typography, useTheme } from "@mui/material";
 import SignatureCanvas from "react-signature-canvas";
-import MinutesContext from "../contexts/MinutesContext.jsx";
+import MinutesContext from "../contexts/MinutesContext";
 
-const SignatureModal = ({ open, onClose }) => {
+function SignatureModal({ open, onClose }) {
   const theme = useTheme();
   const [, updateMinutes] = useContext(MinutesContext);
   const signaturePadRef = useRef(null);
@@ -86,6 +86,6 @@ const SignatureModal = ({ open, onClose }) => {
       </Box>
     </Modal>
   );
-};
+}
 
 export default SignatureModal;

@@ -1,8 +1,8 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState } from "react";
 
 const MinutesContext = createContext();
 
-export const MinutesContextProvider = (props) => {
+export function MinutesContextProvider({ children }) {
   const [state, setState] = useState({
     minutes: {
       name: "",
@@ -57,9 +57,9 @@ export const MinutesContextProvider = (props) => {
 
   return (
     <MinutesContext.Provider value={[state, updateMinutes, updateMetadata]}>
-      {props.children}
+      {children}
     </MinutesContext.Provider>
   );
-};
+}
 
 export default MinutesContext;

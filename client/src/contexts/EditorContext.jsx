@@ -1,8 +1,8 @@
-import { createContext, useState } from "react";
+import React, { createContext, useState } from "react";
 
 const EditorContext = createContext();
 
-export const EditorContextProvider = (props) => {
+export function EditorContextProvider({ children }) {
   const [editor, setEditor] = useState({
     language: "EN",
     isSignatureModalOpen: false,
@@ -18,9 +18,9 @@ export const EditorContextProvider = (props) => {
 
   return (
     <EditorContext.Provider value={[editor, updateEditor]}>
-      {props.children}
+      {children}
     </EditorContext.Provider>
   );
-};
+}
 
 export default EditorContext;
