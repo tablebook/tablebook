@@ -10,7 +10,8 @@ import Image from "./Image";
 function TopBar() {
   const theme = useTheme();
   const [, updateEditor] = useContext(EditorContext);
-  const [minutesState, { updateMetadata }] = useContext(MinutesContext);
+  const [minutesState, { updateMetadata, clearState }] =
+    useContext(MinutesContext);
 
   const styles = {
     topBarContainer: {
@@ -41,6 +42,18 @@ function TopBar() {
       pr: 4,
       ml: 2,
     },
+  };
+
+  const handleCreateNewClicked = () => {
+    if (
+      !window.confirm(
+        "This action will clear the whole document. Are you sure?",
+      )
+    ) {
+      return;
+    }
+
+    clearState();
   };
 
   const handleShareClicked = async (event) => {
@@ -81,7 +94,12 @@ function TopBar() {
       </Link>
 
       <Box sx={styles.buttonsBox}>
-        <Button variant="contained" color="secondary" sx={styles.topBarButton}>
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={styles.topBarButton}
+          onClick={handleCreateNewClicked}
+        >
           Create New
         </Button>
 
