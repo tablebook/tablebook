@@ -67,7 +67,7 @@ export function MinutesContextProvider({ children }) {
   );
 
   const contextValues = useMemo(
-    () => [state, stateFunctions],
+    () => [state, stateFunctions()],
     [state, stateFunctions],
   );
 
