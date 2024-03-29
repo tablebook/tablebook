@@ -1,5 +1,5 @@
 import React from "react";
-import { expect, test, describe, beforeEach, vi } from "vitest";
+import { expect, test, describe, beforeEach, vi, afterEach } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
 import SignatureModal from "./SignatureModal";
@@ -7,13 +7,10 @@ import MinutesContext from "../contexts/MinutesContext";
 import theme from "../theme";
 
 describe("SignatureModal", () => {
-  let onCloseMock;
-  let updateMinutesMock;
+  const onCloseMock = vi.fn();
+  const updateMinutesMock = vi.fn();
 
   beforeEach(async () => {
-    onCloseMock = vi.fn();
-    updateMinutesMock = vi.fn();
-
     render(
       <MinutesContext.Provider
         value={[{}, { updateMinutes: updateMinutesMock }]}
@@ -23,6 +20,10 @@ describe("SignatureModal", () => {
         </ThemeProvider>
       </MinutesContext.Provider>,
     );
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
   });
 
   test("renders infography typography", () => {
