@@ -29,7 +29,13 @@ vi.mock("react-router-dom", () => {
 const renderElement = () =>
   render(
     <MinutesContext.Provider
-      value={[mockMinutesContextState, updateMinutesMock, updateMetadataMock]}
+      value={[
+        mockMinutesContextState,
+        {
+          updateMinutes: updateMinutesMock,
+          updateMetadata: updateMetadataMock,
+        },
+      ]}
     >
       <ThemeProvider theme={theme}>
         <LoadingPage />

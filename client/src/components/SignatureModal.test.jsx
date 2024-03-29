@@ -15,7 +15,9 @@ describe("SignatureModal", () => {
     updateMinutesMock = vi.fn();
 
     render(
-      <MinutesContext.Provider value={[{}, updateMinutesMock]}>
+      <MinutesContext.Provider
+        value={[{}, { updateMinutes: updateMinutesMock }]}
+      >
         <ThemeProvider theme={theme}>
           <SignatureModal open onClose={onCloseMock} />
         </ThemeProvider>

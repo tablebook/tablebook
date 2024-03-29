@@ -23,7 +23,10 @@ describe("TopBar", () => {
   beforeEach(() => {
     render(
       <MinutesContext.Provider
-        value={[mockMinutesContextState, {}, updateMetadataMock]}
+        value={[
+          mockMinutesContextState,
+          { updateMetadata: updateMetadataMock },
+        ]}
       >
         <EditorContext.Provider
           value={[mockEditorContextState, updateEditorMock]}
