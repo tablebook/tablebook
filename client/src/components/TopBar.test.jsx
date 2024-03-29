@@ -10,6 +10,7 @@ import EditorContext from "../contexts/EditorContext";
 import {
   mockEditorContextState,
   mockMinutesContextState,
+  mockPostMinutesResponse,
 } from "../util/test.helpers";
 import theme from "../theme";
 import minutesService from "../services/minutesService";
@@ -87,11 +88,7 @@ describe("TopBar", () => {
     test("opens confirm dialogue on click, calls minutesService, and sets contexts properly", async () => {
       window.confirm.mockReturnValueOnce(true);
       const mockCreateMinutes = vi.spyOn(minutesService, "createMinutes");
-      mockCreateMinutes.mockResolvedValueOnce({
-        data: {},
-        writeToken: "writeaccesstoken",
-        readToken: "readaccesstoken",
-      });
+      mockCreateMinutes.mockResolvedValueOnce(mockPostMinutesResponse);
 
       const shareButton = screen.getByText("Share", {
         selector: "button",
@@ -106,8 +103,8 @@ describe("TopBar", () => {
         expect(updateMetadataMock).toHaveBeenCalledOnce();
         expect(updateMetadataMock).toHaveBeenCalledWith({
           writeAccess: true,
-          writeToken: "writeaccesstoken",
-          readToken: "readaccesstoken",
+          writeToken: mockPostMinutesResponse.writeToken,
+          readToken: mockPostMinutesResponse.readToken,
         });
         expect(updateEditorMock).toHaveBeenCalledOnce();
         expect(
@@ -122,11 +119,7 @@ describe("TopBar", () => {
     test("doesn't do anything when confirm dialogue is cancelled", async () => {
       window.confirm.mockReturnValueOnce(false);
       const mockCreateMinutes = vi.spyOn(minutesService, "createMinutes");
-      mockCreateMinutes.mockResolvedValueOnce({
-        data: {},
-        writeToken: "writeaccesstoken",
-        readToken: "readaccesstoken",
-      });
+      mockCreateMinutes.mockResolvedValueOnce(mockPostMinutesResponse);
 
       const shareButton = screen.getByText("Share", {
         selector: "button",
