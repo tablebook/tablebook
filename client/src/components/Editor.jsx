@@ -121,7 +121,8 @@ function Editor() {
       </Box>
 
       {state.minutes.segments.map((segment, index) => (
-        <Box sx={styles.segmentContainer}>
+        // eslint-disable-next-line react/no-array-index-key
+        <Box sx={styles.segmentContainer} key={index}>
           <Box sx={styles.sideContainer}>
             <EditorButtons />
           </Box>

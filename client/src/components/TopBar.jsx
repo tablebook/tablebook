@@ -1,8 +1,11 @@
 import { Box, Link, Button, useTheme, Typography } from "@mui/material";
 import React, { useContext } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import EditorContext from "../contexts/EditorContext";
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
+import logoImage from "../assets/images/logo.png";
+import Image from "./Image";
 
 function TopBar() {
   const theme = useTheme();
@@ -65,9 +68,14 @@ function TopBar() {
 
   return (
     <Box sx={styles.topBarContainer}>
-      <Link href="/" underline="hover" color="primary.contrastText">
+      <Link
+        component={RouterLink}
+        to="/minutes"
+        underline="hover"
+        color="primary.contrastText"
+      >
         <Box sx={styles.titleContainer}>
-          <Box component="img" src="/images/logo.png" />
+          <Image src={logoImage} />
           <Typography variant="h3">TableBook</Typography>
         </Box>
       </Link>
