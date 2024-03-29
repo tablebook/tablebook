@@ -15,7 +15,7 @@ import minutesService from "../services/minutesService";
 const mockNavigate = vi.fn();
 const mockToken = "mocktoken";
 const updateMetadataMock = vi.fn();
-const updateMinutesaMock = vi.fn();
+const updateMinutesMock = vi.fn();
 
 vi.mock("react-router-dom", () => {
   return {
@@ -29,7 +29,7 @@ vi.mock("react-router-dom", () => {
 const renderElement = () =>
   render(
     <MinutesContext.Provider
-      value={[mockMinutesContextState, updateMinutesaMock, updateMetadataMock]}
+      value={[mockMinutesContextState, updateMinutesMock, updateMetadataMock]}
     >
       <ThemeProvider theme={theme}>
         <LoadingPage />
