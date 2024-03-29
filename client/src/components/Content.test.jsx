@@ -8,7 +8,7 @@ import { mockMinutesContextState } from "../util/test.helpers";
 describe("Content", () => {
   beforeEach(() => {
     render(
-      <MinutesContext.Provider value={[mockMinutesContextState]}>
+      <MinutesContext.Provider value={[mockMinutesContextState, {}]}>
         <Content segmentIndex={0} />
       </MinutesContext.Provider>,
     );

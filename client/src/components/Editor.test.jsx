@@ -10,7 +10,7 @@ import { mockMinutesContextState } from "../util/test.helpers";
 describe("Editor", () => {
   beforeEach(() => {
     render(
-      <MinutesContext.Provider value={[mockMinutesContextState]}>
+      <MinutesContext.Provider value={[mockMinutesContextState, {}]}>
         <ThemeProvider theme={theme}>
           <Editor />
         </ThemeProvider>

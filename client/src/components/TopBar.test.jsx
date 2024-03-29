@@ -19,11 +19,15 @@ import router from "../router";
 describe("TopBar", () => {
   const updateEditorMock = vi.fn();
   const updateMetadataMock = vi.fn();
+  const clearStateMock = vi.fn();
 
   beforeEach(() => {
     render(
       <MinutesContext.Provider
-        value={[mockMinutesContextState, {}, updateMetadataMock]}
+        value={[
+          mockMinutesContextState,
+          { updateMetadata: updateMetadataMock, clearState: clearStateMock },
+        ]}
       >
         <EditorContext.Provider
           value={[mockEditorContextState, updateEditorMock]}
@@ -48,11 +52,51 @@ describe("TopBar", () => {
     expect(titleElement.href).toEqual("http://localhost:3000/minutes");
   });
 
-  test("renders create new button", () => {
-    const createNewButton = screen.getByText("Create New", {
-      selector: "button",
+  describe("Create New Button", () => {
+    beforeEach(() => {
+      vi.stubGlobal("confirm", vi.fn());
     });
-    expect(createNewButton).toBeDefined();
+
+    afterEach(() => {
+      vi.unstubAllGlobals();
+    });
+
+    test("renders", () => {
+      const createNewButton = screen.getByText("Create New", {
+        selector: "button",
+      });
+      expect(createNewButton).toBeDefined();
+    });
+
+    test("clears the state on confirm", async () => {
+      window.confirm.mockReturnValueOnce(true);
+
+      const createNewButton = screen.getByText("Create New", {
+        selector: "button",
+      });
+
+      createNewButton.click();
+
+      await waitFor(() => {
+        expect(window.confirm).toHaveBeenCalledOnce();
+        expect(clearStateMock).toHaveBeenCalledOnce();
+      });
+    });
+
+    test("doesnt clear the state on cancel", async () => {
+      window.confirm.mockReturnValueOnce(false);
+
+      const createNewButton = screen.getByText("Create New", {
+        selector: "button",
+      });
+
+      createNewButton.click();
+
+      await waitFor(() => {
+        expect(window.confirm).toHaveBeenCalledOnce();
+        expect(clearStateMock).not.toHaveBeenCalledOnce();
+      });
+    });
   });
 
   test("renders revert button", () => {

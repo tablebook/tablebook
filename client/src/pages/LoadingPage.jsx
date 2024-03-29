@@ -8,7 +8,7 @@ import Image from "../components/Image";
 
 function LoadingPage() {
   const { token } = useParams();
-  const [, updateMinutes, updateMetadata] = useContext(MinutesContext);
+  const [, { updateMinutes, updateMetadata }] = useContext(MinutesContext);
   const navigate = useNavigate();
   const theme = useTheme();
   const [numberOfDots, setNumberOfDots] = useState(0);
