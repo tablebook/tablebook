@@ -2,6 +2,8 @@ import React from "react";
 import { expect, test, describe, beforeEach, afterEach, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
+
+import { RouterProvider } from "react-router-dom";
 import TopBar from "./TopBar";
 import MinutesContext from "../contexts/MinutesContext";
 import EditorContext from "../contexts/EditorContext";
@@ -11,6 +13,7 @@ import {
 } from "../util/test.helpers";
 import theme from "../theme";
 import minutesService from "../services/minutesService";
+import router from "../router";
 
 describe("TopBar", () => {
   const updateEditorMock = vi.fn();
@@ -25,7 +28,9 @@ describe("TopBar", () => {
           value={[mockEditorContextState, updateEditorMock]}
         >
           <ThemeProvider theme={theme}>
-            <TopBar />
+            <RouterProvider router={router}>
+              <TopBar />
+            </RouterProvider>
           </ThemeProvider>
         </EditorContext.Provider>
       </MinutesContext.Provider>,
@@ -39,7 +44,7 @@ describe("TopBar", () => {
   test("renders the title", () => {
     const titleElement = screen.getByText("TableBook").closest("a");
     expect(titleElement).toBeDefined();
-    expect(titleElement.href).toEqual("http://localhost:3000/");
+    expect(titleElement.href).toEqual("http://localhost:3000/minutes");
   });
 
   test("renders create new button", () => {
