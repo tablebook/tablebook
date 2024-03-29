@@ -6,7 +6,7 @@ import MinutesContext from "../contexts/MinutesContext";
 
 function Editor() {
   const theme = useTheme();
-  const [state, updateMinutes] = useContext(MinutesContext);
+  const [state, { updateMinutes }] = useContext(MinutesContext);
 
   const styles = {
     editorContainer: {

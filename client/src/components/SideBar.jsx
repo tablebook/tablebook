@@ -16,7 +16,7 @@ import flagEn from "../i18n/locales/flags/en.svg";
 function SideBar({ handleModalOpen }) {
   const [isLanguagePickerOpen, setIsLanguagePickerOpen] = useState(false);
   const [language, setLanguage] = useState("en");
-  const [colorState, updateMinutes] = useContext(MinutesContext);
+  const [minutesState, { updateMinutes }] = useContext(MinutesContext);
 
   const { t, i18n } = useTranslation();
 
@@ -37,7 +37,7 @@ function SideBar({ handleModalOpen }) {
   const updateColor = debounce((type, color) => {
     updateMinutes({
       colors: {
-        ...colorState.minutes.colors,
+        ...minutesState.minutes.colors,
         [type]: color,
       },
     });
@@ -165,14 +165,14 @@ function SideBar({ handleModalOpen }) {
           <Typography>Text color</Typography>
           <ColorPicker
             onColorChange={(color) => updateColor("primary", color)}
-            currColor={colorState.minutes.colors.primary}
+            currColor={minutesState.minutes.colors.primary}
           />
         </Box>
         <Box sx={styles.colorPickerTitle}>
           <Typography>Background color</Typography>
           <ColorPicker
             onColorChange={(color) => updateColor("secondary", color)}
-            currColor={colorState.minutes.colors.secondary}
+            currColor={minutesState.minutes.colors.secondary}
           />
         </Box>
         <Box sx={styles.restoreButtonContainer}>

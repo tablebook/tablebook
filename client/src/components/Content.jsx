@@ -3,7 +3,7 @@ import { Box, InputBase } from "@mui/material";
 import MinutesContext from "../contexts/MinutesContext";
 
 function Content({ segmentIndex }) {
-  const [state, updateMinutes] = useContext(MinutesContext);
+  const [state, { updateMinutes }] = useContext(MinutesContext);
 
   const styles = {
     contentTitleText: {

@@ -10,7 +10,7 @@ import Image from "./Image";
 function TopBar() {
   const theme = useTheme();
   const [, updateEditor] = useContext(EditorContext);
-  const [minutesState, , updateMetadata] = useContext(MinutesContext);
+  const [minutesState, { updateMetadata }] = useContext(MinutesContext);
 
   const styles = {
     topBarContainer: {

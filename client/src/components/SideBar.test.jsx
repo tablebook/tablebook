@@ -17,7 +17,7 @@ describe("SideBar", () => {
 
   beforeEach(() => {
     render(
-      <MinutesContext.Provider value={[mockedContext]}>
+      <MinutesContext.Provider value={[mockedContext, {}]}>
         <SideBar />
       </MinutesContext.Provider>,
     );

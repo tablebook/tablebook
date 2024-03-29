@@ -5,7 +5,7 @@ import MinutesContext from "../contexts/MinutesContext";
 
 function SignatureModal({ open, onClose }) {
   const theme = useTheme();
-  const [, updateMinutes] = useContext(MinutesContext);
+  const [, { updateMinutes }] = useContext(MinutesContext);
   const signaturePadRef = useRef(null);
 
   const styles = {
