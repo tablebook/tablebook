@@ -10,13 +10,15 @@ import {
 import { useTranslation } from "react-i18next";
 import ColorPicker from "./ColorPicker";
 import MinutesContext from "../contexts/MinutesContext";
+import EditorContext from "../contexts/EditorContext";
 import flagFi from "../i18n/locales/flags/fi.svg";
 import flagEn from "../i18n/locales/flags/en.svg";
 
-function SideBar({ handleModalOpen }) {
+function SideBar() {
   const [isLanguagePickerOpen, setIsLanguagePickerOpen] = useState(false);
   const [language, setLanguage] = useState("en");
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
+  const [, updateEditor] = useContext(EditorContext);
 
   const { t, i18n } = useTranslation();
 
@@ -232,7 +234,7 @@ function SideBar({ handleModalOpen }) {
           variant="contained"
           color="secondary"
           sx={styles.sideBarButton}
-          onClick={handleModalOpen}
+          onClick={() => updateEditor({ isSignatureModalOpen: true })}
         >
           Sign
         </Button>

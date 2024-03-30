@@ -1,10 +1,13 @@
 import React from "react";
-import { expect, test, describe, beforeEach } from "vitest";
+import { expect, test, describe, beforeEach, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import MinutesContext from "../contexts/MinutesContext";
+import EditorContext from "../contexts/EditorContext";
 import SideBar from "./SideBar";
 
 describe("SideBar", () => {
+  const updateEditorMock = vi.fn();
+
   const mockedContext = {
     minutes: {
       name: "",
@@ -17,9 +20,18 @@ describe("SideBar", () => {
 
   beforeEach(() => {
     render(
-      <MinutesContext.Provider value={[mockedContext, {}]}>
-        <SideBar />
-      </MinutesContext.Provider>,
+      <EditorContext.Provider
+        value={[
+          {
+            isSignatureModalOpen: false,
+          },
+          updateEditorMock,
+        ]}
+      >
+        <MinutesContext.Provider value={[mockedContext, {}]}>
+          <SideBar />
+        </MinutesContext.Provider>
+      </EditorContext.Provider>,
     );
   });
 
@@ -88,6 +100,14 @@ describe("SideBar", () => {
   test("renders the sign button", () => {
     const signButton = screen.getByText("Sign", { selector: "button" });
     expect(signButton).toBeDefined();
+  });
+
+  test("handles updateEditor when the sign button is pressed", () => {
+    const signButton = screen.getByText("Sign", { selector: "button" });
+    fireEvent.click(signButton);
+    expect(updateEditorMock).toHaveBeenCalledWith({
+      isSignatureModalOpen: true,
+    });
   });
 
   test("renders the preview button", () => {

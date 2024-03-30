@@ -16,7 +16,14 @@ export const mockMinutesContextState = {
       },
     ],
     startTime: null,
-    signatures: [],
+    signatures: [
+      {
+        signer: "Test User",
+        timestamp: "2024-03-30T00:00:00.000Z",
+        image:
+          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAB7CAYAAACb4F7QAAAAAXNSR0I",
+      },
+    ],
   },
 
   metadata: {

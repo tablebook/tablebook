@@ -4,21 +4,31 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
 import SignatureModal from "./SignatureModal";
 import MinutesContext from "../contexts/MinutesContext";
+import EditorContext from "../contexts/EditorContext";
 import theme from "../theme";
 
 describe("SignatureModal", () => {
-  const onCloseMock = vi.fn();
+  const updateEditorMock = vi.fn();
   const updateMinutesMock = vi.fn();
 
   beforeEach(async () => {
     render(
-      <MinutesContext.Provider
-        value={[{}, { updateMinutes: updateMinutesMock }]}
+      <EditorContext.Provider
+        value={[
+          {
+            isSignatureModalOpen: true,
+          },
+          updateEditorMock,
+        ]}
       >
-        <ThemeProvider theme={theme}>
-          <SignatureModal open onClose={onCloseMock} />
-        </ThemeProvider>
-      </MinutesContext.Provider>,
+        <MinutesContext.Provider
+          value={[{}, { updateMinutes: updateMinutesMock }]}
+        >
+          <ThemeProvider theme={theme}>
+            <SignatureModal />
+          </ThemeProvider>
+        </MinutesContext.Provider>
+      </EditorContext.Provider>,
     );
   });
 
@@ -36,6 +46,23 @@ describe("SignatureModal", () => {
     expect(canvasElement).toBeDefined();
   });
 
+  test("renders signer input with correct placeholder", () => {
+    const signerInput = screen.getByPlaceholderText("Enter name clarification");
+    expect(signerInput).toBeInTheDocument();
+  });
+
+  test("renders checkbox", () => {
+    const checkbox = screen.getByTestId("timestamp-checkbox");
+    expect(checkbox).toBeInTheDocument();
+  });
+
+  test("checkbox toggles state when clicked", () => {
+    const checkbox = screen.getByTestId("timestamp-checkbox");
+    expect(checkbox).toBeChecked();
+    fireEvent.click(checkbox);
+    expect(checkbox).not.toBeChecked();
+  });
+
   test("renders clear button", () => {
     const clearButton = screen.getByText("Clear", { selector: "button" });
     expect(clearButton).toBeDefined();
@@ -46,12 +73,16 @@ describe("SignatureModal", () => {
     expect(confirmButton).toBeDefined();
   });
 
-  test("clicking confirm button generates imageURL", () => {
+  test("clicking confirm button generates null image, empty signer string and timestamp string", () => {
     const confirmButton = screen.getByText("Confirm", { selector: "button" });
     fireEvent.click(confirmButton);
     expect(updateMinutesMock).toHaveBeenCalledWith({
       signatures: [
-        { image: expect.stringMatching(/^data:image\/png;base64,/) },
+        {
+          image: null,
+          signer: "",
+          timestamp: expect.any(String),
+        },
       ],
     });
   });
@@ -61,9 +92,11 @@ describe("SignatureModal", () => {
     expect(cancelButton).toBeDefined();
   });
 
-  test("calls onClose when cancel button is clicked", () => {
+  test("handles updateEditor when cancel button is clicked", () => {
     const cancelButton = screen.getByText("Cancel", { selector: "button" });
     fireEvent.click(cancelButton);
-    expect(onCloseMock).toHaveBeenCalledOnce();
+    expect(updateEditorMock).toHaveBeenCalledWith({
+      isSignatureModalOpen: false,
+    });
   });
 });

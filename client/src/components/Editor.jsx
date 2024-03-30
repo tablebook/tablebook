@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import moment from "moment";
 import { Box, useTheme, Typography, InputBase } from "@mui/material";
 import EditorButtons from "./EditorButtons";
 import Content from "./Content";
@@ -75,15 +76,15 @@ function Editor() {
 
     signatureImage: {
       maxHeight: 40,
-      maxWidth: 160,
+      maxWidth: 150,
       objectFit: "contain",
       alignSelf: "flex-start",
     },
 
-    signatureLine: {
+    signatureAndDateLine: {
       borderTop: `2px solid`,
       color: state.minutes.colors.primary,
-      width: 170,
+      width: 150,
     },
 
     dateContainer: {
@@ -94,7 +95,7 @@ function Editor() {
       alignItems: "flex-end",
     },
 
-    dateText: {
+    signatureAndDateText: {
       color: state.minutes.colors.primary,
     },
   };
@@ -147,12 +148,35 @@ function Editor() {
                     alt="Signature"
                   />
                 )}
-              <Typography variant="h5" sx={styles.signatureLine}>
+              <Box sx={styles.signatureAndDateLine} />
+              {state.minutes.signatures.length > 0 &&
+                state.minutes.signatures[0].signer && (
+                  <Typography variant="h5" sx={styles.signatureAndDateText}>
+                    {state.minutes.signatures[0].signer}
+                  </Typography>
+                )}
+              <Typography variant="h5" sx={styles.signatureAndDateText}>
                 Signature
               </Typography>
             </Box>
             <Box sx={styles.dateContainer}>
-              <Typography variant="h5" sx={styles.dateText}>
+              {state.minutes.signatures.length > 0 &&
+                state.minutes.signatures[0].timestamp && (
+                  <Box sx={styles.dateContainer}>
+                    <Typography variant="h5" sx={styles.signatureAndDateText}>
+                      {moment
+                        .utc(state.minutes.signatures[0].timestamp)
+                        .format("YYYY-MM-DD")}
+                    </Typography>
+                    <Typography variant="h5" sx={styles.signatureAndDateText}>
+                      {moment
+                        .utc(state.minutes.signatures[0].timestamp)
+                        .format("HH:mm")}
+                    </Typography>
+                  </Box>
+                )}
+              <Box sx={styles.signatureAndDateLine} />
+              <Typography variant="h5" sx={styles.signatureAndDateText}>
                 Date
               </Typography>
             </Box>

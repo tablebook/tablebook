@@ -1,5 +1,5 @@
 import { Box, useTheme } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 import TopBar from "../components/TopBar";
 import SideBar from "../components/SideBar";
 import Editor from "../components/Editor";
@@ -9,11 +9,6 @@ import SignatureModal from "../components/SignatureModal";
 
 function EditorPage() {
   const theme = useTheme();
-
-  const [isModalOpen, setModalOpen] = useState(false);
-
-  const handleModalOpen = () => setModalOpen(true);
-  const handleModalClose = () => setModalOpen(false);
 
   const styles = {
     outerContainer: {
@@ -53,7 +48,7 @@ function EditorPage() {
       <Box sx={styles.outerContainer}>
         <TopBar />
         <Box sx={styles.innerContainer}>
-          <SideBar handleModalOpen={handleModalOpen} />
+          <SideBar />
           <Box sx={styles.editorContainer}>
             <Editor />
             {/* mimics editor buttons to center the paper */}
@@ -64,7 +59,7 @@ function EditorPage() {
         </Box>
         <Footer />
       </Box>
-      <SignatureModal open={isModalOpen} onClose={handleModalClose} />
+      <SignatureModal />
       <SharePopup />
     </>
   );
