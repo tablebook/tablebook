@@ -134,6 +134,7 @@ function SignatureModal({ open }) {
             checked={isChecked}
             onChange={(e) => setIsChecked(e.target.checked)}
             sx={styles.timestampCheckboxStyle}
+            inputProps={{ "data-testid": "timestamp-checkbox" }}
           />
           <Typography>Insert current timestamp on minutes</Typography>
         </Box>
