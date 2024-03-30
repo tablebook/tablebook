@@ -1,9 +1,10 @@
-import { useContext } from "react";
 import { Box, useTheme } from "@mui/material";
+import React, { useContext } from "react";
 import TopBar from "../components/TopBar";
 import SideBar from "../components/SideBar";
 import Editor from "../components/Editor";
 import Footer from "../components/Footer";
+import SharePopup from "../components/SharePopup";
 import SignatureModal from "../components/SignatureModal";
 import EditorContext from "../contexts/EditorContext";
 
@@ -60,7 +61,8 @@ function EditorPage() {
         </Box>
         <Footer />
       </Box>
-      <SignatureModal open={editor.isModalOpen} />
+      <SignatureModal open={editor.isSignatureModalOpen} />
+      <SharePopup />
     </>
   );
 }

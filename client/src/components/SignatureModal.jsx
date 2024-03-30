@@ -12,7 +12,7 @@ import SignatureCanvas from "react-signature-canvas";
 import MinutesContext from "../contexts/MinutesContext";
 import EditorContext from "../contexts/EditorContext";
 
-const SignatureModal = ({ open }) => {
+function SignatureModal({ open }) {
   const theme = useTheme();
   const [, { updateMinutes }] = useContext(MinutesContext);
   const [, updateEditor] = useContext(EditorContext);
@@ -75,9 +75,7 @@ const SignatureModal = ({ open }) => {
   const handleModalClose = () => {
     setSigner("");
     setIsChecked(true);
-    setSigner("");
-    setIsChecked(true);
-    updateEditor({ isModalOpen: false });
+    updateEditor({ isSignatureModalOpen: false });
   };
 
   const clearSignature = () => {
@@ -153,6 +151,6 @@ const SignatureModal = ({ open }) => {
       </Box>
     </Modal>
   );
-};
+}
 
 export default SignatureModal;

@@ -14,7 +14,7 @@ import EditorContext from "../contexts/EditorContext";
 import flagFi from "../i18n/locales/flags/fi.svg";
 import flagEn from "../i18n/locales/flags/en.svg";
 
-const SideBar = () => {
+function SideBar() {
   const [isLanguagePickerOpen, setIsLanguagePickerOpen] = useState(false);
   const [language, setLanguage] = useState("en");
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
@@ -234,7 +234,7 @@ const SideBar = () => {
           variant="contained"
           color="secondary"
           sx={styles.sideBarButton}
-          onClick={() => updateEditor({ isModalOpen: true })}
+          onClick={() => updateEditor({ isSignatureModalOpen: true })}
         >
           Sign
         </Button>
@@ -244,6 +244,6 @@ const SideBar = () => {
       </Box>
     </Box>
   );
-};
+}
 
 export default SideBar;
