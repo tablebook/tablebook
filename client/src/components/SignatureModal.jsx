@@ -17,7 +17,7 @@ function SignatureModal() {
   const [, { updateMinutes }] = useContext(MinutesContext);
   const [editor, updateEditor] = useContext(EditorContext);
   const [signer, setSigner] = useState("");
-  const [isChecked, setIsChecked] = useState(true);
+  const [timestampIsChecked, setTimestampIsChecked] = useState(true);
   const signaturePadRef = useRef(null);
 
   const styles = {
@@ -74,7 +74,7 @@ function SignatureModal() {
 
   const handleModalClose = () => {
     setSigner("");
-    setIsChecked(true);
+    setTimestampIsChecked(true);
     updateEditor({ isSignatureModalOpen: false });
   };
 
@@ -85,7 +85,7 @@ function SignatureModal() {
   };
 
   const getSignature = () => {
-    const timestamp = isChecked ? new Date().toISOString() : null;
+    const timestamp = timestampIsChecked ? new Date().toISOString() : null;
     const image = !signaturePadRef.current.isEmpty()
       ? signaturePadRef.current.getTrimmedCanvas().toDataURL("image/png")
       : null;
@@ -131,8 +131,8 @@ function SignatureModal() {
         </Box>
         <Box sx={styles.timestampContainer}>
           <Checkbox
-            checked={isChecked}
-            onChange={(e) => setIsChecked(e.target.checked)}
+            checked={timestampIsChecked}
+            onChange={(e) => setTimestampIsChecked(e.target.checked)}
             sx={styles.timestampCheckboxStyle}
             inputProps={{ "data-testid": "timestamp-checkbox" }}
           />

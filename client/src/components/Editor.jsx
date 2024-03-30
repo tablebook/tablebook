@@ -149,7 +149,7 @@ function Editor() {
                 )}
               <Box sx={styles.signatureAndDateLine} />
               {state.minutes.signatures.length > 0 &&
-                !!state.minutes.signatures[0].signer && (
+                state.minutes.signatures[0].signer && (
                   <Typography variant="h5" sx={styles.signatureAndDateText}>
                     {state.minutes.signatures[0].signer}
                   </Typography>
