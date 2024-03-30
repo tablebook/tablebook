@@ -94,7 +94,7 @@ function Editor() {
       alignItems: "flex-end",
     },
 
-    dateText: {
+    signatureAndDateText: {
       color: state.minutes.colors.primary,
     },
   };
@@ -150,24 +150,26 @@ function Editor() {
               <Box sx={styles.signatureAndDateLine} />
               {state.minutes.signatures.length > 0 &&
                 !!state.minutes.signatures[0].signer && (
-                  <Typography variant="h5">
+                  <Typography variant="h5" sx={styles.signatureAndDateText}>
                     {state.minutes.signatures[0].signer}
                   </Typography>
                 )}
-              <Typography variant="h5">Signature</Typography>
+              <Typography variant="h5" sx={styles.signatureAndDateText}>
+                Signature
+              </Typography>
             </Box>
             <Box sx={styles.dateContainer}>
               {state.minutes.signatures.length > 0 &&
                 state.minutes.signatures[0].timestamp && (
                   <Box sx={styles.dateContainer}>
-                    <Typography variant="h5" sx={styles.dateText}>
+                    <Typography variant="h5" sx={styles.signatureAndDateText}>
                       {
                         new Date(state.minutes.signatures[0].timestamp)
                           .toISOString()
                           .split("T")[0]
                       }
                     </Typography>
-                    <Typography variant="h5" sx={styles.dateText}>
+                    <Typography variant="h5" sx={styles.signatureAndDateText}>
                       {new Date(state.minutes.signatures[0].timestamp)
                         .toISOString()
                         .slice(11, 16)}
@@ -175,7 +177,7 @@ function Editor() {
                   </Box>
                 )}
               <Box sx={styles.signatureAndDateLine} />
-              <Typography variant="h5" sx={styles.dateText}>
+              <Typography variant="h5" sx={styles.signatureAndDateText}>
                 Date
               </Typography>
             </Box>
