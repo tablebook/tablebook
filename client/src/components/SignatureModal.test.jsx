@@ -25,7 +25,7 @@ describe("SignatureModal", () => {
           value={[{}, { updateMinutes: updateMinutesMock }]}
         >
           <ThemeProvider theme={theme}>
-            <SignatureModal open />
+            <SignatureModal />
           </ThemeProvider>
         </MinutesContext.Provider>
       </EditorContext.Provider>,

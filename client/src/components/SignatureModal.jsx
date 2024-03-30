@@ -12,10 +12,10 @@ import SignatureCanvas from "react-signature-canvas";
 import MinutesContext from "../contexts/MinutesContext";
 import EditorContext from "../contexts/EditorContext";
 
-function SignatureModal({ open }) {
+function SignatureModal() {
   const theme = useTheme();
   const [, { updateMinutes }] = useContext(MinutesContext);
-  const [, updateEditor] = useContext(EditorContext);
+  const [editor, updateEditor] = useContext(EditorContext);
   const [signer, setSigner] = useState("");
   const [isChecked, setIsChecked] = useState(true);
   const signaturePadRef = useRef(null);
@@ -103,7 +103,7 @@ function SignatureModal({ open }) {
 
   return (
     <Modal
-      open={open}
+      open={editor.isSignatureModalOpen}
       onClose={handleModalClose}
       aria-labelledby="signature-modal"
     >
