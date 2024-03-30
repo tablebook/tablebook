@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import moment from "moment";
 import { Box, useTheme, Typography, InputBase } from "@mui/material";
 import EditorButtons from "./EditorButtons";
 import Content from "./Content";
@@ -163,16 +164,14 @@ function Editor() {
                 state.minutes.signatures[0].timestamp && (
                   <Box sx={styles.dateContainer}>
                     <Typography variant="h5" sx={styles.signatureAndDateText}>
-                      {
-                        new Date(state.minutes.signatures[0].timestamp)
-                          .toISOString()
-                          .split("T")[0]
-                      }
+                      {moment
+                        .utc(state.minutes.signatures[0].timestamp)
+                        .format("YYYY-MM-DD")}
                     </Typography>
                     <Typography variant="h5" sx={styles.signatureAndDateText}>
-                      {new Date(state.minutes.signatures[0].timestamp)
-                        .toISOString()
-                        .slice(11, 16)}
+                      {moment
+                        .utc(state.minutes.signatures[0].timestamp)
+                        .format("HH:mm")}
                     </Typography>
                   </Box>
                 )}
