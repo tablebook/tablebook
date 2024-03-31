@@ -19,7 +19,7 @@ function Segment({ segmentIndex }) {
         <EditorButtons />
       </SideContainer>
 
-      <Box sx={styles.contentContainer}>
+      <Box sx={styles.contentContainer} data-testid="segment-component">
         <Content segmentIndex={segmentIndex} />
       </Box>
     </>

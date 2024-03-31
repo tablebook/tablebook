@@ -24,7 +24,7 @@ function Title() {
   };
 
   return (
-    <Box sx={styles.titleContainer}>
+    <Box sx={styles.titleContainer} data-testid="title-component">
       <InputBase
         name="title"
         placeholder="Enter main title"

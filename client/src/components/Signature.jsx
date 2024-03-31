@@ -48,7 +48,10 @@ function Signature() {
   };
 
   return (
-    <Box sx={styles.dateAndSignatureContainer}>
+    <Box
+      sx={styles.dateAndSignatureContainer}
+      data-testid="signature-component"
+    >
       <Box sx={styles.signatureContainer}>
         {state.minutes.signatures.length > 0 &&
           state.minutes.signatures[0].image && (
