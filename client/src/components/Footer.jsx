@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Button, Link, Typography, useTheme } from "@mui/material";
+import { Box, Link, useTheme } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
 function Footer() {
   const theme = useTheme();
@@ -13,43 +14,57 @@ function Footer() {
     },
 
     linkContainer: {
-      width: "30vw",
+      width: "40vw",
       display: "flex",
       justifyContent: "space-between",
     },
 
-    buttonStyle: {
-      textTransform: "none",
-      color: "footer.contrastText",
-      "&:hover": {
-        textDecoration: "underline",
-        backgroundColor: "transparent",
-      },
-    },
-
     linkStyle: {
       p: 1,
+      width: 150,
+      textAlign: "center",
     },
   };
 
   return (
     <Box sx={styles.footerContainer}>
       <Box sx={styles.linkContainer}>
-        <Button sx={styles.buttonStyle}>
-          <Typography variant="h5">Report</Typography>
-        </Button>
         <Link
-          href="https://github.com/tablebook/tablebook"
+          component={RouterLink}
+          to="https://github.com/tablebook/tablebook/issues/new"
           variant="h5"
           color="footer.contrastText"
           underline="hover"
+          target="_blank"
+          rel="noopener noreferrer"
+          sx={styles.linkStyle}
+        >
+          Report Issue
+        </Link>
+        <Link
+          component={RouterLink}
+          to="https://github.com/tablebook/tablebook"
+          variant="h5"
+          color="footer.contrastText"
+          underline="hover"
+          target="_blank"
+          rel="noopener noreferrer"
           sx={styles.linkStyle}
         >
           GitHub
         </Link>
-        <Button sx={styles.buttonStyle}>
-          <Typography variant="h5">Copyright</Typography>
-        </Button>
+        <Link
+          component={RouterLink}
+          to="https://github.com/tablebook/tablebook/blob/main/LICENSE"
+          variant="h5"
+          color="footer.contrastText"
+          underline="hover"
+          target="_blank"
+          rel="noopener noreferrer"
+          sx={styles.linkStyle}
+        >
+          Copyright
+        </Link>
       </Box>
     </Box>
   );
