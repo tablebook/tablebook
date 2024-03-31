@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
 import moment from "moment";
 import { Box, Typography } from "@mui/material";
-import EditorButtons from "./EditorButtons";
-import Content from "./Content";
 import Title from "./Title";
 import SideContainer from "./SideContainer";
 import SegmentContainer from "./SegmentContainer";
+import Segment from "./Segment";
 import MinutesContext from "../contexts/MinutesContext";
 
 function Editor() {
@@ -20,12 +19,6 @@ function Editor() {
       minWidth: 400,
       maxWidth: 1200,
       backgroundColor: state.minutes.colors.secondary,
-    },
-
-    contentContainer: {
-      display: "flex",
-      flexDirection: "column",
-      width: 1000,
     },
 
     bottomContainer: {
@@ -92,13 +85,7 @@ function Editor() {
       {state.minutes.segments.map((segment, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <SegmentContainer key={index}>
-          <SideContainer>
-            <EditorButtons />
-          </SideContainer>
-
-          <Box sx={styles.contentContainer}>
-            <Content segmentIndex={index} />
-          </Box>
+          <Segment segmentIndex={index} />
         </SegmentContainer>
       ))}
 
