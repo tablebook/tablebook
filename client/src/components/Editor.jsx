@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
 import moment from "moment";
-import { Box, useTheme, Typography, InputBase } from "@mui/material";
+import { Box, useTheme, Typography } from "@mui/material";
 import EditorButtons from "./EditorButtons";
 import Content from "./Content";
+import Title from "./Title";
 import MinutesContext from "../contexts/MinutesContext";
 
 function Editor() {
   const theme = useTheme();
-  const [state, { updateMinutes }] = useContext(MinutesContext);
+  const [state] = useContext(MinutesContext);
 
   const styles = {
     editorContainer: {
@@ -34,17 +35,6 @@ function Editor() {
       display: "flex",
       flexDirection: "column",
       width: 1000,
-    },
-
-    titleContainer: {
-      width: 1000,
-      my: 2,
-    },
-
-    titleText: {
-      fontSize: "2rem",
-      textAlign: "center",
-      color: state.minutes.colors.primary,
     },
 
     bottomContainer: {
@@ -100,25 +90,11 @@ function Editor() {
     },
   };
 
-  const handleTitleChange = (event) => {
-    const newTitle = event.target.value;
-    updateMinutes({ name: newTitle });
-  };
-
   return (
     <Box sx={styles.editorContainer}>
       <Box sx={styles.segmentContainer}>
         <Box sx={styles.sideContainer} />
-        <Box sx={styles.titleContainer}>
-          <InputBase
-            name="title"
-            placeholder="Enter main title"
-            value={state.minutes.name}
-            fullWidth
-            inputProps={{ style: styles.titleText }}
-            onChange={handleTitleChange}
-          />
-        </Box>
+        <Title />
       </Box>
 
       {state.minutes.segments.map((segment, index) => (
