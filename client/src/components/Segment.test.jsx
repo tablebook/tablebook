@@ -5,7 +5,7 @@ import Segment from "./Segment";
 import MinutesContext from "../contexts/MinutesContext";
 import { mockMinutesContextState } from "../util/test.helpers";
 
-describe("Editor", () => {
+describe("Segment", () => {
   beforeEach(() => {
     render(
       <MinutesContext.Provider value={[mockMinutesContextState, {}]}>

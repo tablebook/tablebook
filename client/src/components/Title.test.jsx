@@ -5,7 +5,7 @@ import Title from "./Title";
 import MinutesContext from "../contexts/MinutesContext";
 import { mockMinutesContextState } from "../util/test.helpers";
 
-describe("Editor", () => {
+describe("Title", () => {
   const updateMinutesMock = vi.fn();
 
   beforeEach(() => {
