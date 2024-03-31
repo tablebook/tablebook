@@ -47,7 +47,7 @@ function Editor() {
         // eslint-disable-next-line react/no-array-index-key
         <SegmentContainer key={index}>
           <SideContainer>
-            <SegmentButtons />
+            <SegmentButtons segmentIndex={index} />
           </SideContainer>
           <Segment segmentIndex={index} />
         </SegmentContainer>
