@@ -1,11 +1,11 @@
 import React from "react";
 import { expect, test, describe, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
-import EditorButtons from "./EditorButtons";
+import SegmentButtons from "./SegmentButtons";
 
 describe("EditorButtons", () => {
   beforeEach(() => {
-    render(<EditorButtons />);
+    render(<SegmentButtons />);
   });
 
   test("renders the up button", () => {

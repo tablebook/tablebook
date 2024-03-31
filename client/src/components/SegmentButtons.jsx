@@ -4,7 +4,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-function EditorButtons() {
+function SegmentButtons() {
   const styles = {
     buttonsContainer: {
       display: "flex",
@@ -17,7 +17,7 @@ function EditorButtons() {
   };
 
   return (
-    <Box sx={styles.buttonsContainer} data-testid="editor-buttons">
+    <Box sx={styles.buttonsContainer} data-testid="segment-buttons">
       <IconButton size="small" sx={styles.iconButton} data-testid="upButton">
         <KeyboardArrowUpIcon fontSize="large" />
       </IconButton>
@@ -41,4 +41,4 @@ function EditorButtons() {
   );
 }
 
-export default EditorButtons;
+export default SegmentButtons;
