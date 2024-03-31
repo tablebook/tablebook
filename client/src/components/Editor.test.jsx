@@ -18,48 +18,27 @@ describe("Editor", () => {
     );
   });
 
-  test("renders title input with correct placeholder", () => {
-    const titleInput = screen.getByPlaceholderText("Enter main title");
-    expect(titleInput).toBeInTheDocument();
+  test("renders title component", () => {
+    const titleComponent = screen.getByTestId("title-component");
+    expect(titleComponent).toBeDefined();
   });
 
-  test("renders the righ amount of editor buttons", () => {
-    const editorButtons = screen.getAllByTestId("editor-buttons");
-    expect(editorButtons).toHaveLength(
+  test("renders the right amount of segment components", () => {
+    const segmentComponents = screen.getAllByTestId("segment-component");
+    expect(segmentComponents.length).toBe(
       mockMinutesContextState.minutes.segments.length,
     );
   });
 
-  test("renders the righ amount of content components", () => {
-    const contentComponent = screen.getAllByTestId("content-component");
-    expect(contentComponent).toHaveLength(
+  test("renders the right amount of editorButton components", () => {
+    const segmentComponents = screen.getAllByTestId("editor-buttons");
+    expect(segmentComponents.length).toBe(
       mockMinutesContextState.minutes.segments.length,
     );
   });
 
-  test("renders signature and date sections", () => {
-    const signatureSection = screen.getByText("Signature");
-    const dateSection = screen.getByText("Date");
-    expect(signatureSection).toBeInTheDocument();
-    expect(dateSection).toBeInTheDocument();
-  });
-
-  test("renders signature image with correct source", () => {
-    const signatureImage = screen.getByAltText("Signature");
-    const expectedBase64String =
-      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAB7CAYAAACb4F7QAAAAAXNSR0I";
-    expect(signatureImage).toHaveAttribute("src", expectedBase64String);
-  });
-
-  test("renders signer name clarification", () => {
-    const nameClarification = screen.getByText("Test User");
-    expect(nameClarification).toBeInTheDocument();
-  });
-
-  test("renders date timestamp", () => {
-    const dateString = screen.getByText("2024-03-30");
-    const timeString = screen.getByText("00:00");
-    expect(dateString).toBeInTheDocument();
-    expect(timeString).toBeInTheDocument();
+  test("renders signature component", () => {
+    const signatureComponent = screen.getByTestId("signature-component");
+    expect(signatureComponent).toBeDefined();
   });
 });

@@ -2,10 +2,14 @@ import React, { useContext } from "react";
 import { Box, InputBase } from "@mui/material";
 import MinutesContext from "../contexts/MinutesContext";
 
-function Content({ segmentIndex }) {
+function Segment({ segmentIndex }) {
   const [state, { updateMinutes }] = useContext(MinutesContext);
 
   const styles = {
+    contentContainer: {
+      width: 1000,
+    },
+
     contentTitleText: {
       fontSize: "1.5rem",
       color: state.minutes.colors.primary,
@@ -41,7 +45,7 @@ function Content({ segmentIndex }) {
   };
 
   return (
-    <Box data-testid="content-component">
+    <Box sx={styles.contentContainer} data-testid="segment-component">
       <InputBase
         name="contentTitle"
         placeholder="Enter the title"
@@ -65,4 +69,4 @@ function Content({ segmentIndex }) {
   );
 }
 
-export default Content;
+export default Segment;
