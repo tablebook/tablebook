@@ -2,8 +2,8 @@ export const mockMinutesContextState = {
   minutes: {
     name: "",
     colors: {
-      primary: "#000000",
-      secondary: "#FFFFFF",
+      primary: "#0000FF",
+      secondary: "#FF00FF",
     },
     segments: [
       {

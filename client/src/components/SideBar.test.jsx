@@ -4,19 +4,11 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import MinutesContext from "../contexts/MinutesContext";
 import EditorContext from "../contexts/EditorContext";
 import SideBar from "./SideBar";
+import { mockMinutesContextState } from "../util/test.helpers";
 
 describe("SideBar", () => {
   const updateEditorMock = vi.fn();
-
-  const mockedContext = {
-    minutes: {
-      name: "",
-      colors: {
-        primary: "#0000FF",
-        secondary: "#FF00FF",
-      },
-    },
-  };
+  const updateMinutesMock = vi.fn();
 
   beforeEach(() => {
     render(
@@ -28,7 +20,12 @@ describe("SideBar", () => {
           updateEditorMock,
         ]}
       >
-        <MinutesContext.Provider value={[mockedContext, {}]}>
+        <MinutesContext.Provider
+          value={[
+            mockMinutesContextState,
+            { updateMinutes: updateMinutesMock },
+          ]}
+        >
           <SideBar />
         </MinutesContext.Provider>
       </EditorContext.Provider>,
@@ -55,7 +52,7 @@ describe("SideBar", () => {
         .toUpperCase()
         .padStart(2, "0");
       const actualHex = `#${red}${green}${blue}`;
-      expect(actualHex).toBe(mockedContext.minutes.colors.primary);
+      expect(actualHex).toBe(mockMinutesContextState.minutes.colors.primary);
     }
   });
 
@@ -90,11 +87,39 @@ describe("SideBar", () => {
     expect(flagPicker).not.toBeInTheDocument();
   });
 
-  test("renders the add a field button", () => {
-    const addAFieldButton = screen.getByText("Add a field", {
-      selector: "button",
+  describe("add a field button", () => {
+    test("renders", () => {
+      const addAFieldButton = screen.getByText("Add a field", {
+        selector: "button",
+      });
+      expect(addAFieldButton).toBeDefined();
     });
-    expect(addAFieldButton).toBeDefined();
+
+    test("calls updateMinutes with right values", () => {
+      const addAFieldButton = screen.getByText("Add a field", {
+        selector: "button",
+      });
+
+      addAFieldButton.click();
+
+      expect(updateMinutesMock).toHaveBeenCalledOnce();
+      expect(updateMinutesMock).toHaveBeenCalledWith({
+        segments: [
+          {
+            name: "Agenda",
+            content: "Some content",
+          },
+          {
+            name: "Decisions",
+            content: "Some content",
+          },
+          {
+            name: "",
+            content: "",
+          },
+        ],
+      });
+    });
   });
 
   test("renders the sign button", () => {
