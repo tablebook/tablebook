@@ -48,7 +48,6 @@ function Editor() {
     dateAndSignatureContainer: {
       display: "flex",
       flexDirection: "row",
-      px: 4,
       pb: 2,
     },
 
@@ -57,6 +56,7 @@ function Editor() {
       flexDirection: "column",
       flex: 1,
       justifyContent: "flex-end",
+      pl: 2,
     },
 
     signatureImage: {
@@ -78,6 +78,7 @@ function Editor() {
       flex: 1,
       justifyContent: "flex-end",
       alignItems: "flex-end",
+      pr: 2,
     },
 
     signatureAndDateText: {
