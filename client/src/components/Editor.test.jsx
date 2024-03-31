@@ -30,6 +30,13 @@ describe("Editor", () => {
     );
   });
 
+  test("renders the right amount of editorButton components", () => {
+    const segmentComponents = screen.getAllByTestId("editor-buttons");
+    expect(segmentComponents.length).toBe(
+      mockMinutesContextState.minutes.segments.length,
+    );
+  });
+
   test("renders signature component", () => {
     const signatureComponent = screen.getByTestId("signature-component");
     expect(signatureComponent).toBeDefined();

@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import Title from "./Title";
 import SideContainer from "./SideContainer";
 import SegmentContainer from "./SegmentContainer";
+import EditorButtons from "./EditorButtons";
 import Segment from "./Segment";
 import Signature from "./Signature";
 import MinutesContext from "../contexts/MinutesContext";
@@ -45,6 +46,9 @@ function Editor() {
       {state.minutes.segments.map((segment, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <SegmentContainer key={index}>
+          <SideContainer>
+            <EditorButtons />
+          </SideContainer>
           <Segment segmentIndex={index} />
         </SegmentContainer>
       ))}
