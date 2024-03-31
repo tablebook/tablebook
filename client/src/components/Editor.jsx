@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import moment from "moment";
-import { Box, useTheme, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import EditorButtons from "./EditorButtons";
 import Content from "./Content";
 import Title from "./Title";
 import MinutesContext from "../contexts/MinutesContext";
+import SideContainer from "./SideContainer";
 
 function Editor() {
-  const theme = useTheme();
   const [state] = useContext(MinutesContext);
 
   const styles = {
@@ -24,11 +24,6 @@ function Editor() {
     segmentContainer: {
       display: "flex",
       flexDirection: "row",
-    },
-
-    sideContainer: {
-      width: 200,
-      backgroundColor: theme.palette.background.main,
     },
 
     contentContainer: {
@@ -93,16 +88,16 @@ function Editor() {
   return (
     <Box sx={styles.editorContainer}>
       <Box sx={styles.segmentContainer}>
-        <Box sx={styles.sideContainer} />
+        <SideContainer />
         <Title />
       </Box>
 
       {state.minutes.segments.map((segment, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <Box sx={styles.segmentContainer} key={index}>
-          <Box sx={styles.sideContainer}>
+          <SideContainer>
             <EditorButtons />
-          </Box>
+          </SideContainer>
 
           <Box sx={styles.contentContainer}>
             <Content segmentIndex={index} />
@@ -111,7 +106,7 @@ function Editor() {
       ))}
 
       <Box sx={styles.bottomContainer}>
-        <Box sx={styles.sideContainer} />
+        <SideContainer />
         <Box sx={styles.bottomContentContainer}>
           <Box sx={styles.dateAndSignatureContainer}>
             <Box sx={styles.signatureContainer}>
