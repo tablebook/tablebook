@@ -44,6 +44,8 @@ describe("minutesApi", () => {
       expect(response.status).toBe(200);
       expect(response.body.data).toEqual(expect.objectContaining(dummyMinutes));
       expect(response.body.writeAccess).toBe(false);
+      expect(response.body.readToken).toBeDefined();
+      expect(response.body.writeToken).not.toBeDefined();
     });
 
     it("should responds with 200, minutes and writeAccess when token (with writeAccess) is valid and minutes are found", async () => {
@@ -53,6 +55,8 @@ describe("minutesApi", () => {
       expect(response.status).toBe(200);
       expect(response.body.data).toEqual(expect.objectContaining(dummyMinutes));
       expect(response.body.writeAccess).toBe(true);
+      expect(response.body.readToken).toBeDefined();
+      expect(response.body.writeToken).toBeDefined();
     });
 
     it("should respond with 404 and error message when id doesn't exist in the database", async () => {
