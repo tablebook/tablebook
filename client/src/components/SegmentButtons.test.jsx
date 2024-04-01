@@ -29,6 +29,45 @@ describe("EditorButtons", () => {
     metadata: mockMinutesContextState.metadata,
   };
 
+  const renderFirst = () => {
+    render(
+      <MinutesContext.Provider
+        value={[
+          editedMockMinutesContextState,
+          { updateMinutes: updateMinutesMock },
+        ]}
+      >
+        <SegmentButtons segmentIndex={0} />
+      </MinutesContext.Provider>,
+    );
+  };
+
+  const renderSecond = () => {
+    render(
+      <MinutesContext.Provider
+        value={[
+          editedMockMinutesContextState,
+          { updateMinutes: updateMinutesMock },
+        ]}
+      >
+        <SegmentButtons segmentIndex={1} />
+      </MinutesContext.Provider>,
+    );
+  };
+
+  const renderLast = () => {
+    render(
+      <MinutesContext.Provider
+        value={[
+          editedMockMinutesContextState,
+          { updateMinutes: updateMinutesMock },
+        ]}
+      >
+        <SegmentButtons segmentIndex={2} />
+      </MinutesContext.Provider>,
+    );
+  };
+
   afterEach(async () => {
     vi.restoreAllMocks();
   });
@@ -36,17 +75,7 @@ describe("EditorButtons", () => {
   describe("Delete button", () => {
     beforeEach(() => {
       vi.stubGlobal("confirm", vi.fn());
-
-      render(
-        <MinutesContext.Provider
-          value={[
-            editedMockMinutesContextState,
-            { updateMinutes: updateMinutesMock },
-          ]}
-        >
-          <SegmentButtons segmentIndex={1} />
-        </MinutesContext.Provider>,
-      );
+      renderSecond();
     });
 
     afterEach(() => {
@@ -99,32 +128,13 @@ describe("EditorButtons", () => {
 
   describe("Up button", () => {
     test("renders", () => {
-      render(
-        <MinutesContext.Provider
-          value={[
-            editedMockMinutesContextState,
-            { updateMinutes: updateMinutesMock },
-          ]}
-        >
-          <SegmentButtons segmentIndex={1} />
-        </MinutesContext.Provider>,
-      );
-
+      renderSecond();
       const upButton = screen.getByTestId("upButton");
       expect(upButton).toBeInTheDocument();
     });
 
     test("calls the updateMinutes with right values", () => {
-      render(
-        <MinutesContext.Provider
-          value={[
-            editedMockMinutesContextState,
-            { updateMinutes: updateMinutesMock },
-          ]}
-        >
-          <SegmentButtons segmentIndex={1} />
-        </MinutesContext.Provider>,
-      );
+      renderSecond();
 
       const upButton = screen.getByTestId("upButton");
 
@@ -150,16 +160,7 @@ describe("EditorButtons", () => {
     });
 
     test("doesnt call updateMinutes when first segments button clicked", () => {
-      render(
-        <MinutesContext.Provider
-          value={[
-            editedMockMinutesContextState,
-            { updateMinutes: updateMinutesMock },
-          ]}
-        >
-          <SegmentButtons segmentIndex={0} />
-        </MinutesContext.Provider>,
-      );
+      renderFirst();
 
       const upButton = screen.getByTestId("upButton");
 
@@ -171,32 +172,13 @@ describe("EditorButtons", () => {
 
   describe("Down button", () => {
     test("renders", () => {
-      render(
-        <MinutesContext.Provider
-          value={[
-            editedMockMinutesContextState,
-            { updateMinutes: updateMinutesMock },
-          ]}
-        >
-          <SegmentButtons segmentIndex={1} />
-        </MinutesContext.Provider>,
-      );
-
+      renderSecond();
       const downButton = screen.getByTestId("downButton");
       expect(downButton).toBeInTheDocument();
     });
 
     test("calls the updateMinutes with right values", () => {
-      render(
-        <MinutesContext.Provider
-          value={[
-            editedMockMinutesContextState,
-            { updateMinutes: updateMinutesMock },
-          ]}
-        >
-          <SegmentButtons segmentIndex={1} />
-        </MinutesContext.Provider>,
-      );
+      renderSecond();
 
       const downButton = screen.getByTestId("downButton");
 
@@ -222,16 +204,7 @@ describe("EditorButtons", () => {
     });
 
     test("doesnt call updateMinutes when last segments button clicked", () => {
-      render(
-        <MinutesContext.Provider
-          value={[
-            editedMockMinutesContextState,
-            { updateMinutes: updateMinutesMock },
-          ]}
-        >
-          <SegmentButtons segmentIndex={2} />
-        </MinutesContext.Provider>,
-      );
+      renderLast();
 
       const downButton = screen.getByTestId("downButton");
 
