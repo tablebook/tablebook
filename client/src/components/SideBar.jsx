@@ -67,6 +67,17 @@ function SideBar() {
 
   const flagSrc = language === "en" ? flagEn : flagFi;
 
+  const handleAddField = () => {
+    const newSegments = [
+      ...minutesState.minutes.segments,
+      {
+        name: "",
+        content: "",
+      },
+    ];
+    updateMinutes({ segments: newSegments });
+  };
+
   const styles = {
     sideBarContainer: {
       backgroundColor: theme.palette.primary.main,
@@ -227,7 +238,12 @@ function SideBar() {
       </Box>
 
       <Box sx={styles.buttonContainer}>
-        <Button variant="contained" color="secondary" sx={styles.sideBarButton}>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handleAddField}
+          sx={styles.sideBarButton}
+        >
           Add a field
         </Button>
         <Button

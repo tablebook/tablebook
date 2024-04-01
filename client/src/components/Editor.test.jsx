@@ -30,8 +30,8 @@ describe("Editor", () => {
     );
   });
 
-  test("renders the right amount of editorButton components", () => {
-    const segmentComponents = screen.getAllByTestId("editor-buttons");
+  test("renders the right amount of segmentButton components", () => {
+    const segmentComponents = screen.getAllByTestId("segment-buttons");
     expect(segmentComponents.length).toBe(
       mockMinutesContextState.minutes.segments.length,
     );
