@@ -6,6 +6,7 @@ import SignatureModal from "./SignatureModal";
 import MinutesContext from "../contexts/MinutesContext";
 import EditorContext from "../contexts/EditorContext";
 import theme from "../theme";
+import { mockMinutesContextState } from "../util/test.helpers";
 
 describe("SignatureModal", () => {
   const updateEditorMock = vi.fn();
@@ -22,7 +23,10 @@ describe("SignatureModal", () => {
         ]}
       >
         <MinutesContext.Provider
-          value={[{}, { updateMinutes: updateMinutesMock }]}
+          value={[
+            mockMinutesContextState,
+            { updateMinutes: updateMinutesMock },
+          ]}
         >
           <ThemeProvider theme={theme}>
             <SignatureModal />
