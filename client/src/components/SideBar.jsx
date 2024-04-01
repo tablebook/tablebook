@@ -6,21 +6,9 @@ import MinutesContext from "../contexts/MinutesContext";
 import EditorContext from "../contexts/EditorContext";
 
 function SideBar() {
+  const theme = useTheme();
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
   const [, updateEditor] = useContext(EditorContext);
-
-  const theme = useTheme();
-
-  const handleAddField = () => {
-    const newSegments = [
-      ...minutesState.minutes.segments,
-      {
-        name: "",
-        content: "",
-      },
-    ];
-    updateMinutes({ segments: newSegments });
-  };
 
   const styles = {
     sideBarContainer: {
@@ -46,6 +34,17 @@ function SideBar() {
       m: 2,
       border: 0.5,
     },
+  };
+
+  const handleAddField = () => {
+    const newSegments = [
+      ...minutesState.minutes.segments,
+      {
+        name: "",
+        content: "",
+      },
+    ];
+    updateMinutes({ segments: newSegments });
   };
 
   return (
