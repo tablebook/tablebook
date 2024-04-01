@@ -14,7 +14,7 @@ import EditorContext from "../contexts/EditorContext";
 
 function SignatureModal() {
   const theme = useTheme();
-  const [, { updateMinutes }] = useContext(MinutesContext);
+  const [state, { updateMinutes }] = useContext(MinutesContext);
   const [editor, updateEditor] = useContext(EditorContext);
   const [signer, setSigner] = useState("");
   const [timestampIsChecked, setTimestampIsChecked] = useState(true);
@@ -38,17 +38,29 @@ function SignatureModal() {
 
     canvasBox: {
       my: 4,
-      bgcolor: theme.palette.paper.main,
+      bgcolor: state.minutes.colors.secondary,
+      border: "1px solid black",
     },
 
     signerContainer: {
       width: 500,
-      bgcolor: theme.palette.paper.main,
+      bgcolor: state.minutes.colors.secondary,
+      border: "1px solid black",
     },
 
     signerText: {
       fontSize: "2rem",
       textAlign: "center",
+    },
+
+    signerTextColor: {
+      color: state.minutes.colors.primary,
+      "& .MuiInputBase-input::placeholder": {
+        color: theme.palette.primary.contrastText,
+      },
+      "& .MuiInputBase-input": {
+        caretColor: theme.palette.primary.contrastText,
+      },
     },
 
     timestampContainer: {
@@ -113,7 +125,7 @@ function SignatureModal() {
           <SignatureCanvas
             ref={signaturePadRef}
             dotSize={3}
-            penColor={theme.palette.paper.contrastText}
+            penColor={state.minutes.colors.primary}
             canvasProps={{
               width: 500,
               height: 200,
@@ -126,6 +138,7 @@ function SignatureModal() {
             placeholder="Enter name clarification"
             fullWidth
             inputProps={{ style: styles.signerText }}
+            sx={styles.signerTextColor}
             onChange={(e) => setSigner(e.target.value)}
           />
         </Box>
