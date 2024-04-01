@@ -1,14 +1,7 @@
 import React, { useState, useContext } from "react";
-import {
-  Box,
-  Button,
-  useTheme,
-  Typography,
-  List,
-  ListItemButton,
-} from "@mui/material";
+import { Box, Button, useTheme, List, ListItemButton } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import ColorPicker from "./ColorPicker";
+import ColorPickerContainer from "./ColorPickerContainer";
 import MinutesContext from "../contexts/MinutesContext";
 import EditorContext from "../contexts/EditorContext";
 import flagFi from "../i18n/locales/flags/fi.svg";
@@ -20,44 +13,9 @@ function SideBar() {
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
   const [, updateEditor] = useContext(EditorContext);
 
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
   const theme = useTheme();
-
-  // debouncer is to delay state updates, because rapid
-  // state updates on color picker throws error
-  const debounce = (func, wait) => {
-    let timeoutId = null;
-    return (...args) => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        func(...args);
-      }, wait);
-    };
-  };
-
-  const updateColor = debounce((type, color) => {
-    updateMinutes({
-      colors: {
-        ...minutesState.minutes.colors,
-        [type]: color,
-      },
-    });
-  }, 2);
-
-  const defaultColors = {
-    primary: "#000000",
-    secondary: "#FFFFFF",
-  };
-
-  const restoreDefaults = () => {
-    updateMinutes({
-      colors: {
-        primary: defaultColors.primary,
-        secondary: defaultColors.secondary,
-      },
-    });
-  };
 
   const handleLanguageChange = (newLanguage) => {
     setLanguage(newLanguage);
@@ -87,41 +45,6 @@ function SideBar() {
       minWidth: 280,
       alignItems: "center",
       justifyContent: "center",
-    },
-    colorPickerContainer: {
-      width: 230,
-      position: "relative",
-      display: "flex",
-      flexDirection: "column",
-    },
-    customizeTitle: {
-      fontSize: 22,
-      textAlign: "center",
-      fontStyle: "italic",
-      fontWeight: "bold",
-    },
-    colorPickerTitle: {
-      backgroundColor: theme.palette.secondary.main,
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      borderRadius: 5,
-      border: 0.5,
-      boxShadow: 1,
-      py: 2,
-      px: 2,
-      my: 1,
-      mx: 1,
-    },
-    restoreButtonContainer: {
-      mt: 1,
-      display: "flex",
-      justifyContent: "center",
-    },
-    restoreButton: {
-      width: 170,
-      fontSize: 12,
-      border: 0.5,
     },
     languagePickerContainer: {
       textAlign: "center",
@@ -172,33 +95,7 @@ function SideBar() {
 
   return (
     <Box sx={styles.sideBarContainer}>
-      <Box sx={styles.colorPickerContainer}>
-        <Typography sx={styles.customizeTitle}>{t("customize")}:</Typography>
-        <Box sx={styles.colorPickerTitle}>
-          <Typography>Text color</Typography>
-          <ColorPicker
-            onColorChange={(color) => updateColor("primary", color)}
-            currColor={minutesState.minutes.colors.primary}
-          />
-        </Box>
-        <Box sx={styles.colorPickerTitle}>
-          <Typography>Background color</Typography>
-          <ColorPicker
-            onColorChange={(color) => updateColor("secondary", color)}
-            currColor={minutesState.minutes.colors.secondary}
-          />
-        </Box>
-        <Box sx={styles.restoreButtonContainer}>
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={styles.restoreButton}
-            onClick={restoreDefaults}
-          >
-            Restore defaults
-          </Button>
-        </Box>
-      </Box>
+      <ColorPickerContainer />
 
       <Box
         sx={styles.languagePickerContainer}
