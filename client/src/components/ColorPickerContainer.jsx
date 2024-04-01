@@ -87,7 +87,7 @@ function ColorPickerContainer() {
   };
 
   return (
-    <Box sx={styles.colorPickerContainer}>
+    <Box sx={styles.colorPickerContainer} data-testid="colorPickerContainer">
       <Typography sx={styles.customizeTitle}>{t("customize")}:</Typography>
 
       <Box sx={styles.colorPickerTitle}>

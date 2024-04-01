@@ -32,6 +32,16 @@ describe("SideBar", () => {
     );
   });
 
+  test("renders ColorPickerContainer", () => {
+    const colorPickerContainer = screen.getByTestId("colorPickerContainer");
+    expect(colorPickerContainer).toBeDefined();
+  });
+
+  test("renders LanguagePickerContainer", () => {
+    const languagePickerContainer = screen.getByTestId("flagTrigger");
+    expect(languagePickerContainer).toBeDefined();
+  });
+
   describe("add a field button", () => {
     test("renders", () => {
       const addAFieldButton = screen.getByText("Add a field", {
