@@ -21,7 +21,7 @@ minutesController.get("/:token", async (request, response) => {
   }
 
   const readToken = createJwt(minutes.id, false);
-  const writeToken = (writeAccess) ? createJwt(minutes.id, true) : undefined;
+  const writeToken = writeAccess ? createJwt(minutes.id, true) : undefined;
 
   const responseBody = { data: minutes, writeAccess, readToken, writeToken };
 
