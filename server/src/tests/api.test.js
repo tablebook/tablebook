@@ -4,7 +4,10 @@ import { MongoMemoryServer } from "mongodb-memory-server";
 import app from "../app.js";
 import dummyMinutes from "../../data/dummyMinutes.json";
 import Minutes from "../entities/minutes.js";
-import { createJwt } from "../controllers/minutesController.helpers.js";
+import {
+  createJwt,
+  parseJwt,
+} from "../controllers/minutesController.helpers.js";
 
 describe("minutesApi", () => {
   const baseUrl = "/api/minutes";
@@ -37,22 +40,50 @@ describe("minutesApi", () => {
   const getTokenWithWriteAccess = (id) => createJwt(id, true);
 
   describe("get", () => {
-    it("should responds with 200, minutes and writeAccess when token (without writeAccess) is valid and minutes are found", async () => {
+    it("should responds with 200, minutes, writeAccess and readToken when token (without writeAccess) is valid and minutes are found", async () => {
       const token = getTokenWithoutWriteAccess(minutesInDb.id);
       const response = await api.get(`${baseUrl}/${token}`);
 
       expect(response.status).toBe(200);
       expect(response.body.data).toEqual(expect.objectContaining(dummyMinutes));
       expect(response.body.writeAccess).toBe(false);
+      expect(response.body.readToken).toBeDefined();
+      expect(response.body.writeToken).not.toBeDefined();
     });
 
-    it("should responds with 200, minutes and writeAccess when token (with writeAccess) is valid and minutes are found", async () => {
+    it("should give valid readToken that includes the correct minutes id and denied writeAccess when fetched with readToken", async () => {
+      const token = getTokenWithoutWriteAccess(minutesInDb.id);
+      const response = await api.get(`${baseUrl}/${token}`);
+
+      const parsedReadToken = await parseJwt(response.body.readToken);
+
+      expect(parsedReadToken.id).toBe(minutesInDb.id);
+      expect(parsedReadToken.writeAccess).toBe(false);
+    });
+
+    it("should responds with 200, minutes, writeAccess, readToken and writeToken when token (with writeAccess) is valid and minutes are found", async () => {
       const token = getTokenWithWriteAccess(minutesInDb.id);
       const response = await api.get(`${baseUrl}/${token}`);
 
       expect(response.status).toBe(200);
       expect(response.body.data).toEqual(expect.objectContaining(dummyMinutes));
       expect(response.body.writeAccess).toBe(true);
+      expect(response.body.readToken).toBeDefined();
+      expect(response.body.writeToken).toBeDefined();
+    });
+
+    it("should give valid readToken and writeToken that include the correct minutes id and proper writeAccess when fetched with writeToken", async () => {
+      const token = getTokenWithWriteAccess(minutesInDb.id);
+      const response = await api.get(`${baseUrl}/${token}`);
+
+      const parsedReadToken = await parseJwt(response.body.readToken);
+      const parsedWriteToken = await parseJwt(response.body.writeToken);
+
+      expect(parsedReadToken.id).toBe(minutesInDb.id);
+      expect(parsedReadToken.writeAccess).toBe(false);
+
+      expect(parsedWriteToken.id).toBe(minutesInDb.id);
+      expect(parsedWriteToken.writeAccess).toBe(true);
     });
 
     it("should respond with 404 and error message when id doesn't exist in the database", async () => {

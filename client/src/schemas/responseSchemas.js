@@ -4,6 +4,8 @@ import minutesSchema from "./minutesSchema";
 export const getMinutesResponseSchema = z.object({
   data: minutesSchema,
   writeAccess: z.boolean(),
+  readToken: z.string(),
+  writeToken: z.string().optional(),
 });
 
 export const postMinutesResponseSchema = z.object({
