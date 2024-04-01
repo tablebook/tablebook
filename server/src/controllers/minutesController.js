@@ -20,7 +20,10 @@ minutesController.get("/:token", async (request, response) => {
     return sendMinutesNotFound(response);
   }
 
-  const responseBody = { data: minutes, writeAccess };
+  const readToken = createJwt(minutes.id, false);
+  const writeToken = (writeAccess) ? createJwt(minutes.id, true) : undefined;
+
+  const responseBody = { data: minutes, writeAccess, readToken, writeToken };
 
   return response.json(responseBody);
 });
