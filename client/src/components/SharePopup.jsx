@@ -82,18 +82,26 @@ function SharePopup() {
       <Box sx={styles.outerContainer}>
         <Typography sx={styles.header}>Share</Typography>
         <Box sx={styles.innerContainer}>
-          <Typography>Read link</Typography>
-          <TextField
-            data-testid="read-only-link"
-            value={baseUrl + (minutesState.metadata.readToken ?? "")}
-            InputProps={inputProps}
-          />
-          <Typography>Edit link</Typography>
-          <TextField
-            data-testid="write-link"
-            value={baseUrl + (minutesState.metadata.writeToken ?? "")}
-            InputProps={inputProps}
-          />
+          {minutesState.metadata.readToken && (
+            <>
+              <Typography>Read link</Typography>
+              <TextField
+                data-testid="read-only-link"
+                value={baseUrl + (minutesState.metadata.readToken ?? "")}
+                InputProps={inputProps}
+              />
+            </>
+          )}
+          {minutesState.metadata.writeToken && (
+            <>
+              <Typography>Edit link</Typography>
+              <TextField
+                data-testid="write-link"
+                value={baseUrl + (minutesState.metadata.writeToken ?? "")}
+                InputProps={inputProps}
+              />
+            </>
+          )}
         </Box>
       </Box>
     </Popover>
