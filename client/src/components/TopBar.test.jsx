@@ -83,7 +83,7 @@ describe("TopBar", () => {
       });
     });
 
-    test("doesnt clear the state on cancel", async () => {
+    test("doesn't clear the state on cancel", async () => {
       window.confirm.mockReturnValueOnce(false);
 
       const createNewButton = screen.getByText("Create New", {
@@ -106,11 +106,65 @@ describe("TopBar", () => {
     expect(revertButton).toBeDefined();
   });
 
-  test("renders save button", () => {
-    const saveButton = screen.getByText("Save", {
-      selector: "button",
+  describe("Save button", () => {
+    beforeEach(() => {
+      vi.stubGlobal("alert", vi.fn());
     });
-    expect(saveButton).toBeDefined();
+
+    afterEach(() => {
+      vi.unstubAllGlobals();
+    });
+
+    test("renders", () => {
+      const saveButton = screen.getByText("Save", {
+        selector: "button",
+      });
+      expect(saveButton).toBeDefined();
+    });
+
+    test("calls minutesService and notifies user when successful", async () => {
+      const mockUpdateMinutes = vi.spyOn(
+        minutesService,
+        "updateMinutesByToken",
+      );
+      mockUpdateMinutes.mockResolvedValueOnce(mockPostMinutesResponse);
+
+      const saveButton = screen.getByText("Save", {
+        selector: "button",
+      });
+
+      saveButton.click();
+
+      await waitFor(() => {
+        expect(mockUpdateMinutes).toHaveBeenCalledOnce();
+        expect(mockUpdateMinutes).toHaveBeenCalledWith(
+          mockMinutesContextState.metadata.writeToken,
+          mockMinutesContextState.minutes,
+        );
+        expect(alert).toHaveBeenCalledOnce();
+        expect(alert).toHaveBeenCalledWith("Minutes saved successfully!");
+      });
+    });
+
+    test("calls minutesService and notifies user when service throws error", async () => {
+      const mockUpdateMinutes = vi.spyOn(
+        minutesService,
+        "updateMinutesByToken",
+      );
+      mockUpdateMinutes.mockRejectedValueOnce();
+
+      const saveButton = screen.getByText("Save", {
+        selector: "button",
+      });
+
+      saveButton.click();
+
+      await waitFor(() => {
+        expect(mockUpdateMinutes).toHaveBeenCalledOnce();
+        expect(alert).toHaveBeenCalledOnce();
+        expect(alert).toHaveBeenCalledWith("Saving minutes failed");
+      });
+    });
   });
 
   describe("Share button", () => {

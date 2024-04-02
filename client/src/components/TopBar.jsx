@@ -79,6 +79,19 @@ function TopBar() {
     updateEditor({ sharePopupAnchorElement: shareButton });
   };
 
+  const handleSaveClicked = async () => {
+    try {
+      await minutesService.updateMinutesByToken(
+        minutesState.metadata.writeToken,
+        minutesState.minutes,
+      );
+
+      alert("Minutes saved successfully!");
+    } catch (error) {
+      alert("Saving minutes failed");
+    }
+  };
+
   return (
     <Box sx={styles.topBarContainer}>
       <Link
@@ -107,7 +120,12 @@ function TopBar() {
           Revert
         </Button>
 
-        <Button variant="contained" color="secondary" sx={styles.topBarButton}>
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={styles.topBarButton}
+          onClick={handleSaveClicked}
+        >
           Save
         </Button>
 

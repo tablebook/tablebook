@@ -46,7 +46,11 @@ function LoadingPage() {
 
           updateMinutes(minutesResponse.data);
 
-          updateMetadata({ writeAccess: minutesResponse.writeAccess });
+          updateMetadata({
+            writeAccess: minutesResponse.writeAccess,
+            readToken: minutesResponse.readToken,
+            writeToken: minutesResponse.writeToken,
+          });
         } catch (error) {
           // This await is needed to show the alert before navigation is executed
           await alert("There was a problem loading minutes");
