@@ -14,9 +14,9 @@ import theme from "../theme";
 describe("SharePopup", () => {
   const updateEditorMock = vi.fn();
 
-  const renderWith = (mockMinutes) => {
+  const renderWith = (mockMinutesState) => {
     render(
-      <MinutesContext.Provider value={[mockMinutes]}>
+      <MinutesContext.Provider value={[mockMinutesState]}>
         <EditorContext.Provider
           value={[
             {
