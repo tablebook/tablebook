@@ -58,6 +58,15 @@ function TopBar() {
 
   const handleShareClicked = async (event) => {
     const shareButton = event.currentTarget;
+
+    const isAlreadyStored =
+      minutesState.metadata.writeToken || minutesState.metadata.readToken;
+
+    if (isAlreadyStored) {
+      updateEditor({ sharePopupAnchorElement: shareButton });
+      return;
+    }
+
     if (
       !window.confirm(
         "This action will store the document in the cloud where it will be accessible to anyone with the provided link. Are you sure?",
