@@ -14,9 +14,9 @@ import theme from "../theme";
 describe("SharePopup", () => {
   const updateEditorMock = vi.fn();
 
-  beforeEach(() => {
+  const renderWith = (mockMinutes) => {
     render(
-      <MinutesContext.Provider value={[mockMinutesContextState]}>
+      <MinutesContext.Provider value={[mockMinutes]}>
         <EditorContext.Provider
           value={[
             {
@@ -32,99 +32,141 @@ describe("SharePopup", () => {
         </EditorContext.Provider>
       </MinutesContext.Provider>,
     );
-
     // This does something for the popup element to properly finish doing all it's logic so that warnings are not given.
     // The warning indicates that it would still doing something after the test is done.
     // Vitest waitFor doesn't work
     waitFor(() => {});
-  });
+  };
 
   afterEach(async () => {
     vi.restoreAllMocks();
   });
 
-  test("renders the title", () => {
-    const titleElement = screen.getByText("Share");
-    expect(titleElement).toBeDefined();
-  });
-
-  test("renders the read link label", () => {
-    const titleElement = screen.getByText("Read link");
-    expect(titleElement).toBeDefined();
-  });
-
-  test("renders the edit link label", () => {
-    const titleElement = screen.getByText("Edit link");
-    expect(titleElement).toBeDefined();
-  });
-
-  test("renders read link", () => {
-    const titleElement = screen.getByDisplayValue(
-      "http://localhost:3000/minutes/readaccesstoken",
-    );
-    expect(titleElement).toBeDefined();
-  });
-
-  test("renders edit link", () => {
-    const titleElement = screen.getByDisplayValue(
-      "http://localhost:3000/minutes/writeaccesstoken",
-    );
-    expect(titleElement).toBeDefined();
-  });
-
-  test("renders read link button", () => {
-    const inputContainer = screen.getByTestId("read-only-link", {
-      selector: "div",
-    });
-    const button = inputContainer.querySelector("button");
-
-    expect(button).toBeDefined();
-  });
-
-  test("renders write link button", () => {
-    const inputContainer = screen.getByTestId("write-link", {
-      selector: "div",
-    });
-    const button = inputContainer.querySelector("button");
-
-    expect(button).toBeDefined();
-  });
-
-  describe("Clipboard", () => {
+  describe("with writeAccess", () => {
     beforeEach(() => {
-      vi.stubGlobal("navigator", {
-        clipboard: {
-          writeText: vi.fn(),
-        },
-      });
+      renderWith(mockMinutesContextState);
     });
 
-    afterEach(() => {
-      vi.unstubAllGlobals();
+    test("renders the title", () => {
+      const titleElement = screen.getByText("Share");
+      expect(titleElement).toBeDefined();
     });
 
-    test("copies read link copy button copies to clipboard", () => {
+    test("renders the read link label", () => {
+      const titleElement = screen.getByText("Read link");
+      expect(titleElement).toBeDefined();
+    });
+
+    test("renders the edit link label", () => {
+      const titleElement = screen.getByText("Edit link");
+      expect(titleElement).toBeDefined();
+    });
+
+    test("renders read link", () => {
+      const titleElement = screen.getByDisplayValue(
+        "http://localhost:3000/minutes/readaccesstoken",
+      );
+      expect(titleElement).toBeDefined();
+    });
+
+    test("renders edit link", () => {
+      const titleElement = screen.getByDisplayValue(
+        "http://localhost:3000/minutes/writeaccesstoken",
+      );
+      expect(titleElement).toBeDefined();
+    });
+
+    test("renders read link button", () => {
       const inputContainer = screen.getByTestId("read-only-link", {
         selector: "div",
       });
       const button = inputContainer.querySelector("button");
-      button.click();
 
-      expect(navigator.clipboard.writeText).toHaveBeenCalledOnce(
-        "http://localhost:3000/minutes/readaccesstoken",
-      );
+      expect(button).toBeDefined();
     });
 
-    test("copies write link copy button copies to clipboard", () => {
+    test("renders write link button", () => {
       const inputContainer = screen.getByTestId("write-link", {
         selector: "div",
       });
       const button = inputContainer.querySelector("button");
-      button.click();
 
-      expect(navigator.clipboard.writeText).toHaveBeenCalledOnce(
+      expect(button).toBeDefined();
+    });
+
+    describe("Clipboard", () => {
+      beforeEach(() => {
+        vi.stubGlobal("navigator", {
+          clipboard: {
+            writeText: vi.fn(),
+          },
+        });
+      });
+
+      afterEach(() => {
+        vi.unstubAllGlobals();
+      });
+
+      test("copies read link copy button copies to clipboard", () => {
+        const inputContainer = screen.getByTestId("read-only-link", {
+          selector: "div",
+        });
+        const button = inputContainer.querySelector("button");
+        button.click();
+
+        expect(navigator.clipboard.writeText).toHaveBeenCalledOnce(
+          "http://localhost:3000/minutes/readaccesstoken",
+        );
+      });
+
+      test("copies write link copy button copies to clipboard", () => {
+        const inputContainer = screen.getByTestId("write-link", {
+          selector: "div",
+        });
+        const button = inputContainer.querySelector("button");
+        button.click();
+
+        expect(navigator.clipboard.writeText).toHaveBeenCalledOnce(
+          "http://localhost:3000/minutes/writeaccesstoken",
+        );
+      });
+    });
+  });
+
+  describe("without writeAccess", () => {
+    beforeEach(() => {
+      renderWith({
+        ...mockMinutesContextState,
+        metadata: {
+          ...mockMinutesContextState.metadata,
+          writeAccess: false,
+          writeToken: null,
+        },
+      });
+    });
+
+    test("renders the read link label", () => {
+      const titleElement = screen.getByText("Read link");
+      expect(titleElement).toBeDefined();
+    });
+
+    test("doesn't render the edit link label", () => {
+      const titleElement = screen.queryByText("Edit link");
+      expect(titleElement).not.toBeInTheDocument();
+    });
+
+    test("renders read link", () => {
+      const titleElement = screen.getByDisplayValue(
+        "http://localhost:3000/minutes/readaccesstoken",
+      );
+      expect(titleElement).toBeDefined();
+    });
+
+    test("doesn't render edit link", () => {
+      const titleElement = screen.queryByDisplayValue(
         "http://localhost:3000/minutes/writeaccesstoken",
       );
+      expect(titleElement).not.toBeInTheDocument();
     });
   });
 });
