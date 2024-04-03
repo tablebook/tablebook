@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, useTheme } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MinutesContext from "../contexts/MinutesContext";
 
 function SegmentButtons({ segmentIndex }) {
+  const theme = useTheme();
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
 
   const styles = {
@@ -17,6 +18,10 @@ function SegmentButtons({ segmentIndex }) {
     iconButton: {
       padding: 0,
     },
+
+    iconSize: {
+      fontSize: theme.fontSizes.l
+    }
   };
 
   const handleDelete = () => {
@@ -72,7 +77,7 @@ function SegmentButtons({ segmentIndex }) {
         onClick={handleMoveUp}
         data-testid="upButton"
       >
-        <KeyboardArrowUpIcon fontSize="large" />
+        <KeyboardArrowUpIcon sx={styles.iconSize}/>
       </IconButton>
 
       <IconButton
@@ -81,7 +86,7 @@ function SegmentButtons({ segmentIndex }) {
         onClick={handleDelete}
         data-testid="deleteButton"
       >
-        <DeleteIcon fontSize="large" />
+        <DeleteIcon sx={styles.iconSize}/>
       </IconButton>
 
       <IconButton
@@ -90,7 +95,7 @@ function SegmentButtons({ segmentIndex }) {
         onClick={handleMoveDown}
         data-testid="downButton"
       >
-        <KeyboardArrowDownIcon fontSize="large" />
+        <KeyboardArrowDownIcon sx={styles.iconSize}/>
       </IconButton>
     </Box>
   );

@@ -49,7 +49,7 @@ function SignatureModal() {
     },
 
     signerText: {
-      fontSize: "2rem",
+      fontSize: theme.fontSizes.l,
       textAlign: "center",
     },
 

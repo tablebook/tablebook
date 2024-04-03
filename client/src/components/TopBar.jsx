@@ -24,6 +24,7 @@ function TopBar() {
 
     topBarButton: {
       mx: 1.5,
+      fontSize: theme.fontSizes.s
     },
 
     buttonsBox: {

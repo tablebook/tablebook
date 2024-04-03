@@ -23,6 +23,7 @@ function Footer() {
       p: 1,
       width: 150,
       textAlign: "center",
+      fontSize: theme.fontSizes.s
     },
   };
 
@@ -39,7 +40,7 @@ function Footer() {
           rel="noopener noreferrer"
           sx={styles.linkStyle}
         >
-          Report Issue
+          Report an issue
         </Link>
         <Link
           component={RouterLink}

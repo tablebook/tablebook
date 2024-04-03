@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
-import { Box, InputBase } from "@mui/material";
+import { Box, InputBase, useTheme } from "@mui/material";
 import MinutesContext from "../contexts/MinutesContext";
 
 function Segment({ segmentIndex }) {
+  const theme = useTheme();
   const [state, { updateMinutes }] = useContext(MinutesContext);
 
   const styles = {
@@ -11,7 +12,7 @@ function Segment({ segmentIndex }) {
     },
 
     contentTitleText: {
-      fontSize: "1.5rem",
+      fontSize: theme.fontSizes.m,
       color: state.minutes.colors.primary,
     },
 
@@ -20,7 +21,7 @@ function Segment({ segmentIndex }) {
     },
 
     contentText: {
-      fontSize: "1rem",
+      fontSize: theme.fontSizes.s,
       color: state.minutes.colors.primary,
     },
 

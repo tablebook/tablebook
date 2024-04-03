@@ -33,16 +33,16 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: ["Roboto", "sans-serif"].join(","), // default font
-    fontSizes: {
-      xs: "0.8rem",
-      s: "1rem",
-      m: "1.5rem",
-      l: "2rem",
-    },
     header: {
       fontFamily: ["Lilita One", "sans-serif"].join(","),
       fontSize: "3.3rem",
     },
+  },
+  fontSizes: {
+    xs: "0.8rem",
+    s: "1rem",
+    m: "1.5rem",
+    l: "2rem",
   },
 });
 
