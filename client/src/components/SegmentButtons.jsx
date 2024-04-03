@@ -20,8 +20,8 @@ function SegmentButtons({ segmentIndex }) {
     },
 
     iconSize: {
-      fontSize: theme.fontSizes.l
-    }
+      fontSize: theme.fontSizes.l,
+    },
   };
 
   const handleDelete = () => {
@@ -77,7 +77,7 @@ function SegmentButtons({ segmentIndex }) {
         onClick={handleMoveUp}
         data-testid="upButton"
       >
-        <KeyboardArrowUpIcon sx={styles.iconSize}/>
+        <KeyboardArrowUpIcon sx={styles.iconSize} />
       </IconButton>
 
       <IconButton
@@ -86,7 +86,7 @@ function SegmentButtons({ segmentIndex }) {
         onClick={handleDelete}
         data-testid="deleteButton"
       >
-        <DeleteIcon sx={styles.iconSize}/>
+        <DeleteIcon sx={styles.iconSize} />
       </IconButton>
 
       <IconButton
@@ -95,7 +95,7 @@ function SegmentButtons({ segmentIndex }) {
         onClick={handleMoveDown}
         data-testid="downButton"
       >
-        <KeyboardArrowDownIcon sx={styles.iconSize}/>
+        <KeyboardArrowDownIcon sx={styles.iconSize} />
       </IconButton>
     </Box>
   );

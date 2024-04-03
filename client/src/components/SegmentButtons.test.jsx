@@ -1,6 +1,8 @@
 import React from "react";
 import { expect, test, describe, beforeEach, vi, afterEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "../theme";
 import SegmentButtons from "./SegmentButtons";
 import MinutesContext from "../contexts/MinutesContext";
 import { mockMinutesContextState } from "../util/test.helpers";
@@ -37,7 +39,9 @@ describe("EditorButtons", () => {
           { updateMinutes: updateMinutesMock },
         ]}
       >
-        <SegmentButtons segmentIndex={0} />
+        <ThemeProvider theme={theme}>
+          <SegmentButtons segmentIndex={0} />
+        </ThemeProvider>
       </MinutesContext.Provider>,
     );
   };
@@ -50,7 +54,9 @@ describe("EditorButtons", () => {
           { updateMinutes: updateMinutesMock },
         ]}
       >
-        <SegmentButtons segmentIndex={1} />
+        <ThemeProvider theme={theme}>
+          <SegmentButtons segmentIndex={1} />
+        </ThemeProvider>
       </MinutesContext.Provider>,
     );
   };
@@ -63,7 +69,9 @@ describe("EditorButtons", () => {
           { updateMinutes: updateMinutesMock },
         ]}
       >
-        <SegmentButtons segmentIndex={2} />
+        <ThemeProvider theme={theme}>
+          <SegmentButtons segmentIndex={2} />
+        </ThemeProvider>
       </MinutesContext.Provider>,
     );
   };

@@ -2,7 +2,6 @@ import React from "react";
 import { expect, test, describe, beforeEach, afterEach, vi } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
-
 import { RouterProvider } from "react-router-dom";
 import TopBar from "./TopBar";
 import MinutesContext from "../contexts/MinutesContext";

@@ -32,7 +32,7 @@ function SideBar() {
     sideBarButton: {
       p: 1.5,
       m: 2,
-      fontSize: theme.fontSizes.s
+      fontSize: theme.fontSizes.s,
     },
   };
 

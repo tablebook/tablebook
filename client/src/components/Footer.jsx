@@ -23,7 +23,7 @@ function Footer() {
       p: 1,
       width: 150,
       textAlign: "center",
-      fontSize: theme.fontSizes.s
+      fontSize: theme.fontSizes.s,
     },
   };
 

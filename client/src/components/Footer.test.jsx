@@ -19,7 +19,7 @@ describe("Footer", () => {
   });
 
   test("renders report button", () => {
-    const reportButton = screen.getByText("Report Issue", { selector: "a" });
+    const reportButton = screen.getByText("Report an issue", { selector: "a" });
     expect(reportButton).toBeDefined();
     expect(reportButton.href).toEqual(
       "https://github.com/tablebook/tablebook/issues/new",
