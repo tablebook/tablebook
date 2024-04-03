@@ -111,7 +111,7 @@ function TopBar() {
       >
         <Box sx={styles.titleContainer}>
           <Image src={logoImage} />
-          <Typography variant="h3">TableBook</Typography>
+          <Typography variant="header">TableBook</Typography>
         </Box>
       </Link>
 
