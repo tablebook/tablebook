@@ -37,7 +37,7 @@ function SharePopup() {
       textAlign: "center",
       backgroundColor: theme.palette.background.main,
       p: 1,
-      fontSize: theme.fontSizes.l,
+      fontSize: theme.fontSizes.m,
     },
   };
 
