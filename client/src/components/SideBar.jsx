@@ -49,28 +49,33 @@ function SideBar() {
 
   return (
     <Box sx={styles.sideBarContainer}>
-      <ColorPickerContainer />
-
+      {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
+        <ColorPickerContainer />
+      )}
       <LanguagePickerContainer />
 
       <Box sx={styles.buttonContainer}>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={handleAddField}
-          sx={styles.sideBarButton}
-        >
-          Add a field
-        </Button>
+        {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
+          <>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleAddField}
+              sx={styles.sideBarButton}
+            >
+              Add a field
+            </Button>
 
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={styles.sideBarButton}
-          onClick={() => updateEditor({ isSignatureModalOpen: true })}
-        >
-          Sign
-        </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={styles.sideBarButton}
+              onClick={() => updateEditor({ isSignatureModalOpen: true })}
+            >
+              Sign
+            </Button>
+          </>
+        )}
 
         <Button variant="contained" color="secondary" sx={styles.sideBarButton}>
           Preview
