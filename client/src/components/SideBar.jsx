@@ -30,9 +30,9 @@ function SideBar() {
     },
 
     sideBarButton: {
-      p: 2,
+      p: 1.5,
       m: 2,
-      border: 0.5,
+      fontSize: theme.fontSizes.s,
     },
   };
 

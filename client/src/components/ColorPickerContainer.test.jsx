@@ -1,6 +1,8 @@
 import React from "react";
 import { expect, test, describe, beforeEach, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "../theme";
 import MinutesContext from "../contexts/MinutesContext";
 import ColorPickerContainer from "./ColorPickerContainer";
 import { mockMinutesContextState } from "../util/test.helpers";
@@ -13,7 +15,9 @@ describe("ColorPickerContainer", () => {
       <MinutesContext.Provider
         value={[mockMinutesContextState, { updateMinutes: updateMinutesMock }]}
       >
-        <ColorPickerContainer />
+        <ThemeProvider theme={theme}>
+          <ColorPickerContainer />
+        </ThemeProvider>
       </MinutesContext.Provider>,
     );
   });

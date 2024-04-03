@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
-import { Box, InputBase } from "@mui/material";
+import { Box, InputBase, useTheme } from "@mui/material";
 import MinutesContext from "../contexts/MinutesContext";
 
 function Title() {
+  const theme = useTheme();
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
 
   const handleTitleChange = (event) => {
@@ -17,7 +18,7 @@ function Title() {
     },
 
     titleText: {
-      fontSize: "2rem",
+      fontSize: theme.fontSizes.l,
       textAlign: "center",
       color: minutesState.minutes.colors.primary,
     },

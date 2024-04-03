@@ -18,7 +18,7 @@ function ColorPickerContainer() {
     },
 
     customizeTitle: {
-      fontSize: 22,
+      fontSize: theme.fontSizes.m,
       textAlign: "center",
       fontStyle: "italic",
       fontWeight: "bold",
@@ -46,7 +46,7 @@ function ColorPickerContainer() {
 
     restoreButton: {
       width: 170,
-      fontSize: 12,
+      fontSize: theme.fontSizes.xs,
       border: 0.5,
     },
   };

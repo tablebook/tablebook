@@ -1,6 +1,8 @@
 import React from "react";
 import { expect, test, describe, beforeEach, vi, afterEach } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "../theme";
 import Segment from "./Segment";
 import MinutesContext from "../contexts/MinutesContext";
 import { mockMinutesContextState } from "../util/test.helpers";
@@ -13,7 +15,9 @@ describe("Segment", () => {
       <MinutesContext.Provider
         value={[mockMinutesContextState, { updateMinutes: updateMinutesMock }]}
       >
-        <Segment segmentIndex={0} />
+        <ThemeProvider theme={theme}>
+          <Segment segmentIndex={0} />
+        </ThemeProvider>
       </MinutesContext.Provider>,
     );
   });
