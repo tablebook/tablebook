@@ -32,10 +32,9 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: {
-      header: ["Lilitia One", "sans-serif"].join(","),
-      editor: ["Roboto", "sans-serif"].join(","),
-      general: ["Tilt Neon", "sans-serif"].join(","),
+    fontFamily: ["Roboto", "sans-serif"].join(","), // default font
+    h3: {
+      fontFamily: ["Lilita One", "sans-serif"].join(","), // font family for h3/header
     },
   },
 });
