@@ -10,31 +10,65 @@ import { mockMinutesContextState } from "../util/test.helpers";
 describe("Title", () => {
   const updateMinutesMock = vi.fn();
 
-  beforeEach(() => {
+  const renderWith = (mockMinutesState) => {
     render(
       <MinutesContext.Provider
-        value={[mockMinutesContextState, { updateMinutes: updateMinutesMock }]}
+        value={[mockMinutesState, { updateMinutes: updateMinutesMock }]}
       >
         <ThemeProvider theme={theme}>
           <Title />
         </ThemeProvider>
       </MinutesContext.Provider>,
     );
-  });
+  };
 
   afterEach(async () => {
     vi.restoreAllMocks();
   });
 
-  test("renders title input with correct placeholder", () => {
-    const titleInput = screen.getByPlaceholderText("Enter main title");
-    expect(titleInput).toBeInTheDocument();
+  describe("with writeAccess", () => {
+    beforeEach(() => {
+      renderWith(mockMinutesContextState);
+    });
+
+    test("title input is NOT readonly", async () => {
+      const titleInput = screen.getByPlaceholderText("Enter main title");
+      expect(titleInput.attributes.readonly).toBeFalsy();
+    });
+
+    test("renders title input with correct placeholder", () => {
+      const titleInput = screen.getByPlaceholderText("Enter main title");
+      expect(titleInput).toBeInTheDocument();
+    });
+
+    test("changing the title calls updateMinutes", async () => {
+      const titleInput = screen.getByPlaceholderText("Enter main title");
+      fireEvent.change(titleInput, { target: { value: "new" } });
+      expect(updateMinutesMock).toHaveBeenCalled();
+      expect(updateMinutesMock).toHaveBeenCalledWith({ name: "new" });
+    });
   });
 
-  test("changing the title calls updateMinutes", async () => {
-    const titleInput = screen.getByPlaceholderText("Enter main title");
-    fireEvent.change(titleInput, { target: { value: "new" } });
-    expect(updateMinutesMock).toHaveBeenCalled();
-    expect(updateMinutesMock).toHaveBeenCalledWith({ name: "new" });
+  describe("without writeAccess", () => {
+    beforeEach(() => {
+      renderWith({
+        ...mockMinutesContextState,
+        metadata: {
+          ...mockMinutesContextState.metadata,
+          writeAccess: false,
+          writeToken: null,
+        },
+      });
+    });
+
+    test("renders title input with correct placeholder", () => {
+      const titleInput = screen.getByPlaceholderText("Enter main title");
+      expect(titleInput).toBeInTheDocument();
+    });
+
+    test("title input is readonly", async () => {
+      const titleInput = screen.getByPlaceholderText("Enter main title");
+      expect(titleInput.attributes.readonly).toBeTruthy();
+    });
   });
 });
