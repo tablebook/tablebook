@@ -31,6 +31,13 @@ const theme = createTheme({
       contrastText: "#ffffff",
     },
   },
+  typography: {
+    fontFamily: {
+      header: ["Lilitia One", "sans-serif"].join(","),
+      editor: ["Roboto", "sans-serif"].join(","),
+      general: ["Tilt Neon", "sans-serif"].join(","),
+    },
+  },
 });
 
 export default theme;
