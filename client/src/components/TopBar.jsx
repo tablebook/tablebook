@@ -22,6 +22,7 @@ function TopBar() {
       minHeight: 70,
       display: "flex",
       alignItems: "center",
+      justifyContent: "space-between",
       zIndex: 1
     },
 
@@ -33,10 +34,7 @@ function TopBar() {
 
     buttonsBox: {
       display: "flex",
-      width: "100vw",
       whiteSpace: "nowrap",
-      justifyContent: "end",
-      zIndex: -1,
     },
 
     titleContainer: {
