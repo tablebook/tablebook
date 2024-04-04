@@ -16,14 +16,12 @@ function EditorPage() {
       flexDirection: "column",
       justifyContent: "space-between",
       backgroundColor: theme.palette.background.main,
-      height: "100dvh",
     },
 
     innerContainer: {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
-      height: "100dvh",
     },
 
     editorContainer: {
@@ -57,7 +55,7 @@ function EditorPage() {
           {/* mimics sideBar to center the paper */}
           <Box sx={styles.sidebarImitation} />
         </Box>
-        <Footer />
+        <Footer/>
       </Box>
       <SignatureModal />
       <SharePopup />

@@ -32,10 +32,8 @@ function ColorPickerContainer() {
       borderRadius: 5,
       border: 0.5,
       boxShadow: 1,
-      py: 2,
-      px: 2,
-      my: 1,
-      mx: 1,
+      p: 2,
+      m: 1
     },
 
     restoreButtonContainer: {

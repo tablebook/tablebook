@@ -18,7 +18,7 @@ function TopBar() {
       backgroundColor: theme.palette.primary.main,
       width: "100vw",
       minWidth: 900,
-      height: "12dvh",
+      height: "9dvh",
       minHeight: 70,
       display: "flex",
       alignItems: "center",

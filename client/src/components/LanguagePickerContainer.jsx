@@ -12,8 +12,8 @@ function LanguagePickerContainer() {
   const styles = {
     languagePickerContainer: {
       textAlign: "center",
-      mt: 4,
-      mb: 6,
+      mt: 3,
+      mb: 8,
       position: "relative",
       cursor: "pointer",
     },
