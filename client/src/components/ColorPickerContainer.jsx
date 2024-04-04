@@ -12,6 +12,7 @@ function ColorPickerContainer() {
   const styles = {
     colorPickerContainer: {
       width: "85%",
+      maxWidth: 280,
       position: "relative",
       display: "flex",
       flexDirection: "column",
@@ -20,7 +21,6 @@ function ColorPickerContainer() {
     customizeTitle: {
       fontSize: theme.fontSizes.m,
       textAlign: "center",
-      fontStyle: "italic",
       fontWeight: "bold",
     },
 

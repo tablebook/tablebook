@@ -25,6 +25,7 @@ function SideBar() {
       display: "flex",
       flexDirection: "column",
       width: "75%",
+      maxWidth: 240,
     },
 
     sideBarButton: {
