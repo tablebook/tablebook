@@ -172,7 +172,7 @@ function TopBar() {
               color="secondary"
               sx={styles.topBarButton}
             >
-              Revert
+              Reload
             </Button>
           </>
         )}

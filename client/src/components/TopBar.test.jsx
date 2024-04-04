@@ -115,11 +115,11 @@ describe("TopBar", () => {
       });
     });
 
-    test("doesn't render revert button", () => {
-      const revertButton = screen.queryByText("Revert", {
+    test("doesn't render reload button", () => {
+      const reloadButton = screen.queryByText("Reload", {
         selector: "button",
       });
-      expect(revertButton).not.toBeInTheDocument();
+      expect(reloadButton).not.toBeInTheDocument();
     });
 
     test("doesn't render save button", () => {
@@ -274,11 +274,11 @@ describe("TopBar", () => {
       });
     });
 
-    test("renders revert button", () => {
-      const revertButton = screen.getByText("Revert", {
+    test("renders reload button", () => {
+      const reloadButton = screen.getByText("Reload", {
         selector: "button",
       });
-      expect(revertButton).toBeInTheDocument();
+      expect(reloadButton).toBeInTheDocument();
     });
 
     describe("Share button", () => {
@@ -341,11 +341,11 @@ describe("TopBar", () => {
       expect(storageStatus).toBeInTheDocument();
     });
 
-    test("doesn't render revert button", () => {
-      const revertButton = screen.queryByText("Revert", {
+    test("doesn't render reload button", () => {
+      const reloadButton = screen.queryByText("Reload", {
         selector: "button",
       });
-      expect(revertButton).not.toBeInTheDocument();
+      expect(reloadButton).not.toBeInTheDocument();
     });
 
     test("doesn't render save button", () => {
