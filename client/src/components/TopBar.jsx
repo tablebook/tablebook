@@ -17,21 +17,26 @@ function TopBar() {
     topBarContainer: {
       backgroundColor: theme.palette.primary.main,
       width: "100vw",
-      height: 80,
+      minWidth: 900,
+      height: "12dvh",
+      minHeight: 70,
       display: "flex",
       alignItems: "center",
+      zIndex: 1
     },
 
     topBarButton: {
       mx: 1.5,
       fontSize: theme.fontSizes.s,
+      minWidth: "auto"
     },
 
     buttonsBox: {
       display: "flex",
       width: "100vw",
+      whiteSpace: "nowrap",
       justifyContent: "end",
-      px: 2,
+      zIndex: -1,
     },
 
     titleContainer: {
