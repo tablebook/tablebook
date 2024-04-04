@@ -4,7 +4,7 @@ import MinutesContext from "../contexts/MinutesContext";
 
 function Segment({ segmentIndex }) {
   const theme = useTheme();
-  const [state, { updateMinutes }] = useContext(MinutesContext);
+  const [minutesState, { updateMinutes }] = useContext(MinutesContext);
 
   const styles = {
     contentContainer: {
@@ -13,7 +13,7 @@ function Segment({ segmentIndex }) {
 
     contentTitleText: {
       fontSize: theme.fontSizes.m,
-      color: state.minutes.colors.primary,
+      color: minutesState.minutes.colors.primary,
     },
 
     contentTitleInput: {
@@ -22,7 +22,7 @@ function Segment({ segmentIndex }) {
 
     contentText: {
       fontSize: theme.fontSizes.s,
-      color: state.minutes.colors.primary,
+      color: minutesState.minutes.colors.primary,
     },
 
     contentInput: {
@@ -33,14 +33,14 @@ function Segment({ segmentIndex }) {
 
   const handleTitleChange = (event) => {
     const newTitle = event.target.value;
-    const newSegments = structuredClone(state.minutes.segments);
+    const newSegments = structuredClone(minutesState.minutes.segments);
     newSegments[segmentIndex].name = newTitle;
     updateMinutes({ segments: newSegments });
   };
 
   const handleContentChange = (event) => {
     const newContent = event.target.value;
-    const newSegments = structuredClone(state.minutes.segments);
+    const newSegments = structuredClone(minutesState.minutes.segments);
     newSegments[segmentIndex].content = newContent;
     updateMinutes({ segments: newSegments });
   };
@@ -50,19 +50,25 @@ function Segment({ segmentIndex }) {
       <InputBase
         name="contentTitle"
         placeholder="Enter the title"
-        value={state.minutes.segments[segmentIndex].name}
+        value={minutesState.minutes.segments[segmentIndex].name}
         fullWidth
-        inputProps={{ style: styles.contentTitleText }}
+        inputProps={{
+          style: styles.contentTitleText,
+          readOnly: minutesState.metadata.writeAccess === false,
+        }}
         sx={styles.contentTitleInput}
         onChange={handleTitleChange}
       />
       <InputBase
         name="content"
         placeholder="Enter the content"
-        value={state.minutes.segments[segmentIndex].content}
+        value={minutesState.minutes.segments[segmentIndex].content}
         fullWidth
         multiline
-        inputProps={{ style: styles.contentText }}
+        inputProps={{
+          style: styles.contentText,
+          readOnly: minutesState.metadata.writeAccess === false,
+        }}
         sx={styles.contentInput}
         onChange={handleContentChange}
       />

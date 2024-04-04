@@ -51,7 +51,7 @@ describe("TopBar", () => {
         ...mockMinutesContextState,
         metadata: {
           readToken: null,
-          writeAccess: false,
+          writeAccess: null,
           writeToken: null,
         },
       });
@@ -61,6 +61,11 @@ describe("TopBar", () => {
       const titleElement = screen.getByText("TableBook").closest("a");
       expect(titleElement).toBeDefined();
       expect(titleElement.href).toEqual("http://localhost:3000/minutes");
+    });
+
+    test("renders correct storage status", () => {
+      const storageStatus = screen.getByText("Minutes not stored");
+      expect(storageStatus).toBeInTheDocument();
     });
 
     describe("Create New Button", () => {
@@ -110,11 +115,18 @@ describe("TopBar", () => {
       });
     });
 
-    test("renders revert button", () => {
-      const revertButton = screen.getByText("Revert", {
+    test("doesn't render revert button", () => {
+      const revertButton = screen.queryByText("Revert", {
         selector: "button",
       });
-      expect(revertButton).toBeDefined();
+      expect(revertButton).not.toBeInTheDocument();
+    });
+
+    test("doesn't render save button", () => {
+      const saveButton = screen.queryByText("Save", {
+        selector: "button",
+      });
+      expect(saveButton).not.toBeInTheDocument();
     });
 
     describe("Share button", () => {
@@ -191,9 +203,14 @@ describe("TopBar", () => {
     });
   });
 
-  describe("with saved minutes", () => {
+  describe("with saved minutes and write access", () => {
     beforeEach(() => {
       renderWith(mockMinutesContextState);
+    });
+
+    test("renders correct storage status", () => {
+      const storageStatus = screen.getByText("Editing stored minutes");
+      expect(storageStatus).toBeInTheDocument();
     });
 
     describe("Save button", () => {
@@ -255,6 +272,87 @@ describe("TopBar", () => {
           expect(alert).toHaveBeenCalledWith("Saving minutes failed");
         });
       });
+    });
+
+    test("renders revert button", () => {
+      const revertButton = screen.getByText("Revert", {
+        selector: "button",
+      });
+      expect(revertButton).toBeInTheDocument();
+    });
+
+    describe("Share button", () => {
+      beforeEach(() => {
+        vi.stubGlobal("confirm", vi.fn());
+      });
+
+      afterEach(() => {
+        vi.unstubAllGlobals();
+      });
+
+      test("renders", () => {
+        const shareButton = screen.getByText("Share", {
+          selector: "button",
+        });
+        expect(shareButton).toBeDefined();
+      });
+
+      test("doesn't open dialogue or send minutes. Only sets editor context", async () => {
+        const mockCreateMinutes = vi.spyOn(minutesService, "createMinutes");
+        mockCreateMinutes.mockResolvedValueOnce(mockPostMinutesResponse);
+
+        const shareButton = screen.getByText("Share", {
+          selector: "button",
+        });
+
+        shareButton.click();
+
+        // Waits for async calls to finish
+        await waitFor(() => {
+          expect(window.confirm).not.toHaveBeenCalled();
+          expect(mockCreateMinutes).not.toHaveBeenCalled();
+          expect(updateMetadataMock).not.toHaveBeenCalled();
+          expect(updateEditorMock).toHaveBeenCalledOnce();
+          expect(
+            updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
+          ).toBeDefined();
+          expect(
+            updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
+          ).toHaveRole("button");
+        });
+      });
+    });
+  });
+
+  describe("with saved minutes and no write access", () => {
+    beforeEach(() => {
+      renderWith({
+        ...mockMinutesContextState,
+        metadata: {
+          ...mockMinutesContextState.metadata,
+          writeAccess: false,
+          writeToken: null,
+        },
+      });
+    });
+
+    test("renders correct storage status", () => {
+      const storageStatus = screen.getByText("Reading stored minutes");
+      expect(storageStatus).toBeInTheDocument();
+    });
+
+    test("doesn't render revert button", () => {
+      const revertButton = screen.queryByText("Revert", {
+        selector: "button",
+      });
+      expect(revertButton).not.toBeInTheDocument();
+    });
+
+    test("doesn't render save button", () => {
+      const saveButton = screen.queryByText("Save", {
+        selector: "button",
+      });
+      expect(saveButton).not.toBeInTheDocument();
     });
 
     describe("Share button", () => {

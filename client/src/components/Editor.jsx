@@ -9,7 +9,7 @@ import Signature from "./Signature";
 import MinutesContext from "../contexts/MinutesContext";
 
 function Editor() {
-  const [state] = useContext(MinutesContext);
+  const [minutesState] = useContext(MinutesContext);
 
   const styles = {
     editorContainer: {
@@ -19,7 +19,7 @@ function Editor() {
       width: "40vw",
       minWidth: 400,
       maxWidth: 1200,
-      backgroundColor: state.minutes.colors.secondary,
+      backgroundColor: minutesState.minutes.colors.secondary,
     },
 
     bottomContainer: {
@@ -43,11 +43,13 @@ function Editor() {
         <Title />
       </SegmentContainer>
 
-      {state.minutes.segments.map((segment, index) => (
+      {minutesState.minutes.segments.map((segment, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <SegmentContainer key={index}>
           <SideContainer>
-            <SegmentButtons segmentIndex={index} />
+            {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
+              <SegmentButtons segmentIndex={index} />
+            )}
           </SideContainer>
           <Segment segmentIndex={index} />
         </SegmentContainer>

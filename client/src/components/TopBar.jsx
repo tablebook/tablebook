@@ -31,6 +31,7 @@ function TopBar() {
       display: "flex",
       width: "100vw",
       justifyContent: "end",
+      px: 2,
     },
 
     titleContainer: {
@@ -42,6 +43,16 @@ function TopBar() {
       pl: 2,
       pr: 4,
       ml: 2,
+    },
+
+    statusMessageContainer: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: theme.palette.background.main,
+      px: 2,
+      borderRadius: 1,
+      mx: 1.5,
     },
   };
 
@@ -102,6 +113,19 @@ function TopBar() {
     }
   };
 
+  const getStatusMessage = () => {
+    switch (minutesState.metadata.writeAccess) {
+      case null:
+        return "Minutes not stored";
+      case true:
+        return "Editing stored minutes";
+      case false:
+        return "Reading stored minutes";
+      default:
+        return "Unknown state";
+    }
+  };
+
   return (
     <Box sx={styles.topBarContainer}>
       <Link
@@ -117,6 +141,12 @@ function TopBar() {
       </Link>
 
       <Box sx={styles.buttonsBox}>
+        <Box sx={styles.statusMessageContainer}>
+          <Typography color="background.contrastText">
+            {getStatusMessage()}
+          </Typography>
+        </Box>
+
         <Button
           variant="contained"
           color="secondary"
@@ -126,18 +156,26 @@ function TopBar() {
           Create New
         </Button>
 
-        <Button variant="contained" color="secondary" sx={styles.topBarButton}>
-          Revert
-        </Button>
+        {minutesState.metadata.writeAccess && (
+          <>
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={styles.topBarButton}
+              onClick={handleSaveClicked}
+            >
+              Save
+            </Button>
 
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={styles.topBarButton}
-          onClick={handleSaveClicked}
-        >
-          Save
-        </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={styles.topBarButton}
+            >
+              Revert
+            </Button>
+          </>
+        )}
 
         <Button
           variant="contained"

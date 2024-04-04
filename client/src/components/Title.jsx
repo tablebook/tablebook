@@ -31,7 +31,10 @@ function Title() {
         placeholder="Enter main title"
         value={minutesState.minutes.name}
         fullWidth
-        inputProps={{ style: styles.titleText }}
+        inputProps={{
+          style: styles.titleText,
+          readOnly: minutesState.metadata.writeAccess === false,
+        }}
         onChange={handleTitleChange}
       />
     </Box>
