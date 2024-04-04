@@ -18,12 +18,19 @@ function EditorPage() {
       display: "flex",
       flexDirection: "column",
     },
+    topBar: {
+      height: 80,
+      flexShrink: 0,
+    },
     body: {
       display: "flex",
       justifyContent: "space-between",
       flexGrow: 1,
       minWidth: 950,
       overflowY: "auto",
+    },
+    footer: {
+      height: 30,
     },
     scrollable: {
       flexGrow: 1,
@@ -33,7 +40,9 @@ function EditorPage() {
 
   return (
     <Box sx={styles.app}>
-      <TopBar />
+      <Box sx={styles.topBar}>
+        <TopBar />
+      </Box>
       <Box sx={styles.body}>
         <SideBar />
         <Box sx={styles.scrollable}>
@@ -41,7 +50,9 @@ function EditorPage() {
           <Box sx={{ width: "24vw" }} />
         </Box>
       </Box>
-      <Footer />
+      <Box sx={styles.footer}>
+        <Footer />
+      </Box>
       <SignatureModal />
       <SharePopup />
     </Box>

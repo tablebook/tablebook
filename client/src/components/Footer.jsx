@@ -9,12 +9,12 @@ function Footer() {
     footerContainer: {
       backgroundColor: theme.palette.footer.main,
       display: "flex",
-      justifyContent: "center",
+      justifyContent: "space-evenly",
       alignItems: "center",
+      height: "100%",
     },
 
     footerItem: {
-      px: 10,
       fontSize: theme.fontSizes.s,
     },
   };

@@ -20,7 +20,7 @@ function TopBar() {
       alignItems: "center",
       justifyContent: "space-between",
       whiteSpace: "nowrap",
-      height: 80,
+      height: "100%",
     },
 
     topBarButton: {
