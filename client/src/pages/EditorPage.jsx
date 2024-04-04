@@ -11,16 +11,23 @@ function EditorPage() {
   const theme = useTheme();
 
   const styles = {
-    body: {
+    app: {
+      height: "100dvh",
+      overflow: "hidden",
       backgroundColor: theme.palette.background.main,
       display: "flex",
+      flexDirection: "column",
+    },
+    body: {
+      display: "flex",
       justifyContent: "space-between",
+      flex: 1,
       minWidth: 950,
     },
   };
 
   return (
-    <>
+    <Box sx={styles.app}>
       <TopBar />
       <Box sx={styles.body}>
         <SideBar />
@@ -30,7 +37,7 @@ function EditorPage() {
       <Footer />
       <SignatureModal />
       <SharePopup />
-    </>
+    </Box>
   );
 }
 

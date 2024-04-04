@@ -16,8 +16,7 @@ function TopBar() {
   const styles = {
     topBarContainer: {
       backgroundColor: theme.palette.primary.main,
-      height: "9dvh",
-      minHeight: 70,
+      height: 70,
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
@@ -32,6 +31,10 @@ function TopBar() {
       minWidth: "auto",
     },
 
+    buttonContainer: {
+      display: "flex",
+    },
+
     titleContainer: {
       display: "flex",
       backgroundColor: theme.palette.background.main,
@@ -40,7 +43,7 @@ function TopBar() {
       boxShadow: 3,
       pl: 2,
       pr: 4,
-      ml: "1vw",
+      ml: 1,
     },
 
     statusMessageContainer: {
@@ -138,61 +141,54 @@ function TopBar() {
         </Box>
       </Link>
 
-      <Box sx={styles.buttonsBox}>
+      <Box sx={styles.buttonContainer}>
         <Box sx={styles.statusMessageContainer}>
           <Typography color="background.contrastText">
             {getStatusMessage()}
           </Typography>
         </Box>
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={styles.topBarButton}
+          onClick={handleCreateNewClicked}
+        >
+          Create New
+        </Button>
 
-        <Box>
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={styles.topBarButton}
-            onClick={handleCreateNewClicked}
-          >
-            Create New
-          </Button>
+        {minutesState.metadata.writeAccess && (
+          <>
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={styles.topBarButton}
+              onClick={handleSaveClicked}
+            >
+              Save
+            </Button>
 
-          {minutesState.metadata.writeAccess && (
-            <>
-              <Button
-                variant="contained"
-                color="secondary"
-                sx={styles.topBarButton}
-                onClick={handleSaveClicked}
-              >
-                Save
-              </Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={styles.topBarButton}
+            >
+              Revert
+            </Button>
+          </>
+        )}
 
-              <Button
-                variant="contained"
-                color="secondary"
-                sx={styles.topBarButton}
-              >
-                Revert
-              </Button>
-            </>
-          )}
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={styles.topBarButton}
+          onClick={handleShareClicked}
+        >
+          Share
+        </Button>
 
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={styles.topBarButton}
-            onClick={handleShareClicked}
-          >
-            Share
-          </Button>
-
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={styles.topBarButton}
-          >
-            Print PDF
-          </Button>
-        </Box>
+        <Button variant="contained" color="secondary" sx={styles.topBarButton}>
+          Print PDF
+        </Button>
       </Box>
     </Box>
   );

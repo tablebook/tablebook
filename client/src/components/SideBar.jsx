@@ -16,7 +16,7 @@ function SideBar() {
       display: "flex",
       flexDirection: "column",
       width: "20vw",
-      minWidth: 200,
+      minWidth: 240,
       alignItems: "center",
       pt: 5,
     },
