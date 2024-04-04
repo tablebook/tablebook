@@ -90,6 +90,8 @@ describe("LoadingPage", () => {
       expect(updateMetadataMock).toHaveBeenCalledOnce();
       expect(updateMetadataMock).toHaveBeenCalledWith({
         writeAccess: mockGetMinutesResponse.writeAccess,
+        writeToken: mockGetMinutesResponse.writeToken,
+        readToken: mockGetMinutesResponse.readToken,
       });
 
       expect(mockNavigate.mock.calls[0][0]).toBe("/minutes");
