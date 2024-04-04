@@ -40,7 +40,7 @@ function LanguagePickerContainer() {
     },
 
     flag: {
-      width: 30,
+      width: 34,
       height: "auto",
       border: 1,
       borderRadius: 1,
