@@ -21,11 +21,13 @@ function EditorPage() {
     body: {
       display: "flex",
       justifyContent: "space-between",
-      flex: 1,
+      flexGrow: 1,
       minWidth: 950,
+      overflowY: "auto",
     },
     scrollable: {
-      flex: 1,
+      flexGrow: 1,
+      overflowY: "auto",
     },
   };
 

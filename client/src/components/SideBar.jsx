@@ -18,7 +18,7 @@ function SideBar() {
       width: "20vw",
       minWidth: 240,
       alignItems: "center",
-      pt: 5,
+      overflow: "auto",
     },
 
     buttonContainer: {

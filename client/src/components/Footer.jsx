@@ -10,7 +10,7 @@ function Footer() {
       backgroundColor: theme.palette.footer.main,
       display: "flex",
       justifyContent: "center",
-      minWidth: 950,
+      alignItems: "center",
     },
 
     footerItem: {

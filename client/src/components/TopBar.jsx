@@ -16,19 +16,16 @@ function TopBar() {
   const styles = {
     topBarContainer: {
       backgroundColor: theme.palette.primary.main,
-      height: 70,
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      zIndex: 1,
       whiteSpace: "nowrap",
-      minWidth: 950,
+      height: 80,
     },
 
     topBarButton: {
       mx: 1.5,
       fontSize: theme.fontSizes.s,
-      minWidth: "auto",
     },
 
     buttonContainer: {

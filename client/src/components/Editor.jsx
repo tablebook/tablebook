@@ -17,7 +17,6 @@ function Editor() {
       flexDirection: "column",
       width: 700,
       backgroundColor: minutesState.minutes.colors.secondary,
-      my: 6,
       mr: 5,
     },
 
