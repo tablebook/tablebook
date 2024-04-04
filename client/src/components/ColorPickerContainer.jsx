@@ -11,7 +11,7 @@ function ColorPickerContainer() {
 
   const styles = {
     colorPickerContainer: {
-      width: "75%",
+      width: "85%",
       position: "relative",
       display: "flex",
       flexDirection: "column",
@@ -33,7 +33,7 @@ function ColorPickerContainer() {
       border: 0.5,
       boxShadow: 1,
       p: 2,
-      m: 1
+      m: 1,
     },
 
     restoreButtonContainer: {

@@ -17,10 +17,11 @@ function Editor() {
       flexDirection: "column",
       minHeight: "79dvh",
       width: "40vw",
-      minWidth: 400,
+      minWidth: 600,
       maxWidth: 1200,
       backgroundColor: minutesState.minutes.colors.secondary,
-      my: "5dvh"
+      my: "5dvh",
+      mr: "2vw",
     },
 
     bottomContainer: {

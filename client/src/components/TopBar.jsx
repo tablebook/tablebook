@@ -16,25 +16,20 @@ function TopBar() {
   const styles = {
     topBarContainer: {
       backgroundColor: theme.palette.primary.main,
-      width: "100vw",
-      minWidth: 900,
       height: "9dvh",
       minHeight: 70,
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      zIndex: 1
+      zIndex: 1,
+      whiteSpace: "nowrap",
+      minWidth: 950,
     },
 
     topBarButton: {
       mx: 1.5,
       fontSize: theme.fontSizes.s,
-      minWidth: "auto"
-    },
-
-    buttonsBox: {
-      display: "flex",
-      whiteSpace: "nowrap",
+      minWidth: "auto",
     },
 
     titleContainer: {
@@ -45,7 +40,7 @@ function TopBar() {
       boxShadow: 3,
       pl: 2,
       pr: 4,
-      ml: 2,
+      ml: "1vw",
     },
 
     statusMessageContainer: {
@@ -150,48 +145,54 @@ function TopBar() {
           </Typography>
         </Box>
 
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={styles.topBarButton}
-          onClick={handleCreateNewClicked}
-        >
-          Create New
-        </Button>
+        <Box>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={styles.topBarButton}
+            onClick={handleCreateNewClicked}
+          >
+            Create New
+          </Button>
 
-        {minutesState.metadata.writeAccess && (
-          <>
-            <Button
-              variant="contained"
-              color="secondary"
-              sx={styles.topBarButton}
-              onClick={handleSaveClicked}
-            >
-              Save
-            </Button>
+          {minutesState.metadata.writeAccess && (
+            <>
+              <Button
+                variant="contained"
+                color="secondary"
+                sx={styles.topBarButton}
+                onClick={handleSaveClicked}
+              >
+                Save
+              </Button>
 
-            <Button
-              variant="contained"
-              color="secondary"
-              sx={styles.topBarButton}
-            >
-              Revert
-            </Button>
-          </>
-        )}
+              <Button
+                variant="contained"
+                color="secondary"
+                sx={styles.topBarButton}
+              >
+                Revert
+              </Button>
+            </>
+          )}
 
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={styles.topBarButton}
-          onClick={handleShareClicked}
-        >
-          Share
-        </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={styles.topBarButton}
+            onClick={handleShareClicked}
+          >
+            Share
+          </Button>
 
-        <Button variant="contained" color="secondary" sx={styles.topBarButton}>
-          Print PDF
-        </Button>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={styles.topBarButton}
+          >
+            Print PDF
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

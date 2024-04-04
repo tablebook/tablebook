@@ -16,16 +16,15 @@ function SideBar() {
       display: "flex",
       flexDirection: "column",
       width: "20vw",
-      minWidth: 280,
-      minHeight: 560,
+      minWidth: 200,
       alignItems: "center",
-      justifyContent: "center",
+      pt: 5,
     },
 
     buttonContainer: {
       display: "flex",
       flexDirection: "column",
-      width: "65%",
+      width: "75%",
     },
 
     sideBarButton: {
