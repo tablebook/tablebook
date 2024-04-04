@@ -35,6 +35,8 @@ function EditorPage() {
     scrollable: {
       flexGrow: 1,
       overflowY: "auto",
+      display: "flex",
+      flexDirection: "row",
     },
   };
 

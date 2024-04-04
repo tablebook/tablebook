@@ -44,7 +44,6 @@ function ColorPicker({ onColorChange, currColor }) {
     },
     colorPicker: {
       position: "absolute",
-      zIndex: "999",
       left: "92%",
     },
     colorPickerMap: {

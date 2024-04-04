@@ -14,6 +14,10 @@ function Editor() {
   const styles = {
     outerContainer: {
       py: 3,
+      flexGrow: 1,
+      display: "flex",
+      alignItems: "center",
+      flexDirection: "column",
     },
 
     editorContainer: {
