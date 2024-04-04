@@ -1,6 +1,7 @@
 import { Box, Link, Button, useTheme, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import _ from "lodash";
 import EditorContext from "../contexts/EditorContext";
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
@@ -10,7 +11,7 @@ import Image from "./Image";
 function TopBar() {
   const theme = useTheme();
   const [, updateEditor] = useContext(EditorContext);
-  const [minutesState, { updateMetadata, clearState }] =
+  const [minutesState, { updateMinutes, updateMetadata, clearState }] =
     useContext(MinutesContext);
 
   const styles = {
@@ -126,6 +127,29 @@ function TopBar() {
     }
   };
 
+  const handleReloadClicked = async () => {
+    const minutesResponse = await minutesService.getMinutesByToken(
+      minutesState.metadata.writeToken ?? minutesState.metadata.readToken,
+    );
+
+    if (
+      !_.isEqual(minutesState.minutes, minutesResponse.data) && // If state differs from incoming minutes
+      !window.confirm(
+        "There are changes in the incoming minutes. Are you sure you want to overwrite the current minutes?",
+      ) // If user cancels
+    ) {
+      return;
+    }
+
+    updateMinutes(minutesResponse.data);
+
+    updateMetadata({
+      writeAccess: minutesResponse.writeAccess,
+      readToken: minutesResponse.readToken,
+      writeToken: minutesResponse.writeToken,
+    });
+  };
+
   return (
     <Box sx={styles.topBarContainer}>
       <Link
@@ -157,25 +181,24 @@ function TopBar() {
         </Button>
 
         {minutesState.metadata.writeAccess && (
-          <>
-            <Button
-              variant="contained"
-              color="secondary"
-              sx={styles.topBarButton}
-              onClick={handleSaveClicked}
-            >
-              Save
-            </Button>
-
-            <Button
-              variant="contained"
-              color="secondary"
-              sx={styles.topBarButton}
-            >
-              Reload
-            </Button>
-          </>
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={styles.topBarButton}
+            onClick={handleSaveClicked}
+          >
+            Save
+          </Button>
         )}
+
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={styles.topBarButton}
+          onClick={handleReloadClicked}
+        >
+          Reload
+        </Button>
 
         <Button
           variant="contained"
