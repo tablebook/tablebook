@@ -197,14 +197,16 @@ function TopBar() {
           </Button>
         )}
 
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={styles.topBarButton}
-          onClick={handleReloadClicked}
-        >
-          Reload
-        </Button>
+        {typeof minutesState.metadata.writeAccess === "boolean" && ( // Is defined
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={styles.topBarButton}
+            onClick={handleReloadClicked}
+          >
+            Reload
+          </Button>
+        )}
 
         <Button
           variant="contained"
