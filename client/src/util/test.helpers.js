@@ -63,6 +63,8 @@ export const mockGetMinutesResponse = {
     id: "65f6c154ff6538a943282d8e",
   },
   writeAccess: true,
+  writeToken: "writeaccesstoken",
+  readToken: "readaccesstoken",
 };
 
 export const mockPostMinutesResponse = {
