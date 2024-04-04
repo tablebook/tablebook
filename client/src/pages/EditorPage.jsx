@@ -13,6 +13,7 @@ function EditorPage() {
   const styles = {
     app: {
       height: "100dvh",
+      width: "100vw",
       overflowY: "auto",
       backgroundColor: theme.palette.background.main,
       display: "flex",
@@ -26,7 +27,6 @@ function EditorPage() {
       display: "flex",
       justifyContent: "space-between",
       flexGrow: 1,
-      minWidth: 950,
       overflowY: "auto",
     },
     footer: {
