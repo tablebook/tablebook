@@ -13,7 +13,7 @@ function EditorPage() {
   const styles = {
     app: {
       height: "100dvh",
-      overflow: "hidden",
+      overflowY: "auto",
       backgroundColor: theme.palette.background.main,
       display: "flex",
       flexDirection: "column",
@@ -24,6 +24,9 @@ function EditorPage() {
       flex: 1,
       minWidth: 950,
     },
+    scrollable: {
+      flex: 1,
+    },
   };
 
   return (
@@ -31,8 +34,10 @@ function EditorPage() {
       <TopBar />
       <Box sx={styles.body}>
         <SideBar />
-        <Editor />
-        <Box sx={{ width: "24vw" }} />
+        <Box sx={styles.scrollable}>
+          <Editor />
+          <Box sx={{ width: "24vw" }} />
+        </Box>
       </Box>
       <Footer />
       <SignatureModal />

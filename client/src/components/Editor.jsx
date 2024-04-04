@@ -15,12 +15,10 @@ function Editor() {
     editorContainer: {
       display: "flex",
       flexDirection: "column",
-      maxHeight: 700,
       width: 700,
       backgroundColor: minutesState.minutes.colors.secondary,
       my: 6,
       mr: 5,
-      overflowY: "auto",
     },
 
     bottomContainer: {
