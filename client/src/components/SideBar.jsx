@@ -16,22 +16,21 @@ function SideBar() {
       display: "flex",
       flexDirection: "column",
       width: "20vw",
-      minWidth: 280,
+      minWidth: 240,
       alignItems: "center",
-      justifyContent: "center",
+      overflow: "auto",
     },
 
     buttonContainer: {
       display: "flex",
       flexDirection: "column",
-      width: 180,
-      mt: 3,
-      mb: 5,
+      width: "75%",
+      maxWidth: 240,
     },
 
     sideBarButton: {
       p: 1.5,
-      m: 2,
+      m: 1.5,
       fontSize: theme.fontSizes.s,
     },
   };

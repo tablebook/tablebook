@@ -11,57 +11,53 @@ function EditorPage() {
   const theme = useTheme();
 
   const styles = {
-    outerContainer: {
+    app: {
+      height: "100dvh",
+      width: "100vw",
+      overflowY: "auto",
+      backgroundColor: theme.palette.background.main,
       display: "flex",
       flexDirection: "column",
-      justifyContent: "space-between",
-      backgroundColor: theme.palette.background.main,
-      height: "100dvh",
     },
-
-    innerContainer: {
+    topBar: {
+      height: 80,
+      flexShrink: 0,
+    },
+    body: {
+      display: "flex",
+      justifyContent: "space-between",
+      flexGrow: 1,
+      overflowY: "auto",
+    },
+    footer: {
+      height: 30,
+    },
+    scrollable: {
+      flexGrow: 1,
+      overflowY: "auto",
       display: "flex",
       flexDirection: "row",
-      justifyContent: "space-between",
-      height: "100dvh",
-    },
-
-    editorContainer: {
-      display: "flex",
-      flexDirection: "row",
-      alignItems: "center",
-    },
-
-    sidebarImitation: {
-      width: "20vw",
-      minWidth: 280,
-    },
-
-    editorButtonsImitation: {
-      width: "6.66vw",
-      maxWidth: 200,
     },
   };
 
   return (
-    <>
-      <Box sx={styles.outerContainer}>
+    <Box sx={styles.app}>
+      <Box sx={styles.topBar}>
         <TopBar />
-        <Box sx={styles.innerContainer}>
-          <SideBar />
-          <Box sx={styles.editorContainer}>
-            <Editor />
-            {/* mimics editor buttons to center the paper */}
-            <Box sx={styles.editorButtonsImitation} />
-          </Box>
-          {/* mimics sideBar to center the paper */}
-          <Box sx={styles.sidebarImitation} />
+      </Box>
+      <Box sx={styles.body}>
+        <SideBar />
+        <Box sx={styles.scrollable}>
+          <Editor />
+          <Box sx={{ width: "24vw" }} />
         </Box>
+      </Box>
+      <Box sx={styles.footer}>
         <Footer />
       </Box>
       <SignatureModal />
       <SharePopup />
-    </>
+    </Box>
   );
 }
 

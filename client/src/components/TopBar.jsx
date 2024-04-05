@@ -17,10 +17,14 @@ function TopBar() {
   const styles = {
     topBarContainer: {
       backgroundColor: theme.palette.primary.main,
-      width: "100vw",
-      height: 80,
       display: "flex",
       alignItems: "center",
+      justifyContent: "space-between",
+      height: "100%",
+    },
+
+    titleText: {
+      display: { xs: "none", md: "block" },
     },
 
     topBarButton: {
@@ -28,11 +32,10 @@ function TopBar() {
       fontSize: theme.fontSizes.s,
     },
 
-    buttonsBox: {
+    buttonContainer: {
       display: "flex",
-      width: "100vw",
-      justifyContent: "end",
-      px: 2,
+      overflow: "auto",
+      px: 1,
     },
 
     titleContainer: {
@@ -41,9 +44,8 @@ function TopBar() {
       height: 60,
       borderRadius: 9,
       boxShadow: 3,
-      pl: 2,
-      pr: 4,
-      ml: 2,
+      px: 2,
+      ml: 1,
     },
 
     statusMessageContainer: {
@@ -53,7 +55,10 @@ function TopBar() {
       backgroundColor: theme.palette.background.main,
       px: 2,
       borderRadius: 1,
-      mx: 1.5,
+    },
+
+    statusMessage: {
+      textAlign: "center",
     },
   };
 
@@ -166,17 +171,18 @@ function TopBar() {
       >
         <Box sx={styles.titleContainer}>
           <Image src={logoImage} />
-          <Typography variant="header">TableBook</Typography>
+          <Typography sx={styles.titleText} variant="header">
+            TableBook
+          </Typography>
         </Box>
       </Link>
 
-      <Box sx={styles.buttonsBox}>
+      <Box sx={styles.buttonContainer}>
         <Box sx={styles.statusMessageContainer}>
           <Typography color="background.contrastText">
             {getStatusMessage()}
           </Typography>
         </Box>
-
         <Button
           variant="contained"
           color="secondary"

@@ -8,65 +8,55 @@ function Footer() {
   const styles = {
     footerContainer: {
       backgroundColor: theme.palette.footer.main,
-      width: "100vw",
       display: "flex",
-      justifyContent: "center",
+      justifyContent: "space-evenly",
+      alignItems: "center",
+      height: "100%",
     },
 
-    linkContainer: {
-      width: "40vw",
-      display: "flex",
-      justifyContent: "space-between",
-    },
-
-    linkStyle: {
-      p: 1,
-      width: 150,
-      textAlign: "center",
+    footerItem: {
       fontSize: theme.fontSizes.s,
     },
   };
 
   return (
     <Box sx={styles.footerContainer}>
-      <Box sx={styles.linkContainer}>
-        <Link
-          component={RouterLink}
-          to="https://github.com/tablebook/tablebook/issues/new"
-          variant="h5"
-          color="footer.contrastText"
-          underline="hover"
-          target="_blank"
-          rel="noopener noreferrer"
-          sx={styles.linkStyle}
-        >
-          Report an issue
-        </Link>
-        <Link
-          component={RouterLink}
-          to="https://github.com/tablebook/tablebook"
-          variant="h5"
-          color="footer.contrastText"
-          underline="hover"
-          target="_blank"
-          rel="noopener noreferrer"
-          sx={styles.linkStyle}
-        >
-          GitHub
-        </Link>
-        <Link
-          component={RouterLink}
-          to="https://github.com/tablebook/tablebook/blob/main/LICENSE"
-          variant="h5"
-          color="footer.contrastText"
-          underline="hover"
-          target="_blank"
-          rel="noopener noreferrer"
-          sx={styles.linkStyle}
-        >
-          Copyright
-        </Link>
-      </Box>
+      <Link
+        component={RouterLink}
+        to="https://github.com/tablebook/tablebook/issues/new"
+        variant="h5"
+        color="footer.contrastText"
+        underline="hover"
+        target="_blank"
+        rel="noopener noreferrer"
+        sx={styles.footerItem}
+      >
+        Report an issue
+      </Link>
+      <Link
+        component={RouterLink}
+        to="https://github.com/tablebook/tablebook"
+        variant="h5"
+        color="footer.contrastText"
+        underline="hover"
+        target="_blank"
+        rel="noopener noreferrer"
+        sx={styles.footerItem}
+      >
+        GitHub
+      </Link>
+      <Link
+        component={RouterLink}
+        to="https://github.com/tablebook/tablebook/blob/main/LICENSE"
+        variant="h5"
+        color="footer.contrastText"
+        underline="hover"
+        target="_blank"
+        rel="noopener noreferrer"
+        sx={styles.footerItem}
+      >
+        Copyright
+      </Link>
     </Box>
   );
 }

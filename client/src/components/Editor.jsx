@@ -12,14 +12,20 @@ function Editor() {
   const [minutesState] = useContext(MinutesContext);
 
   const styles = {
+    outerContainer: {
+      py: 3,
+      flexGrow: 1,
+      display: "flex",
+      alignItems: "center",
+      flexDirection: "column",
+    },
+
     editorContainer: {
       display: "flex",
       flexDirection: "column",
-      minHeight: "80dvh",
-      width: "40vw",
-      minWidth: 400,
-      maxWidth: 1200,
+      width: 700,
       backgroundColor: minutesState.minutes.colors.secondary,
+      mr: 5,
     },
 
     bottomContainer: {
@@ -37,28 +43,30 @@ function Editor() {
   };
 
   return (
-    <Box sx={styles.editorContainer}>
-      <SegmentContainer>
-        <SideContainer />
-        <Title />
-      </SegmentContainer>
-
-      {minutesState.minutes.segments.map((segment, index) => (
-        // eslint-disable-next-line react/no-array-index-key
-        <SegmentContainer key={index}>
-          <SideContainer>
-            {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
-              <SegmentButtons segmentIndex={index} />
-            )}
-          </SideContainer>
-          <Segment segmentIndex={index} />
+    <Box sx={styles.outerContainer}>
+      <Box sx={styles.editorContainer}>
+        <SegmentContainer>
+          <SideContainer />
+          <Title />
         </SegmentContainer>
-      ))}
 
-      <Box sx={styles.bottomContainer}>
-        <SideContainer />
-        <Box sx={styles.bottomContentContainer}>
-          <Signature />
+        {minutesState.minutes.segments.map((segment, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <SegmentContainer key={index}>
+            <SideContainer>
+              {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
+                <SegmentButtons segmentIndex={index} />
+              )}
+            </SideContainer>
+            <Segment segmentIndex={index} />
+          </SegmentContainer>
+        ))}
+
+        <Box sx={styles.bottomContainer}>
+          <SideContainer />
+          <Box sx={styles.bottomContentContainer}>
+            <Signature />
+          </Box>
         </Box>
       </Box>
     </Box>

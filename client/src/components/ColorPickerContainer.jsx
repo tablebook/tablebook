@@ -11,7 +11,8 @@ function ColorPickerContainer() {
 
   const styles = {
     colorPickerContainer: {
-      width: 230,
+      width: "85%",
+      maxWidth: 280,
       position: "relative",
       display: "flex",
       flexDirection: "column",
@@ -20,7 +21,6 @@ function ColorPickerContainer() {
     customizeTitle: {
       fontSize: theme.fontSizes.m,
       textAlign: "center",
-      fontStyle: "italic",
       fontWeight: "bold",
     },
 
@@ -32,10 +32,8 @@ function ColorPickerContainer() {
       borderRadius: 5,
       border: 0.5,
       boxShadow: 1,
-      py: 2,
-      px: 2,
-      my: 1,
-      mx: 1,
+      p: 2,
+      m: 1,
     },
 
     restoreButtonContainer: {
@@ -45,7 +43,7 @@ function ColorPickerContainer() {
     },
 
     restoreButton: {
-      width: 170,
+      width: "75%",
       fontSize: theme.fontSizes.xs,
       border: 0.5,
     },
