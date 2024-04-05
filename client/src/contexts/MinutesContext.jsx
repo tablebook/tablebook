@@ -35,12 +35,9 @@ const initialState = {
 };
 
 export function MinutesContextProvider({ children }) {
-  const [state, setState] = useState(() => {
-    const storedMinutesContext = localStorage.getItem("MinutesContext");
-    return storedMinutesContext !== null
-      ? JSON.parse(storedMinutesContext)
-      : initialState;
-  });
+  const [state, setState] = useState(
+    JSON.parse(localStorage.getItem("MinutesContext")) || initialState,
+  );
 
   const stateFunctions = useCallback(
     () => ({

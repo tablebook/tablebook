@@ -12,16 +12,11 @@ export function EditorContextProvider({ children }) {
   const [editor, setEditor] = useState(() => {
     const storedEditorContext = localStorage.getItem("EditorContext");
 
-    if (storedEditorContext !== null) {
-      const parsedStoredContext = JSON.parse(storedEditorContext);
-      return {
-        ...initialState,
-        ...parsedStoredContext,
-      };
-    }
-
-    // returning the initial state if there is no storedEditorContext
-    return initialState;
+    // if there is a stored context, initial state and the context are combined
+    // because not everything from editorContext is stored there
+    return storedEditorContext
+      ? { ...initialState, ...JSON.parse(storedEditorContext) }
+      : initialState;
   });
 
   const updateEditor = (newEditorData) => {
