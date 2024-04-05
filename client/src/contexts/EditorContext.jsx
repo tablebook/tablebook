@@ -11,9 +11,17 @@ const initialState = {
 export function EditorContextProvider({ children }) {
   const [editor, setEditor] = useState(() => {
     const storedEditorContext = localStorage.getItem("EditorContext");
-    return storedEditorContext !== null
-      ? JSON.parse(storedEditorContext)
-      : initialState;
+
+    if (storedEditorContext !== null) {
+      const parsedStoredContext = JSON.parse(storedEditorContext);
+      return {
+        ...initialState,
+        ...parsedStoredContext,
+      };
+    }
+
+    // returning the initial state if there is no storedEditorContext
+    return initialState;
   });
 
   const updateEditor = (newEditorData) => {
@@ -22,7 +30,8 @@ export function EditorContextProvider({ children }) {
         ...prevEditor,
         ...newEditorData,
       };
-      localStorage.setItem("EditorContext", JSON.stringify(newState));
+      const { language } = newState;
+      localStorage.setItem("EditorContext", JSON.stringify({ language }));
       return newState;
     });
   };
