@@ -35,32 +35,44 @@ const initialState = {
 };
 
 export function MinutesContextProvider({ children }) {
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState(
+    JSON.parse(localStorage.getItem("MinutesContext")) || initialState,
+  );
 
   const stateFunctions = useCallback(
     () => ({
       updateMinutes: (newMinutesData) => {
-        setState((prevState) => ({
-          ...prevState,
-          minutes: {
-            ...prevState.minutes,
-            ...newMinutesData,
-          },
-        }));
+        setState((prevState) => {
+          const newState = {
+            ...prevState,
+            minutes: {
+              ...prevState.minutes,
+              ...newMinutesData,
+            },
+          };
+          localStorage.setItem("MinutesContext", JSON.stringify(newState));
+          return newState;
+        });
       },
 
       updateMetadata: (newMetadata) => {
-        setState((prevState) => ({
-          ...prevState,
-          metadata: {
-            ...prevState.metadata,
-            ...newMetadata,
-          },
-        }));
+        setState((prevState) => {
+          const newState = {
+            ...prevState,
+            metadata: {
+              ...prevState.metadata,
+              ...newMetadata,
+            },
+          };
+
+          localStorage.setItem("MinutesContext", JSON.stringify(newState));
+          return newState;
+        });
       },
 
       clearState: () => {
         setState(initialState);
+        localStorage.setItem("MinutesContext", JSON.stringify(initialState));
       },
     }),
     [],
