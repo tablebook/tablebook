@@ -75,10 +75,6 @@ function SideBar() {
             </Button>
           </>
         )}
-
-        <Button variant="contained" color="secondary" sx={styles.sideBarButton}>
-          Preview
-        </Button>
       </Box>
     </Box>
   );

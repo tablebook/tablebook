@@ -6,6 +6,7 @@ import Editor from "../components/Editor";
 import Footer from "../components/Footer";
 import SharePopup from "../components/SharePopup";
 import SignatureModal from "../components/SignatureModal";
+import PreviewPrintPDFModal from "../components/PreviewPrintPDFModal";
 
 function EditorPage() {
   const theme = useTheme();
@@ -56,6 +57,7 @@ function EditorPage() {
         <Footer />
       </Box>
       <SignatureModal />
+      <PreviewPrintPDFModal />
       <SharePopup />
     </Box>
   );

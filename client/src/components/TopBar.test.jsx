@@ -1,6 +1,6 @@
 import React from "react";
 import { expect, test, describe, beforeEach, afterEach, vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
 import { RouterProvider } from "react-router-dom";
 import TopBar from "./TopBar";
@@ -201,11 +201,21 @@ describe("TopBar", () => {
       });
     });
 
-    test("renders print pdf button", () => {
-      const printPdfButton = screen.getByText("Print PDF", {
+    test("renders preview and print pdf button", () => {
+      const previwePrintPdfButton = screen.getByText("Preview/Print PDF", {
         selector: "button",
       });
-      expect(printPdfButton).toBeDefined();
+      expect(previwePrintPdfButton).toBeDefined();
+    });
+
+    test("opens PreviewPrintPDFModal on preview and print pdf button click", () => {
+      const previwePrintPdfButton = screen.getByText("Preview/Print PDF", {
+        selector: "button",
+      });
+      fireEvent.click(previwePrintPdfButton);
+      expect(updateEditorMock).toBeCalledWith({
+        isPreviewPrintPDFModalOpen: true,
+      });
     });
   });
 

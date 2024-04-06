@@ -223,8 +223,13 @@ function TopBar() {
           Share
         </Button>
 
-        <Button variant="contained" color="secondary" sx={styles.topBarButton}>
-          Print PDF
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={styles.topBarButton}
+          onClick={() => updateEditor({ isPreviewPrintPDFModalOpen: true })}
+        >
+          Preview/Print PDF
         </Button>
       </Box>
     </Box>
