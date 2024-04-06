@@ -17,6 +17,7 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.11",
     "@mui/material": "^5.15.11",
+    "@react-pdf/renderer": "^3.4.2",
     "axios": "^1.6.8",
     "i18next": "^23.10.1",
     "lodash": "^4.17.21",
