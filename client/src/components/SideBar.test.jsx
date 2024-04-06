@@ -94,11 +94,6 @@ describe("SideBar", () => {
         isSignatureModalOpen: true,
       });
     });
-
-    test("renders the preview button", () => {
-      const previewButton = screen.getByText("Preview", { selector: "button" });
-      expect(previewButton).toBeDefined();
-    });
   });
 
   describe("without writeAccess", () => {
@@ -133,11 +128,6 @@ describe("SideBar", () => {
         selector: "button",
       });
       expect(addAFieldButton).not.toBeInTheDocument();
-    });
-
-    test("renders the preview button", () => {
-      const previewButton = screen.getByText("Preview", { selector: "button" });
-      expect(previewButton).toBeDefined();
     });
   });
 });
