@@ -5,6 +5,7 @@ const EditorContext = createContext();
 const initialState = {
   language: "EN",
   isSignatureModalOpen: false,
+  isPreviewPrintPDFModalOpen: false,
   sharePopupAnchorElement: null,
 };
 
