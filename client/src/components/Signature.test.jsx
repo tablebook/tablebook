@@ -33,7 +33,7 @@ describe("Signature", () => {
 
   test("renders date timestamp", () => {
     const dateString = screen.getByText("2024-03-30");
-    const timeString = screen.getByText("00:00");
+    const timeString = screen.getByText("00:00 UTC");
     expect(dateString).toBeInTheDocument();
     expect(timeString).toBeInTheDocument();
   });
