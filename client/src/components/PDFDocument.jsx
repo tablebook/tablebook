@@ -129,7 +129,7 @@ function PDFDocument({ minutesState }) {
                   <Text style={styles.signatureAndDateText}>
                     {moment
                       .utc(minutesState.minutes.signatures[0].timestamp)
-                      .format("HH:mm")}
+                      .format("HH:mm z")}
                   </Text>
                 </View>
               )}

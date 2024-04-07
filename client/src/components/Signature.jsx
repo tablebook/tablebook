@@ -153,7 +153,7 @@ function Signature() {
               <Typography variant="h5" sx={styles.signatureAndDateText}>
                 {moment
                   .utc(state.minutes.signatures[0].timestamp)
-                  .format("HH:mm")}
+                  .format("HH:mm z")}
               </Typography>
             </Box>
           )}
