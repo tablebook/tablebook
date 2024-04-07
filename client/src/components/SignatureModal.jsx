@@ -56,10 +56,10 @@ function SignatureModal() {
     signerTextColor: {
       color: state.minutes.colors.primary,
       "& .MuiInputBase-input::placeholder": {
-        color: theme.palette.primary.contrastText,
+        color: state.minutes.colors.primary,
       },
       "& .MuiInputBase-input": {
-        caretColor: theme.palette.primary.contrastText,
+        caretColor: state.minutes.colors.primary,
       },
     },
 
