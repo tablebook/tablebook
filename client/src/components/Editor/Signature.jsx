@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import moment from "moment";
 import { Box, Typography } from "@mui/material";
-import MinutesContext from "../contexts/MinutesContext";
-import ImageElement from "./Image";
+import MinutesContext from "../../contexts/MinutesContext";
+import ImageElement from "../Shared/Image";
 
 function Signature() {
   const [state] = useContext(MinutesContext);

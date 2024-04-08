@@ -6,7 +6,7 @@ import EditorContext from "../contexts/EditorContext";
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
 import logoImage from "../assets/images/logo.png";
-import Image from "./Image";
+import Image from "./Shared/Image";
 
 function TopBar() {
   const theme = useTheme();

@@ -2,7 +2,7 @@ import React from "react";
 import { describe, beforeEach, expect, test } from "vitest";
 import { render, screen } from "@testing-library/react";
 import Image from "./Image";
-import logoImage from "../assets/images/logo.png";
+import logoImage from "../../assets/images/logo.png";
 
 describe("Image", () => {
   beforeEach(() => {

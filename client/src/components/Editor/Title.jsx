@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Box, InputBase, useTheme } from "@mui/material";
-import MinutesContext from "../contexts/MinutesContext";
+import MinutesContext from "../../contexts/MinutesContext";
 
 function Title() {
   const theme = useTheme();
