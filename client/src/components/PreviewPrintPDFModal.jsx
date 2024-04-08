@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Box, Modal, Button, useTheme } from "@mui/material";
 import { PDFViewer } from "@react-pdf/renderer";
+import { marked } from "marked";
 import PDFDocument from "./PDFDocument";
 import EditorContext from "../contexts/EditorContext";
 import MinutesContext from "../contexts/MinutesContext";
@@ -48,6 +49,15 @@ function PreviewPrintPDFModal() {
     },
   };
 
+  const parsedMinutes = {
+    // Copy over the styles and other properties that don't need parsing
+    name: marked.parse(minutesState.minutes.name),
+    segments: minutesState.minutes.segments.map((segment) => ({
+      name: marked.parse(segment.name),
+      content: marked.parse(segment.content),
+    })),
+  };
+
   const handleModalClose = () => {
     updateEditor({ isPreviewPrintPDFModalOpen: false });
   };
@@ -61,7 +71,10 @@ function PreviewPrintPDFModal() {
       <Box sx={styles.modalStyle}>
         <Box sx={styles.pdfViewerContainer}>
           <PDFViewer style={styles.pdfViewerStyle}>
-            <PDFDocument minutesState={minutesState} />
+            <PDFDocument
+              minutesState={minutesState}
+              parsedMinutes={parsedMinutes}
+            />
           </PDFViewer>
         </Box>
         <Box sx={styles.buttonsContainer}>
