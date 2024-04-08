@@ -7,9 +7,10 @@ import {
   Image,
   StyleSheet,
 } from "@react-pdf/renderer";
+import Html from "react-pdf-html";
 import moment from "moment";
 
-function PDFDocument({ minutesState }) {
+function PDFDocument({ minutesState, parsedMinutes }) {
   const styles = StyleSheet.create({
     page: {
       flexDirection: "column",
@@ -90,12 +91,12 @@ function PDFDocument({ minutesState }) {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.minutesContent}>
-          <Text style={styles.titleText}>{minutesState.minutes.name}</Text>
-          {minutesState.minutes.segments.map((segment, index) => (
+          <Html style={styles.titleText}>{parsedMinutes.name}</Html>
+          {parsedMinutes.segments.map((segment, index) => (
             // eslint-disable-next-line react/no-array-index-key
             <View key={index} style={styles.section}>
-              <Text style={styles.contentTitleText}>{segment.name}</Text>
-              <Text style={styles.contentText}>{segment.content}</Text>
+              <Html style={styles.contentTitleText}>{segment.name}</Html>
+              <Html style={styles.contentText}>{segment.content}</Html>
             </View>
           ))}
         </View>
