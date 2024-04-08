@@ -13,7 +13,15 @@ const clientIndexPath = path.join(clientDistPath, "index.html");
 
 const app = express();
 
-app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'", "data:"], // Allows src from data:*
+      scriptSrc: ["'self'", "'unsafe-eval'"], // Allows WASM
+      frameSrc: ["'self'", "blob:"], // Allows iframe source from blob:*
+    },
+  }),
+);
 
 app.use(express.json());
 
