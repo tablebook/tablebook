@@ -2,8 +2,8 @@ import React from "react";
 import { expect, test, describe, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import Signature from "./Signature";
-import MinutesContext from "../contexts/MinutesContext";
-import { mockMinutesContextState } from "../util/test.helpers";
+import MinutesContext from "../../contexts/MinutesContext";
+import { mockMinutesContextState } from "../../util/test.helpers";
 
 describe("Signature", () => {
   beforeEach(() => {

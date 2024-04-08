@@ -2,11 +2,11 @@ import React from "react";
 import { expect, test, describe, beforeEach, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
-import MinutesContext from "../contexts/MinutesContext";
-import EditorContext from "../contexts/EditorContext";
-import theme from "../theme";
+import MinutesContext from "../../contexts/MinutesContext";
+import EditorContext from "../../contexts/EditorContext";
+import theme from "../../theme";
 import SideBar from "./SideBar";
-import { mockMinutesContextState } from "../util/test.helpers";
+import { mockMinutesContextState } from "../../util/test.helpers";
 
 describe("SideBar", () => {
   const updateEditorMock = vi.fn();

@@ -4,7 +4,7 @@ import { Box, Typography, useTheme } from "@mui/material";
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
 import logoImage from "../assets/images/logo.png";
-import Image from "../components/Image";
+import Image from "../components/Shared/Image";
 
 function LoadingPage() {
   const { token } = useParams();

@@ -1,8 +1,8 @@
 import { Box, useTheme } from "@mui/material";
 import React from "react";
 import TopBar from "../components/TopBar";
-import SideBar from "../components/SideBar";
-import Editor from "../components/Editor";
+import SideBar from "../components/SideBar/SideBar";
+import Editor from "../components/Editor/Editor";
 import Footer from "../components/Footer";
 import SharePopup from "../components/SharePopup";
 import SignatureModal from "../components/SignatureModal";

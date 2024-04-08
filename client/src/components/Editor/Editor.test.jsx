@@ -3,9 +3,9 @@ import { expect, test, describe, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
 import Editor from "./Editor";
-import MinutesContext from "../contexts/MinutesContext";
-import theme from "../theme";
-import { mockMinutesContextState } from "../util/test.helpers";
+import MinutesContext from "../../contexts/MinutesContext";
+import theme from "../../theme";
+import { mockMinutesContextState } from "../../util/test.helpers";
 
 describe("Editor", () => {
   const renderWith = (mockMinutesState) => {

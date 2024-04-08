@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import ColorPickerContainer from "./ColorPickerContainer";
 import LanguagePickerContainer from "./LanguagePickerContainer";
-import MinutesContext from "../contexts/MinutesContext";
-import EditorContext from "../contexts/EditorContext";
+import MinutesContext from "../../contexts/MinutesContext";
+import EditorContext from "../../contexts/EditorContext";
 
 function SideBar() {
   const theme = useTheme();

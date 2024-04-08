@@ -3,9 +3,9 @@ import { ThemeProvider } from "@mui/material/styles";
 import { expect, test, describe, beforeEach, vi, afterEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 import Title from "./Title";
-import MinutesContext from "../contexts/MinutesContext";
-import theme from "../theme";
-import { mockMinutesContextState } from "../util/test.helpers";
+import MinutesContext from "../../contexts/MinutesContext";
+import theme from "../../theme";
+import { mockMinutesContextState } from "../../util/test.helpers";
 
 describe("Title", () => {
   const updateMinutesMock = vi.fn();

@@ -3,7 +3,7 @@ import { Box, Button, useTheme, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useDebouncedCallback } from "use-debounce";
 import ColorPicker from "./ColorPicker";
-import MinutesContext from "../contexts/MinutesContext";
+import MinutesContext from "../../contexts/MinutesContext";
 
 function ColorPickerContainer() {
   const theme = useTheme();

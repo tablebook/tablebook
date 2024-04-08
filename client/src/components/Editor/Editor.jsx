@@ -6,7 +6,7 @@ import SegmentContainer from "./SegmentContainer";
 import SegmentButtons from "./SegmentButtons";
 import Segment from "./Segment";
 import Signature from "./Signature";
-import MinutesContext from "../contexts/MinutesContext";
+import MinutesContext from "../../contexts/MinutesContext";
 
 function Editor() {
   const [minutesState] = useContext(MinutesContext);

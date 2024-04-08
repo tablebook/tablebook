@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Box, List, ListItemButton } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import flagFi from "../i18n/locales/flags/fi.svg";
-import flagEn from "../i18n/locales/flags/en.svg";
+import flagFi from "../../i18n/locales/flags/fi.svg";
+import flagEn from "../../i18n/locales/flags/en.svg";
 
 function LanguagePickerContainer() {
   const [isLanguagePickerOpen, setIsLanguagePickerOpen] = useState(false);
