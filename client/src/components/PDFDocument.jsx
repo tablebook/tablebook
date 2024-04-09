@@ -11,6 +11,64 @@ import Html from "react-pdf-html";
 import moment from "moment";
 
 function PDFDocument({ minutesState, parsedMinutes }) {
+  // Crear default margins and paddings from html tags
+  const stylesheet = {
+    p: {
+      margin: 0,
+      padding: 0,
+    },
+    h1: {
+      margin: 0,
+      padding: 0,
+    },
+    h2: {
+      margin: 0,
+      padding: 0,
+    },
+    h3: {
+      margin: 0,
+      padding: 0,
+    },
+    h4: {
+      margin: 0,
+      padding: 0,
+    },
+    h5: {
+      margin: 0,
+      padding: 0,
+    },
+    h6: {
+      margin: 0,
+      padding: 0,
+    },
+    div: {
+      margin: 0,
+      padding: 0,
+    },
+    ul: {
+      margin: 0,
+      padding: 0,
+    },
+    li: {
+      margin: 0,
+      padding: 0,
+    },
+    ol: {
+      margin: 0,
+      padding: 0,
+    },
+    blockquote: {
+      marginTop: 0,
+      marginBottom: 0,
+      paddingTop: 0,
+      paddingBottom: 0,
+    },
+    pre: {
+      margin: 0,
+      padding: 0,
+    },
+  };
+
   const styles = StyleSheet.create({
     page: {
       flexDirection: "column",
@@ -35,7 +93,7 @@ function PDFDocument({ minutesState, parsedMinutes }) {
 
     contentTitleText: {
       fontSize: 24,
-      paddingBottom: 4,
+      paddingBottom: 12,
       paddingLeft: 10,
     },
 
@@ -91,12 +149,18 @@ function PDFDocument({ minutesState, parsedMinutes }) {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.minutesContent}>
-          <Html style={styles.titleText}>{parsedMinutes.name}</Html>
+          <Html stylesheet={stylesheet} style={styles.titleText}>
+            {parsedMinutes.name}
+          </Html>
           {parsedMinutes.segments.map((segment, index) => (
             // eslint-disable-next-line react/no-array-index-key
             <View key={index} style={styles.section}>
-              <Html style={styles.contentTitleText}>{segment.name}</Html>
-              <Html style={styles.contentText}>{segment.content}</Html>
+              <Html stylesheet={stylesheet} style={styles.contentTitleText}>
+                {segment.name}
+              </Html>
+              <Html stylesheet={stylesheet} style={styles.contentText}>
+                {segment.content}
+              </Html>
             </View>
           ))}
         </View>
