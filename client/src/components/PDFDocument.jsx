@@ -6,11 +6,30 @@ import {
   Document,
   Image,
   StyleSheet,
+  Font,
 } from "@react-pdf/renderer";
 import Html from "react-pdf-html";
 import moment from "moment";
+import RobotoRegular from "../assets/fonts/Roboto-Regular.ttf";
+import RobotoBold from "../assets/fonts/Roboto-Bold.ttf";
+import RobotoItalic from "../assets/fonts/Roboto-Italic.ttf";
+import RobotoBoldItalic from "../assets/fonts/Roboto-BoldItalic.ttf";
 
 function PDFDocument({ minutesState, parsedMinutes }) {
+  Font.register({
+    family: "Roboto",
+    fonts: [
+      { src: RobotoRegular },
+      { src: RobotoBold, fontWeight: "bold" },
+      { src: RobotoItalic, fontStyle: "italic" },
+      {
+        src: RobotoBoldItalic,
+        fontWeight: "bold",
+        fontStyle: "italic",
+      },
+    ],
+  });
+
   // Crear default margins and paddings from html tags
   const stylesheet = {
     p: {
@@ -85,6 +104,7 @@ function PDFDocument({ minutesState, parsedMinutes }) {
       fontSize: 36,
       textAlign: "center",
       marginBottom: 40,
+      fontFamily: "Roboto",
     },
 
     section: {
@@ -95,11 +115,13 @@ function PDFDocument({ minutesState, parsedMinutes }) {
       fontSize: 24,
       paddingBottom: 12,
       paddingLeft: 10,
+      fontFamily: "Roboto",
     },
 
     contentText: {
       fontSize: 16,
       paddingLeft: 20,
+      fontFamily: "Roboto",
     },
 
     signatureAndDateContainer: {
