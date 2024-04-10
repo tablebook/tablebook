@@ -19,6 +19,7 @@
     "@mui/material": "^5.15.11",
     "@react-pdf/renderer": "^3.4.2",
     "axios": "^1.6.8",
+    "dompurify": "^3.1.0",
     "i18next": "^23.10.1",
     "lodash": "^4.17.21",
     "marked": "^12.0.1",

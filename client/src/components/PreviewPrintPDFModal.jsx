@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Box, Modal, Button, useTheme } from "@mui/material";
 import { PDFViewer } from "@react-pdf/renderer";
 import { marked } from "marked";
+import DOMPurify from "dompurify";
 import PDFDocument from "./PDFDocument";
 import EditorContext from "../contexts/EditorContext";
 import MinutesContext from "../contexts/MinutesContext";
@@ -49,12 +50,51 @@ function PreviewPrintPDFModal() {
     },
   };
 
+  const sanitizeConfig = {
+    ALLOWED_TAGS: [
+      "br",
+      "p",
+      "h1",
+      "h2",
+      "h3",
+      "h4",
+      "h5",
+      "h6",
+      "div",
+      "ul",
+      "li",
+      "ol",
+      "blockquote",
+      "pre",
+      "b",
+      "strong",
+      "i",
+      "em",
+      "a",
+      "img",
+      "table",
+      "tbody",
+      "tr",
+      "td",
+      "th",
+      "thead",
+      "tfoot",
+    ],
+    ALLOWED_ATTR: ["href", "title", "target", "src", "alt", "width", "height"],
+  };
+
   const parsedMinutes = {
     // Copy over the styles and other properties that don't need parsing
-    name: marked.parse(minutesState.minutes.name),
+    name: DOMPurify.sanitize(
+      marked.parse(minutesState.minutes.name),
+      sanitizeConfig,
+    ),
     segments: minutesState.minutes.segments.map((segment) => ({
-      name: marked.parse(segment.name),
-      content: marked.parse(segment.content),
+      name: DOMPurify.sanitize(marked.parse(segment.name), sanitizeConfig),
+      content: DOMPurify.sanitize(
+        marked.parse(segment.content),
+        sanitizeConfig,
+      ),
     })),
   };
 
