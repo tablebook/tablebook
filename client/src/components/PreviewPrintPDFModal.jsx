@@ -1,11 +1,17 @@
 import React, { useContext } from "react";
 import { Box, Modal, Button, useTheme } from "@mui/material";
-import { PDFViewer } from "@react-pdf/renderer";
+import { PDFViewer, Font } from "@react-pdf/renderer";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
 import PDFDocument from "./PDFDocument";
 import EditorContext from "../contexts/EditorContext";
 import MinutesContext from "../contexts/MinutesContext";
+import RobotoMonoRegular from "../assets/fonts/RobotoMono-Regular.ttf";
+
+Font.register({
+  family: "RobotoMono",
+  src: RobotoMonoRegular,
+});
 
 function PreviewPrintPDFModal() {
   const theme = useTheme();
@@ -50,6 +56,39 @@ function PreviewPrintPDFModal() {
     },
   };
 
+  const preprocessMarkdown = (markdown) => {
+    // Escape input tags
+    const preprocessedMarkdown = markdown
+      .replace(/\[ \]/g, "\\[ \\]")
+      .replace(/\[x\]/gi, "\\[x\\]");
+
+    return preprocessedMarkdown;
+  };
+
+  const transformAndStyleHtml = (html) => {
+    const processedHTML = html
+      // Apply line-through style for <del> tags
+      .replace(
+        /<del>(.*?)<\/del>/g,
+        (_, content) =>
+          `<span style="text-decoration: line-through;">${content}</span>`,
+      )
+      // Apply backticks around <code> tags
+      .replace(
+        /<code>(.*?)<\/code>/g,
+        (_, content) =>
+          `<p style="font-family: RobotoMono; background-color: rgba(0, 0, 0, 0.1);">${content}</p>`,
+      )
+      // Apply three backticks around <pre><code> tag combos
+      .replace(
+        /<pre><code>([\s\S]*?)<\/code><\/pre>/g,
+        (_, content) =>
+          `<p style="font-family: RobotoMono; background-color: rgba(0, 0, 0, 0.1);">${content}</p>`,
+      );
+
+    return processedHTML;
+  };
+
   const sanitizeConfig = {
     ALLOWED_TAGS: [
       "br",
@@ -65,11 +104,13 @@ function PreviewPrintPDFModal() {
       "li",
       "ol",
       "blockquote",
+      "code",
       "pre",
       "b",
       "strong",
       "i",
       "em",
+      "del",
       "a",
       "img",
       "table",
@@ -85,15 +126,24 @@ function PreviewPrintPDFModal() {
 
   const parsedMinutes = {
     // Copy over the styles and other properties that don't need parsing
-    name: DOMPurify.sanitize(
-      marked.parse(minutesState.minutes.name),
-      sanitizeConfig,
+    name: transformAndStyleHtml(
+      DOMPurify.sanitize(
+        marked.parse(preprocessMarkdown(minutesState.minutes.name)),
+        sanitizeConfig,
+      ),
     ),
     segments: minutesState.minutes.segments.map((segment) => ({
-      name: DOMPurify.sanitize(marked.parse(segment.name), sanitizeConfig),
-      content: DOMPurify.sanitize(
-        marked.parse(segment.content),
-        sanitizeConfig,
+      name: transformAndStyleHtml(
+        DOMPurify.sanitize(
+          marked.parse(preprocessMarkdown(segment.name)),
+          sanitizeConfig,
+        ),
+      ),
+      content: transformAndStyleHtml(
+        DOMPurify.sanitize(
+          marked.parse(preprocessMarkdown(segment.content)),
+          sanitizeConfig,
+        ),
       ),
     })),
   };

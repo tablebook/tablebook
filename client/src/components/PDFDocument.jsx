@@ -81,6 +81,9 @@ function PDFDocument({ minutesState, parsedMinutes }) {
       marginBottom: 0,
       paddingTop: 0,
       paddingBottom: 0,
+      paddingLeft: 10,
+      backgroundColor: "#f0f0f0",
+      borderLeft: "5px solid #ccc",
     },
     pre: {
       margin: 0,
