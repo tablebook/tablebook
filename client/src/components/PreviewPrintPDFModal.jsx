@@ -61,23 +61,25 @@ function PreviewPrintPDFModal() {
 
   const transformAndStyleHtml = (html) => {
     const processedHTML = html
+      // Create newlines on one enter press inside <p> tags
+      .replace(
+        /<p>(.*?)<\/p>/gs,
+        (_, content) => `<p>${content.replace(/\n/g, "<br>")}</p>`,
+      )
       // Apply line-through style for <del> tags
       .replace(
         /<del>(.*?)<\/del>/g,
-        (_, content) =>
-          `<span style="text-decoration: line-through;">${content}</span>`,
+        (_, content) => `<span class="delStyle">${content}</span>`,
       )
       // Apply backticks around <code> tags
       .replace(
         /<code>(.*?)<\/code>/g,
-        (_, content) =>
-          `<span style="font-family: RobotoMono; background-color: rgba(0, 0, 0, 0.1);">${content}</span>`,
+        (_, content) => `<span class="codeStyle">${content}</span>`,
       )
       // Apply three backticks around <pre><code> tag combos
       .replace(
         /<pre><code>([\s\S]*?)<\/code><\/pre>/g,
-        (_, content) =>
-          `<pre style="background-color: rgba(0, 0, 0, 0.1); border: 1px solid black; border-radius: 4px;">${content}</pre>`,
+        (_, content) => `<pre class="preCodeStyle">${content}</pre>`,
       );
 
     return processedHTML;

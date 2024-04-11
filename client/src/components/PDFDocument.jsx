@@ -85,16 +85,28 @@ function PDFDocument({ minutesState, parsedMinutes }) {
     blockquote: {
       marginTop: 0,
       marginBottom: 0,
-      paddingTop: 0,
-      paddingBottom: 0,
+      paddingTop: 10,
+      paddingBottom: 10,
       paddingLeft: 10,
       backgroundColor: "#f0f0f0",
       borderLeft: "5px solid #ccc",
     },
     pre: {
-      margin: 0,
-      padding: 0,
+      margin: 5,
+      padding: 5,
       fontFamily: "RobotoMono",
+    },
+    ".delStyle": {
+      textDecoration: "line-through",
+    },
+    ".codeStyle": {
+      fontFamily: "RobotoMono",
+      backgroundColor: "rgba(0, 0, 0, 0.1)",
+    },
+    ".preCodeStyle": {
+      backgroundColor: "rgba(0, 0, 0, 0.1)",
+      border: "1px solid black",
+      borderRadius: "4px",
     },
   };
 
