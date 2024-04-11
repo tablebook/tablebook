@@ -74,6 +74,20 @@ export function MinutesContextProvider({ children }) {
         setState(initialState);
         localStorage.setItem("MinutesContext", JSON.stringify(initialState));
       },
+
+      clearSignatures: () => {
+        setState((prevState) => {
+          const newState = {
+            ...prevState,
+            minutes: {
+              ...prevState.minutes,
+              signatures: [],
+            },
+          };
+          localStorage.setItem("MinutesContext", JSON.stringify(newState));
+          return newState;
+        });
+      },
     }),
     [],
   );
