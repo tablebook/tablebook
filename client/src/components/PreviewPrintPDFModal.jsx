@@ -1,17 +1,11 @@
 import React, { useContext } from "react";
 import { Box, Modal, Button, useTheme } from "@mui/material";
-import { PDFViewer, Font } from "@react-pdf/renderer";
+import { PDFViewer } from "@react-pdf/renderer";
 import { marked } from "marked";
 import DOMPurify from "dompurify";
 import PDFDocument from "./PDFDocument";
 import EditorContext from "../contexts/EditorContext";
 import MinutesContext from "../contexts/MinutesContext";
-import RobotoMonoRegular from "../assets/fonts/RobotoMono-Regular.ttf";
-
-Font.register({
-  family: "RobotoMono",
-  src: RobotoMonoRegular,
-});
 
 function PreviewPrintPDFModal() {
   const theme = useTheme();
@@ -77,13 +71,13 @@ function PreviewPrintPDFModal() {
       .replace(
         /<code>(.*?)<\/code>/g,
         (_, content) =>
-          `<p style="font-family: RobotoMono; background-color: rgba(0, 0, 0, 0.1);">${content}</p>`,
+          `<span style="font-family: RobotoMono; background-color: rgba(0, 0, 0, 0.1);">${content}</span>`,
       )
       // Apply three backticks around <pre><code> tag combos
       .replace(
         /<pre><code>([\s\S]*?)<\/code><\/pre>/g,
         (_, content) =>
-          `<p style="font-family: RobotoMono; background-color: rgba(0, 0, 0, 0.1);">${content}</p>`,
+          `<pre style="background-color: rgba(0, 0, 0, 0.1); border: 1px solid black; border-radius: 4px;">${content}</pre>`,
       );
 
     return processedHTML;

@@ -14,6 +14,7 @@ import RobotoRegular from "../assets/fonts/Roboto-Regular.ttf";
 import RobotoBold from "../assets/fonts/Roboto-Bold.ttf";
 import RobotoItalic from "../assets/fonts/Roboto-Italic.ttf";
 import RobotoBoldItalic from "../assets/fonts/Roboto-BoldItalic.ttf";
+import RobotoMonoRegular from "../assets/fonts/RobotoMono-Regular.ttf";
 
 function PDFDocument({ minutesState, parsedMinutes }) {
   Font.register({
@@ -28,6 +29,11 @@ function PDFDocument({ minutesState, parsedMinutes }) {
         fontStyle: "italic",
       },
     ],
+  });
+
+  Font.register({
+    family: "RobotoMono",
+    src: RobotoMonoRegular,
   });
 
   // Crear default margins and paddings from html tags
@@ -88,6 +94,7 @@ function PDFDocument({ minutesState, parsedMinutes }) {
     pre: {
       margin: 0,
       padding: 0,
+      fontFamily: "RobotoMono",
     },
   };
 
