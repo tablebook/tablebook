@@ -123,13 +123,13 @@ function PreviewPrintPDFModal() {
   };
 
   const parsedMinutes = {
-    // Copy over the styles and other properties that don't need parsing
     name: transformAndStyleHtml(
       DOMPurify.sanitize(
         marked.parse(preprocessMarkdown(minutesState.minutes.name)),
         sanitizeConfig,
       ),
     ),
+    colors: minutesState.minutes.colors,
     segments: minutesState.minutes.segments.map((segment) => ({
       name: transformAndStyleHtml(
         DOMPurify.sanitize(
@@ -144,6 +144,7 @@ function PreviewPrintPDFModal() {
         ),
       ),
     })),
+    signatures: minutesState.minutes.signatures,
   };
 
   const handleModalClose = () => {
@@ -159,10 +160,7 @@ function PreviewPrintPDFModal() {
       <Box sx={styles.modalStyle}>
         <Box sx={styles.pdfViewerContainer}>
           <PDFViewer style={styles.pdfViewerStyle}>
-            <PDFDocument
-              minutesState={minutesState}
-              parsedMinutes={parsedMinutes}
-            />
+            <PDFDocument parsedMinutes={parsedMinutes} />
           </PDFViewer>
         </Box>
         <Box sx={styles.buttonsContainer}>
