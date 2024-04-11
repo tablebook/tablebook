@@ -17,7 +17,7 @@ import RobotoItalic from "../assets/fonts/Roboto-Italic.ttf";
 import RobotoBoldItalic from "../assets/fonts/Roboto-BoldItalic.ttf";
 import RobotoMonoRegular from "../assets/fonts/RobotoMono-Regular.ttf";
 
-function PDFDocument({ parsedMinutes }) {
+function PDFDocument({ pdfReadyMinutes }) {
   const { t } = useTranslation();
 
   Font.register({
@@ -116,8 +116,8 @@ function PDFDocument({ parsedMinutes }) {
   const styles = StyleSheet.create({
     page: {
       flexDirection: "column",
-      backgroundColor: parsedMinutes.colors.secondary,
-      color: parsedMinutes.colors.primary,
+      backgroundColor: pdfReadyMinutes.colors.secondary,
+      color: pdfReadyMinutes.colors.primary,
       padding: 30,
     },
 
@@ -184,7 +184,7 @@ function PDFDocument({ parsedMinutes }) {
 
     signatureAndDateLine: {
       width: 150,
-      borderTop: `1 solid ${parsedMinutes.colors.primary}`,
+      borderTop: `1 solid ${pdfReadyMinutes.colors.primary}`,
     },
 
     signatureAndDateText: {
@@ -197,9 +197,9 @@ function PDFDocument({ parsedMinutes }) {
       <Page size="A4" style={styles.page}>
         <View style={styles.minutesContent}>
           <Html stylesheet={stylesheet} style={styles.titleText}>
-            {parsedMinutes.name}
+            {pdfReadyMinutes.name}
           </Html>
-          {parsedMinutes.segments.map((segment, index) => (
+          {pdfReadyMinutes.segments.map((segment, index) => (
             // eslint-disable-next-line react/no-array-index-key
             <View key={index} style={styles.section}>
               <Html stylesheet={stylesheet} style={styles.contentTitleText}>
@@ -213,34 +213,34 @@ function PDFDocument({ parsedMinutes }) {
         </View>
         <View style={styles.signatureAndDateContainer}>
           <View style={styles.signatureContainer}>
-            {parsedMinutes.signatures.length > 0 &&
-              parsedMinutes.signatures[0].image && (
+            {pdfReadyMinutes.signatures.length > 0 &&
+              pdfReadyMinutes.signatures[0].image && (
                 <Image
-                  src={parsedMinutes.signatures[0].image}
+                  src={pdfReadyMinutes.signatures[0].image}
                   style={styles.signatureImage}
                 />
               )}
             <View style={styles.signatureAndDateLine} />
-            {parsedMinutes.signatures.length > 0 &&
-              parsedMinutes.signatures[0].signer.length > 0 && (
+            {pdfReadyMinutes.signatures.length > 0 &&
+              pdfReadyMinutes.signatures[0].signer.length > 0 && (
                 <Text style={styles.signatureAndDateText}>
-                  {parsedMinutes.signatures[0].signer}
+                  {pdfReadyMinutes.signatures[0].signer}
                 </Text>
               )}
             <Text style={styles.signatureAndDateText}>{t("signature")}</Text>
           </View>
           <View style={styles.dateContainer}>
-            {parsedMinutes.signatures.length > 0 &&
-              parsedMinutes.signatures[0].timestamp && (
+            {pdfReadyMinutes.signatures.length > 0 &&
+              pdfReadyMinutes.signatures[0].timestamp && (
                 <View style={styles.timestampContainer}>
                   <Text style={styles.signatureAndDateText}>
                     {moment
-                      .utc(parsedMinutes.signatures[0].timestamp)
+                      .utc(pdfReadyMinutes.signatures[0].timestamp)
                       .format("YYYY-MM-DD")}
                   </Text>
                   <Text style={styles.signatureAndDateText}>
                     {moment
-                      .utc(parsedMinutes.signatures[0].timestamp)
+                      .utc(pdfReadyMinutes.signatures[0].timestamp)
                       .format("HH:mm z")}
                   </Text>
                 </View>
