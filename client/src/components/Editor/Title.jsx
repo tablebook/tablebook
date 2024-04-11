@@ -1,12 +1,18 @@
 import React, { useContext } from "react";
 import { Box, InputBase, useTheme } from "@mui/material";
 import MinutesContext from "../../contexts/MinutesContext";
+import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffectingChange";
 
 function Title() {
   const theme = useTheme();
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
+  const handleSignatureAffectingChange = useHandleSignatureAffectingChange();
 
   const handleTitleChange = (event) => {
+    if (!handleSignatureAffectingChange()) {
+      return;
+    }
+
     const newTitle = event.target.value;
     updateMinutes({ name: newTitle });
   };
