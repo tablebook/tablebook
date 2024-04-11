@@ -7,7 +7,7 @@ import SegmentButtons from "./SegmentButtons";
 import MinutesContext from "../../contexts/MinutesContext";
 import { mockMinutesContextState } from "../../util/test.helpers";
 
-describe("EditorButtons", () => {
+describe("SegmentButtons", () => {
   const updateMinutesMock = vi.fn();
 
   const editedMockMinutesContextState = {
