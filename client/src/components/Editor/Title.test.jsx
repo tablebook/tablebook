@@ -39,16 +39,20 @@ describe("Title", () => {
   });
 
   describe("with writeAccess", () => {
-    test("title input is NOT readonly", async () => {
-      renderWith(mockMinutesContextState);
-      const titleInput = screen.getByPlaceholderText("Enter main title");
-      expect(titleInput.attributes.readonly).toBeFalsy();
-    });
+    describe("", () => {
+      beforeEach(() => {
+        renderWith(mockMinutesContextState);
+      });
 
-    test("renders title input with correct placeholder", () => {
-      renderWith(mockMinutesContextState);
-      const titleInput = screen.getByPlaceholderText("Enter main title");
-      expect(titleInput).toBeInTheDocument();
+      test("title input is NOT readonly", async () => {
+        const titleInput = screen.getByPlaceholderText("Enter main title");
+        expect(titleInput.attributes.readonly).toBeFalsy();
+      });
+
+      test("renders title input with correct placeholder", () => {
+        const titleInput = screen.getByPlaceholderText("Enter main title");
+        expect(titleInput).toBeInTheDocument();
+      });
     });
 
     describe("with signatures", () => {

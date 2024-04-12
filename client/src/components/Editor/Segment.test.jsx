@@ -39,41 +39,44 @@ describe("Segment", () => {
   });
 
   describe("with writeAccess", () => {
-    test("renders content title input", () => {
-      renderWith(mockMinutesContextState);
-      const contentTitleInput = screen.getByPlaceholderText("Enter the title");
-      expect(contentTitleInput).toBeInTheDocument();
-    });
+    describe("", () => {
+      beforeEach(() => {
+        renderWith(mockMinutesContextState);
+      });
 
-    test("renders content input", () => {
-      renderWith(mockMinutesContextState);
-      const contentInput = screen.getByPlaceholderText("Enter the content");
-      expect(contentInput).toBeInTheDocument();
-    });
+      test("renders content title input", () => {
+        const contentTitleInput =
+          screen.getByPlaceholderText("Enter the title");
+        expect(contentTitleInput).toBeInTheDocument();
+      });
 
-    test("segment title is NOT readonly", () => {
-      renderWith(mockMinutesContextState);
-      const contentTitleInput = screen.getByPlaceholderText("Enter the title");
-      expect(contentTitleInput.attributes.readonly).toBeFalsy();
-    });
+      test("renders content input", () => {
+        const contentInput = screen.getByPlaceholderText("Enter the content");
+        expect(contentInput).toBeInTheDocument();
+      });
 
-    test("segment content is NOT readonly", () => {
-      renderWith(mockMinutesContextState);
-      const contentInput = screen.getByPlaceholderText("Enter the content");
-      expect(contentInput.attributes.readonly).toBeFalsy();
-    });
+      test("segment title is NOT readonly", () => {
+        const contentTitleInput =
+          screen.getByPlaceholderText("Enter the title");
+        expect(contentTitleInput.attributes.readonly).toBeFalsy();
+      });
 
-    test("title has the correct value", () => {
-      renderWith(mockMinutesContextState);
-      const contentTitleInput = screen.getByPlaceholderText("Enter the title");
-      expect(contentTitleInput.value).toBe("Agenda");
-    });
+      test("segment content is NOT readonly", () => {
+        const contentInput = screen.getByPlaceholderText("Enter the content");
+        expect(contentInput.attributes.readonly).toBeFalsy();
+      });
 
-    test("content has the correct value", () => {
-      renderWith(mockMinutesContextState);
-      const contentTitleInput =
-        screen.getByPlaceholderText("Enter the content");
-      expect(contentTitleInput.value).toBe("Some content");
+      test("title has the correct value", () => {
+        const contentTitleInput =
+          screen.getByPlaceholderText("Enter the title");
+        expect(contentTitleInput.value).toBe("Agenda");
+      });
+
+      test("content has the correct value", () => {
+        const contentTitleInput =
+          screen.getByPlaceholderText("Enter the content");
+        expect(contentTitleInput.value).toBe("Some content");
+      });
     });
 
     describe("with signatures", () => {

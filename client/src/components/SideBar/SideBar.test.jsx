@@ -50,16 +50,33 @@ describe("SideBar", () => {
   });
 
   describe("with writeAccess", () => {
-    test("renders ColorPickerContainer", () => {
-      renderWith(mockMinutesContextState);
-      const colorPickerContainer = screen.getByTestId("colorPickerContainer");
-      expect(colorPickerContainer).toBeDefined();
-    });
+    describe("", () => {
+      beforeEach(() => {
+        renderWith(mockMinutesContextState);
+      });
 
-    test("renders LanguagePickerContainer", () => {
-      renderWith(mockMinutesContextState);
-      const languagePickerContainer = screen.getByTestId("flagTrigger");
-      expect(languagePickerContainer).toBeDefined();
+      test("renders ColorPickerContainer", () => {
+        const colorPickerContainer = screen.getByTestId("colorPickerContainer");
+        expect(colorPickerContainer).toBeDefined();
+      });
+
+      test("renders LanguagePickerContainer", () => {
+        const languagePickerContainer = screen.getByTestId("flagTrigger");
+        expect(languagePickerContainer).toBeDefined();
+      });
+
+      test("renders the sign button", () => {
+        const signButton = screen.getByText("Sign", { selector: "button" });
+        expect(signButton).toBeDefined();
+      });
+
+      test("handles updateEditor when the sign button is pressed", () => {
+        const signButton = screen.getByText("Sign", { selector: "button" });
+        fireEvent.click(signButton);
+        expect(updateEditorMock).toHaveBeenCalledWith({
+          isSignatureModalOpen: true,
+        });
+      });
     });
 
     describe("add a field button", () => {
@@ -169,21 +186,6 @@ describe("SideBar", () => {
             ],
           });
         });
-      });
-    });
-
-    test("renders the sign button", () => {
-      renderWith(mockMinutesContextState);
-      const signButton = screen.getByText("Sign", { selector: "button" });
-      expect(signButton).toBeDefined();
-    });
-
-    test("handles updateEditor when the sign button is pressed", () => {
-      renderWith(mockMinutesContextState);
-      const signButton = screen.getByText("Sign", { selector: "button" });
-      fireEvent.click(signButton);
-      expect(updateEditorMock).toHaveBeenCalledWith({
-        isSignatureModalOpen: true,
       });
     });
   });
