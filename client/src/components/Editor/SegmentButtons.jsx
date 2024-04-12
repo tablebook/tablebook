@@ -27,12 +27,18 @@ function SegmentButtons({ segmentIndex }) {
   };
 
   const handleDelete = () => {
-    if (
-      !window.confirm(
-        "This action will delete the segment and its content. Are you sure?",
-      )
-    ) {
-      return;
+    const segment = minutesState.minutes.segments[segmentIndex];
+    const isNameEmpty = segment.name.trim() === "";
+    const isContentEmpty = segment.content.trim() === "";
+
+    if (!isNameEmpty || !isContentEmpty) {
+      if (
+        !window.confirm(
+          "This action will delete the segment and its content. Are you sure?",
+        )
+      ) {
+        return;
+      }
     }
 
     if (!handleSignatureAffectingChange()) {
