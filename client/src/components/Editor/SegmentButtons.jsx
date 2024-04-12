@@ -31,14 +31,13 @@ function SegmentButtons({ segmentIndex }) {
     const isNameEmpty = segment.name.trim() === "";
     const isContentEmpty = segment.content.trim() === "";
 
-    if (!isNameEmpty || !isContentEmpty) {
-      if (
-        !window.confirm(
-          "This action will delete the segment and its content. Are you sure?",
-        )
-      ) {
-        return;
-      }
+    if (
+      !(isNameEmpty && isContentEmpty) &&
+      !window.confirm(
+        "This action will delete the segment and its content. Are you sure?",
+      )
+    ) {
+      return;
     }
 
     if (!handleSignatureAffectingChange()) {
