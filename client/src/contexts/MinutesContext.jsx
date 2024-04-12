@@ -35,9 +35,13 @@ const initialState = {
 };
 
 export function MinutesContextProvider({ children }) {
-  const [state, setState] = useState(
-    JSON.parse(localStorage.getItem("MinutesContext")) || initialState,
-  );
+  const [state, setState] = useState(() => {
+    return (
+      JSON.parse(sessionStorage.getItem("MinutesContext")) ??
+      JSON.parse(localStorage.getItem("MinutesContext")) ??
+      initialState
+    );
+  });
 
   const stateFunctions = useCallback(
     () => ({
@@ -50,6 +54,7 @@ export function MinutesContextProvider({ children }) {
               ...newMinutesData,
             },
           };
+          sessionStorage.setItem("MinutesContext", JSON.stringify(newState));
           localStorage.setItem("MinutesContext", JSON.stringify(newState));
           return newState;
         });
@@ -65,6 +70,7 @@ export function MinutesContextProvider({ children }) {
             },
           };
 
+          sessionStorage.setItem("MinutesContext", JSON.stringify(newState));
           localStorage.setItem("MinutesContext", JSON.stringify(newState));
           return newState;
         });
@@ -72,6 +78,7 @@ export function MinutesContextProvider({ children }) {
 
       clearState: () => {
         setState(initialState);
+        sessionStorage.setItem("MinutesContext", JSON.stringify(initialState));
         localStorage.setItem("MinutesContext", JSON.stringify(initialState));
       },
 
@@ -84,6 +91,7 @@ export function MinutesContextProvider({ children }) {
               signatures: [],
             },
           };
+          sessionStorage.setItem("MinutesContext", JSON.stringify(newState));
           localStorage.setItem("MinutesContext", JSON.stringify(newState));
           return newState;
         });
