@@ -135,6 +135,10 @@ describe("SegmentButtons", () => {
         vi.stubGlobal("confirm", vi.fn());
       });
 
+      afterEach(() => {
+        vi.unstubAllGlobals();
+      });
+
       test("renders", () => {
         renderWith(1, {
           ...mockMinutesContextState,
@@ -225,6 +229,10 @@ describe("SegmentButtons", () => {
     describe("Down button", () => {
       beforeEach(() => {
         vi.stubGlobal("confirm", vi.fn());
+      });
+
+      afterEach(() => {
+        vi.unstubAllGlobals();
       });
 
       test("renders", () => {
@@ -379,6 +387,10 @@ describe("SegmentButtons", () => {
         vi.stubGlobal("confirm", vi.fn());
       });
 
+      afterEach(() => {
+        vi.unstubAllGlobals();
+      });
+
       test("calls the updateMinutes and not clearSignatures", () => {
         renderWith(1, {
           ...mockMinutesContextState,
@@ -437,6 +449,10 @@ describe("SegmentButtons", () => {
     describe("Down button", () => {
       beforeEach(() => {
         vi.stubGlobal("confirm", vi.fn());
+      });
+
+      afterEach(() => {
+        vi.unstubAllGlobals();
       });
 
       test("calls the updateMinutes and not clearSignatures", () => {
