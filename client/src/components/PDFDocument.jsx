@@ -6,10 +6,110 @@ import {
   Document,
   Image,
   StyleSheet,
+  Font,
 } from "@react-pdf/renderer";
+import Html from "react-pdf-html";
 import moment from "moment";
+import RobotoRegular from "../assets/fonts/Roboto-Regular.ttf";
+import RobotoBold from "../assets/fonts/Roboto-Bold.ttf";
+import RobotoItalic from "../assets/fonts/Roboto-Italic.ttf";
+import RobotoBoldItalic from "../assets/fonts/Roboto-BoldItalic.ttf";
+import RobotoMonoRegular from "../assets/fonts/RobotoMono-Regular.ttf";
 
-function PDFDocument({ minutesState }) {
+function PDFDocument({ minutesState, parsedMinutes }) {
+  Font.register({
+    family: "Roboto",
+    fonts: [
+      { src: RobotoRegular },
+      { src: RobotoBold, fontWeight: "bold" },
+      { src: RobotoItalic, fontStyle: "italic" },
+      {
+        src: RobotoBoldItalic,
+        fontWeight: "bold",
+        fontStyle: "italic",
+      },
+    ],
+  });
+
+  Font.register({
+    family: "RobotoMono",
+    src: RobotoMonoRegular,
+  });
+
+  // Crear default margins and paddings from html tags
+  const stylesheet = {
+    p: {
+      margin: 0,
+      padding: 0,
+    },
+    h1: {
+      margin: 0,
+      padding: 0,
+    },
+    h2: {
+      margin: 0,
+      padding: 0,
+    },
+    h3: {
+      margin: 0,
+      padding: 0,
+    },
+    h4: {
+      margin: 0,
+      padding: 0,
+    },
+    h5: {
+      margin: 0,
+      padding: 0,
+    },
+    h6: {
+      margin: 0,
+      padding: 0,
+    },
+    div: {
+      margin: 0,
+      padding: 0,
+    },
+    ul: {
+      margin: 0,
+      padding: 0,
+    },
+    li: {
+      margin: 0,
+      padding: 0,
+    },
+    ol: {
+      margin: 0,
+      padding: 0,
+    },
+    blockquote: {
+      marginTop: 0,
+      marginBottom: 0,
+      paddingTop: 10,
+      paddingBottom: 10,
+      paddingLeft: 10,
+      backgroundColor: "#f0f0f0",
+      borderLeft: "5px solid #ccc",
+    },
+    pre: {
+      margin: 5,
+      padding: 5,
+      fontFamily: "RobotoMono",
+    },
+    ".delStyle": {
+      textDecoration: "line-through",
+    },
+    ".codeStyle": {
+      fontFamily: "RobotoMono",
+      backgroundColor: "rgba(0, 0, 0, 0.1)",
+    },
+    ".preCodeStyle": {
+      backgroundColor: "rgba(0, 0, 0, 0.1)",
+      border: "1px solid black",
+      borderRadius: "4px",
+    },
+  };
+
   const styles = StyleSheet.create({
     page: {
       flexDirection: "column",
@@ -26,6 +126,7 @@ function PDFDocument({ minutesState }) {
       fontSize: 36,
       textAlign: "center",
       marginBottom: 40,
+      fontFamily: "Roboto",
     },
 
     section: {
@@ -34,13 +135,15 @@ function PDFDocument({ minutesState }) {
 
     contentTitleText: {
       fontSize: 24,
-      paddingBottom: 4,
+      paddingBottom: 12,
       paddingLeft: 10,
+      fontFamily: "Roboto",
     },
 
     contentText: {
       fontSize: 16,
       paddingLeft: 20,
+      fontFamily: "Roboto",
     },
 
     signatureAndDateContainer: {
@@ -90,12 +193,18 @@ function PDFDocument({ minutesState }) {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.minutesContent}>
-          <Text style={styles.titleText}>{minutesState.minutes.name}</Text>
-          {minutesState.minutes.segments.map((segment, index) => (
+          <Html stylesheet={stylesheet} style={styles.titleText}>
+            {parsedMinutes.name}
+          </Html>
+          {parsedMinutes.segments.map((segment, index) => (
             // eslint-disable-next-line react/no-array-index-key
             <View key={index} style={styles.section}>
-              <Text style={styles.contentTitleText}>{segment.name}</Text>
-              <Text style={styles.contentText}>{segment.content}</Text>
+              <Html stylesheet={stylesheet} style={styles.contentTitleText}>
+                {segment.name}
+              </Html>
+              <Html stylesheet={stylesheet} style={styles.contentText}>
+                {segment.content}
+              </Html>
             </View>
           ))}
         </View>
