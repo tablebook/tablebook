@@ -4,10 +4,12 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MinutesContext from "../../contexts/MinutesContext";
+import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffectingChange";
 
 function SegmentButtons({ segmentIndex }) {
   const theme = useTheme();
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
+  const handleSignatureAffectingChange = useHandleSignatureAffectingChange();
 
   const styles = {
     buttonsContainer: {
@@ -32,6 +34,10 @@ function SegmentButtons({ segmentIndex }) {
     ) {
       return;
     }
+
+    if (!handleSignatureAffectingChange()) {
+      return;
+    }
     const newSegments = structuredClone(minutesState.minutes.segments);
     newSegments.splice(segmentIndex, 1);
     updateMinutes({ segments: newSegments });
@@ -40,6 +46,10 @@ function SegmentButtons({ segmentIndex }) {
   const handleMoveUp = () => {
     // do nothing if its the first segment
     if (segmentIndex === 0) {
+      return;
+    }
+
+    if (!handleSignatureAffectingChange()) {
       return;
     }
 
@@ -56,6 +66,10 @@ function SegmentButtons({ segmentIndex }) {
   const handleMoveDown = () => {
     // do nothing if its the last segment
     if (segmentIndex === minutesState.minutes.segments.length - 1) {
+      return;
+    }
+
+    if (!handleSignatureAffectingChange()) {
       return;
     }
 

@@ -4,11 +4,13 @@ import ColorPickerContainer from "./ColorPickerContainer";
 import LanguagePickerContainer from "./LanguagePickerContainer";
 import MinutesContext from "../../contexts/MinutesContext";
 import EditorContext from "../../contexts/EditorContext";
+import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffectingChange";
 
 function SideBar() {
   const theme = useTheme();
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
   const [, updateEditor] = useContext(EditorContext);
+  const handleSignatureAffectingChange = useHandleSignatureAffectingChange();
 
   const styles = {
     sideBarContainer: {
@@ -36,6 +38,10 @@ function SideBar() {
   };
 
   const handleAddField = () => {
+    if (!handleSignatureAffectingChange()) {
+      return;
+    }
+
     const newSegments = [
       ...minutesState.minutes.segments,
       {

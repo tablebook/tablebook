@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { Box, InputBase, useTheme } from "@mui/material";
 import MinutesContext from "../../contexts/MinutesContext";
+import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffectingChange";
 
 function Segment({ segmentIndex }) {
   const theme = useTheme();
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
+  const handleSignatureAffectingChange = useHandleSignatureAffectingChange();
 
   const styles = {
     contentContainer: {
@@ -32,6 +34,10 @@ function Segment({ segmentIndex }) {
   };
 
   const handleTitleChange = (event) => {
+    if (!handleSignatureAffectingChange()) {
+      return;
+    }
+
     const newTitle = event.target.value;
     const newSegments = structuredClone(minutesState.minutes.segments);
     newSegments[segmentIndex].name = newTitle;
@@ -39,6 +45,10 @@ function Segment({ segmentIndex }) {
   };
 
   const handleContentChange = (event) => {
+    if (!handleSignatureAffectingChange()) {
+      return;
+    }
+
     const newContent = event.target.value;
     const newSegments = structuredClone(minutesState.minutes.segments);
     newSegments[segmentIndex].content = newContent;

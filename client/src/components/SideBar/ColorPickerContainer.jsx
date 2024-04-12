@@ -4,10 +4,12 @@ import { useTranslation } from "react-i18next";
 import { useDebouncedCallback } from "use-debounce";
 import ColorPicker from "./ColorPicker";
 import MinutesContext from "../../contexts/MinutesContext";
+import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffectingChange";
 
 function ColorPickerContainer() {
   const theme = useTheme();
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
+  const handleSignatureAffectingChange = useHandleSignatureAffectingChange();
   const { t } = useTranslation();
   const updateSignatureDebounced = useDebouncedCallback(
     // function
@@ -128,6 +130,10 @@ function ColorPickerContainer() {
   };
 
   const updateColor = (type, color) => {
+    if (!handleSignatureAffectingChange()) {
+      return;
+    }
+
     updateColorDebounced({
       colors: {
         ...minutesState.minutes.colors,
@@ -146,6 +152,10 @@ function ColorPickerContainer() {
   };
 
   const restoreDefaults = () => {
+    if (!handleSignatureAffectingChange()) {
+      return;
+    }
+
     updateMinutes({
       colors: {
         primary: defaultColors.primary,

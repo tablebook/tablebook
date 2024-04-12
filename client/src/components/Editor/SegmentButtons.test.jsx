@@ -1,112 +1,180 @@
 import React from "react";
 import { expect, test, describe, beforeEach, vi, afterEach } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, renderHook, screen, waitFor } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../theme";
 import SegmentButtons from "./SegmentButtons";
 import MinutesContext from "../../contexts/MinutesContext";
+import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffectingChange";
 import { mockMinutesContextState } from "../../util/test.helpers";
 
-describe("EditorButtons", () => {
+describe("SegmentButtons", () => {
   const updateMinutesMock = vi.fn();
+  const clearSignaturesMock = vi.fn();
 
-  const editedMockMinutesContextState = {
-    minutes: {
-      ...mockMinutesContextState.minutes,
-      segments: [
-        {
-          name: "0 title",
-          content: "0 content",
-        },
-        {
-          name: "1 title",
-          content: "1 content",
-        },
-        {
-          name: "2 title",
-          content: "2 content",
-        },
-      ],
+  const renderWith = (segmentIndex, mockMinutesState) => {
+    render(
+      <MinutesContext.Provider
+        value={[
+          mockMinutesState,
+          {
+            updateMinutes: updateMinutesMock,
+            clearSignatures: clearSignaturesMock,
+          },
+        ]}
+      >
+        <ThemeProvider theme={theme}>
+          <SegmentButtons segmentIndex={segmentIndex} />
+        </ThemeProvider>
+      </MinutesContext.Provider>,
+    );
+  };
+
+  const customSegments = [
+    {
+      name: "0 title",
+      content: "0 content",
     },
-    metadata: mockMinutesContextState.metadata,
-  };
+    {
+      name: "1 title",
+      content: "1 content",
+    },
+    {
+      name: "2 title",
+      content: "2 content",
+    },
+  ];
 
-  const renderFirst = () => {
-    render(
-      <MinutesContext.Provider
-        value={[
-          editedMockMinutesContextState,
-          { updateMinutes: updateMinutesMock },
-        ]}
-      >
-        <ThemeProvider theme={theme}>
-          <SegmentButtons segmentIndex={0} />
-        </ThemeProvider>
-      </MinutesContext.Provider>,
-    );
-  };
-
-  const renderSecond = () => {
-    render(
-      <MinutesContext.Provider
-        value={[
-          editedMockMinutesContextState,
-          { updateMinutes: updateMinutesMock },
-        ]}
-      >
-        <ThemeProvider theme={theme}>
-          <SegmentButtons segmentIndex={1} />
-        </ThemeProvider>
-      </MinutesContext.Provider>,
-    );
-  };
-
-  const renderLast = () => {
-    render(
-      <MinutesContext.Provider
-        value={[
-          editedMockMinutesContextState,
-          { updateMinutes: updateMinutesMock },
-        ]}
-      >
-        <ThemeProvider theme={theme}>
-          <SegmentButtons segmentIndex={2} />
-        </ThemeProvider>
-      </MinutesContext.Provider>,
-    );
-  };
+  beforeEach(() => {
+    renderHook(() => useHandleSignatureAffectingChange);
+  });
 
   afterEach(async () => {
     vi.restoreAllMocks();
   });
 
-  describe("Delete button", () => {
-    beforeEach(() => {
-      vi.stubGlobal("confirm", vi.fn());
-      renderSecond();
+  describe("With signatures", () => {
+    describe("Delete button", () => {
+      beforeEach(() => {
+        vi.stubGlobal("confirm", vi.fn());
+        renderWith(1, {
+          ...mockMinutesContextState,
+          minutes: {
+            ...mockMinutesContextState.minutes,
+            segments: customSegments,
+          },
+        });
+      });
+
+      afterEach(() => {
+        vi.unstubAllGlobals();
+      });
+
+      test("renders", () => {
+        const deleteButton = screen.getByTestId("deleteButton");
+        expect(deleteButton).toBeInTheDocument();
+      });
+
+      test("on delete and signature check confirm, calls updateMinutes and clearSignatures", async () => {
+        window.confirm.mockReturnValue(true);
+
+        const deleteButton = screen.getByTestId("deleteButton");
+
+        deleteButton.click();
+
+        await waitFor(() => {
+          expect(window.confirm).toHaveBeenCalledTimes(2);
+          expect(clearSignaturesMock).toHaveBeenCalledOnce();
+          expect(updateMinutesMock).toHaveBeenCalledOnce();
+          expect(updateMinutesMock).toHaveBeenCalledWith({
+            segments: [
+              {
+                name: "0 title",
+                content: "0 content",
+              },
+              {
+                name: "2 title",
+                content: "2 content",
+              },
+            ],
+          });
+        });
+      });
+
+      test("on delete confirm and signature check cancel, doesnt call updateMinutes or clearSignatures", async () => {
+        window.confirm.mockReturnValueOnce(true).mockReturnValueOnce(false);
+
+        const deleteButton = screen.getByTestId("deleteButton");
+
+        deleteButton.click();
+
+        await waitFor(() => {
+          expect(window.confirm).toHaveBeenCalledTimes(2);
+          expect(clearSignaturesMock).not.toHaveBeenCalled();
+          expect(updateMinutesMock).not.toHaveBeenCalled();
+        });
+      });
+
+      test("on delete cancel, doesnt call updateMinutes or clearSignatures", async () => {
+        window.confirm.mockReturnValueOnce(false);
+
+        const deleteButton = screen.getByTestId("deleteButton");
+
+        deleteButton.click();
+
+        await waitFor(() => {
+          expect(window.confirm).toHaveBeenCalledOnce();
+          expect(clearSignaturesMock).not.toHaveBeenCalled();
+          expect(updateMinutesMock).not.toHaveBeenCalled();
+        });
+      });
     });
 
-    afterEach(() => {
-      vi.unstubAllGlobals();
-    });
+    describe("Up button", () => {
+      beforeEach(() => {
+        vi.stubGlobal("confirm", vi.fn());
+      });
 
-    test("renders", () => {
-      const deleteButton = screen.getByTestId("deleteButton");
-      expect(deleteButton).toBeInTheDocument();
-    });
+      afterEach(() => {
+        vi.unstubAllGlobals();
+      });
 
-    test("on confirm, calls updateMinutes with right values", async () => {
-      window.confirm.mockReturnValueOnce(true);
+      test("renders", () => {
+        renderWith(1, {
+          ...mockMinutesContextState,
+          minutes: {
+            ...mockMinutesContextState.minutes,
+            segments: customSegments,
+          },
+        });
+        const upButton = screen.getByTestId("upButton");
+        expect(upButton).toBeInTheDocument();
+      });
 
-      const deleteButton = screen.getByTestId("deleteButton");
+      test("on signature check confirm, calls the updateMinutes and clearSignatures", () => {
+        renderWith(1, {
+          ...mockMinutesContextState,
+          minutes: {
+            ...mockMinutesContextState.minutes,
+            segments: customSegments,
+          },
+        });
 
-      deleteButton.click();
+        window.confirm.mockReturnValue(true);
 
-      await waitFor(() => {
+        const upButton = screen.getByTestId("upButton");
+
+        upButton.click();
+
         expect(window.confirm).toHaveBeenCalledOnce();
+        expect(clearSignaturesMock).toHaveBeenCalledOnce();
         expect(updateMinutesMock).toHaveBeenCalledOnce();
         expect(updateMinutesMock).toHaveBeenCalledWith({
           segments: [
+            {
+              name: "1 title",
+              content: "1 content",
+            },
             {
               name: "0 title",
               content: "0 content",
@@ -118,107 +186,328 @@ describe("EditorButtons", () => {
           ],
         });
       });
+
+      test("on signature check cancel, doesnt call updateMinutes or clearSignatures", () => {
+        renderWith(1, {
+          ...mockMinutesContextState,
+          minutes: {
+            ...mockMinutesContextState.minutes,
+            segments: customSegments,
+          },
+        });
+
+        window.confirm.mockReturnValue(false);
+
+        const upButton = screen.getByTestId("upButton");
+
+        upButton.click();
+
+        expect(window.confirm).toHaveBeenCalledOnce();
+        expect(clearSignaturesMock).not.toHaveBeenCalled();
+        expect(updateMinutesMock).not.toHaveBeenCalled();
+      });
+
+      test("doesnt call updateMinutes or clearSignatures when first segments button clicked", () => {
+        renderWith(0, {
+          ...mockMinutesContextState,
+          minutes: {
+            ...mockMinutesContextState.minutes,
+            segments: customSegments,
+          },
+        });
+
+        const upButton = screen.getByTestId("upButton");
+
+        upButton.click();
+
+        expect(window.confirm).not.toHaveBeenCalled();
+        expect(updateMinutesMock).not.toHaveBeenCalled();
+        expect(clearSignaturesMock).not.toHaveBeenCalled();
+      });
     });
 
-    test("on cancel, doent call updateMinutes", async () => {
-      window.confirm.mockReturnValueOnce(false);
+    describe("Down button", () => {
+      beforeEach(() => {
+        vi.stubGlobal("confirm", vi.fn());
+      });
 
-      const deleteButton = screen.getByTestId("deleteButton");
+      afterEach(() => {
+        vi.unstubAllGlobals();
+      });
 
-      deleteButton.click();
+      test("renders", () => {
+        renderWith(1, {
+          ...mockMinutesContextState,
+          minutes: {
+            ...mockMinutesContextState.minutes,
+            segments: customSegments,
+          },
+        });
+        const downButton = screen.getByTestId("downButton");
+        expect(downButton).toBeInTheDocument();
+      });
 
-      await waitFor(() => {
+      test("on signature check confirm, calls the updateMinutes and clearSignatures", () => {
+        renderWith(1, {
+          ...mockMinutesContextState,
+          minutes: {
+            ...mockMinutesContextState.minutes,
+            segments: customSegments,
+          },
+        });
+
+        window.confirm.mockReturnValue(true);
+
+        const downButton = screen.getByTestId("downButton");
+
+        downButton.click();
+
         expect(window.confirm).toHaveBeenCalledOnce();
+        expect(clearSignaturesMock).toHaveBeenCalledOnce();
+        expect(updateMinutesMock).toHaveBeenCalledOnce();
+        expect(updateMinutesMock).toHaveBeenCalledWith({
+          segments: [
+            {
+              name: "0 title",
+              content: "0 content",
+            },
+            {
+              name: "2 title",
+              content: "2 content",
+            },
+            {
+              name: "1 title",
+              content: "1 content",
+            },
+          ],
+        });
+      });
+
+      test("on signature check cancel, doesnt call updateMinutes or clearSignatures", () => {
+        renderWith(1, {
+          ...mockMinutesContextState,
+          minutes: {
+            ...mockMinutesContextState.minutes,
+            segments: customSegments,
+          },
+        });
+
+        window.confirm.mockReturnValue(false);
+
+        const downButton = screen.getByTestId("downButton");
+
+        downButton.click();
+
+        expect(window.confirm).toHaveBeenCalledOnce();
+        expect(clearSignaturesMock).not.toHaveBeenCalled();
+        expect(updateMinutesMock).not.toHaveBeenCalled();
+      });
+
+      test("doesnt call updateMinutes or clearSignatures when last segments button clicked", () => {
+        renderWith(2, {
+          ...mockMinutesContextState,
+          minutes: {
+            ...mockMinutesContextState.minutes,
+            segments: customSegments,
+          },
+        });
+
+        const downButton = screen.getByTestId("downButton");
+
+        downButton.click();
+
+        expect(window.confirm).not.toHaveBeenCalled();
+        expect(clearSignaturesMock).not.toHaveBeenCalled();
         expect(updateMinutesMock).not.toHaveBeenCalled();
       });
     });
   });
 
-  describe("Up button", () => {
-    test("renders", () => {
-      renderSecond();
-      const upButton = screen.getByTestId("upButton");
-      expect(upButton).toBeInTheDocument();
-    });
-
-    test("calls the updateMinutes with right values", () => {
-      renderSecond();
-
-      const upButton = screen.getByTestId("upButton");
-
-      upButton.click();
-
-      expect(updateMinutesMock).toHaveBeenCalledOnce();
-      expect(updateMinutesMock).toHaveBeenCalledWith({
-        segments: [
-          {
-            name: "1 title",
-            content: "1 content",
+  describe("Without signatures", () => {
+    describe("Delete button", () => {
+      beforeEach(() => {
+        vi.stubGlobal("confirm", vi.fn());
+        renderWith(1, {
+          ...mockMinutesContextState,
+          minutes: {
+            ...mockMinutesContextState.minutes,
+            segments: customSegments,
+            signatures: [],
           },
-          {
-            name: "0 title",
-            content: "0 content",
-          },
-          {
-            name: "2 title",
-            content: "2 content",
-          },
-        ],
+        });
+      });
+
+      afterEach(() => {
+        vi.unstubAllGlobals();
+      });
+
+      test("on delete confirm, calls updateMinutes and doesnt call clearSignatures", async () => {
+        window.confirm.mockReturnValueOnce(true);
+
+        const deleteButton = screen.getByTestId("deleteButton");
+
+        deleteButton.click();
+
+        await waitFor(() => {
+          expect(window.confirm).toHaveBeenCalledOnce();
+          expect(clearSignaturesMock).not.toHaveBeenCalled();
+          expect(updateMinutesMock).toHaveBeenCalledOnce();
+          expect(updateMinutesMock).toHaveBeenCalledWith({
+            segments: [
+              {
+                name: "0 title",
+                content: "0 content",
+              },
+              {
+                name: "2 title",
+                content: "2 content",
+              },
+            ],
+          });
+        });
+      });
+
+      test("on delete cancel, doesnt call updateMinutes or clearSignatures", async () => {
+        window.confirm.mockReturnValueOnce(false);
+
+        const deleteButton = screen.getByTestId("deleteButton");
+
+        deleteButton.click();
+
+        await waitFor(() => {
+          expect(window.confirm).toHaveBeenCalledOnce();
+          expect(clearSignaturesMock).not.toHaveBeenCalled();
+          expect(updateMinutesMock).not.toHaveBeenCalled();
+        });
       });
     });
 
-    test("doesnt call updateMinutes when first segments button clicked", () => {
-      renderFirst();
+    describe("Up button", () => {
+      beforeEach(() => {
+        vi.stubGlobal("confirm", vi.fn());
+      });
 
-      const upButton = screen.getByTestId("upButton");
+      afterEach(() => {
+        vi.unstubAllGlobals();
+      });
 
-      upButton.click();
-
-      expect(updateMinutesMock).not.toHaveBeenCalled();
-    });
-  });
-
-  describe("Down button", () => {
-    test("renders", () => {
-      renderSecond();
-      const downButton = screen.getByTestId("downButton");
-      expect(downButton).toBeInTheDocument();
-    });
-
-    test("calls the updateMinutes with right values", () => {
-      renderSecond();
-
-      const downButton = screen.getByTestId("downButton");
-
-      downButton.click();
-
-      expect(updateMinutesMock).toHaveBeenCalledOnce();
-      expect(updateMinutesMock).toHaveBeenCalledWith({
-        segments: [
-          {
-            name: "0 title",
-            content: "0 content",
+      test("calls the updateMinutes and not clearSignatures", () => {
+        renderWith(1, {
+          ...mockMinutesContextState,
+          minutes: {
+            ...mockMinutesContextState.minutes,
+            segments: customSegments,
+            signatures: [],
           },
-          {
-            name: "2 title",
-            content: "2 content",
+        });
+
+        const upButton = screen.getByTestId("upButton");
+
+        upButton.click();
+
+        expect(window.confirm).not.toHaveBeenCalled();
+        expect(clearSignaturesMock).not.toHaveBeenCalled();
+        expect(updateMinutesMock).toHaveBeenCalledOnce();
+        expect(updateMinutesMock).toHaveBeenCalledWith({
+          segments: [
+            {
+              name: "1 title",
+              content: "1 content",
+            },
+            {
+              name: "0 title",
+              content: "0 content",
+            },
+            {
+              name: "2 title",
+              content: "2 content",
+            },
+          ],
+        });
+      });
+
+      test("doesnt call updateMinutes or clearSignatures when first segments button clicked", () => {
+        renderWith(0, {
+          ...mockMinutesContextState,
+          minutes: {
+            ...mockMinutesContextState.minutes,
+            segments: customSegments,
+            signatures: [],
           },
-          {
-            name: "1 title",
-            content: "1 content",
-          },
-        ],
+        });
+
+        const upButton = screen.getByTestId("upButton");
+
+        upButton.click();
+
+        expect(window.confirm).not.toHaveBeenCalled();
+        expect(updateMinutesMock).not.toHaveBeenCalled();
+        expect(clearSignaturesMock).not.toHaveBeenCalled();
       });
     });
 
-    test("doesnt call updateMinutes when last segments button clicked", () => {
-      renderLast();
+    describe("Down button", () => {
+      beforeEach(() => {
+        vi.stubGlobal("confirm", vi.fn());
+      });
 
-      const downButton = screen.getByTestId("downButton");
+      afterEach(() => {
+        vi.unstubAllGlobals();
+      });
 
-      downButton.click();
+      test("calls the updateMinutes and not clearSignatures", () => {
+        renderWith(1, {
+          ...mockMinutesContextState,
+          minutes: {
+            ...mockMinutesContextState.minutes,
+            segments: customSegments,
+            signatures: [],
+          },
+        });
 
-      expect(updateMinutesMock).not.toHaveBeenCalled();
+        const downButton = screen.getByTestId("downButton");
+
+        downButton.click();
+
+        expect(window.confirm).not.toHaveBeenCalled();
+        expect(clearSignaturesMock).not.toHaveBeenCalled();
+        expect(updateMinutesMock).toHaveBeenCalledOnce();
+        expect(updateMinutesMock).toHaveBeenCalledWith({
+          segments: [
+            {
+              name: "0 title",
+              content: "0 content",
+            },
+            {
+              name: "2 title",
+              content: "2 content",
+            },
+            {
+              name: "1 title",
+              content: "1 content",
+            },
+          ],
+        });
+      });
+
+      test("doesnt call updateMinutes or clearSignatures when last segments button clicked", () => {
+        renderWith(2, {
+          ...mockMinutesContextState,
+          minutes: {
+            ...mockMinutesContextState.minutes,
+            segments: customSegments,
+            signatures: [],
+          },
+        });
+
+        const downButton = screen.getByTestId("downButton");
+
+        downButton.click();
+
+        expect(window.confirm).not.toHaveBeenCalled();
+        expect(clearSignaturesMock).not.toHaveBeenCalled();
+        expect(updateMinutesMock).not.toHaveBeenCalled();
+      });
     });
   });
 });
