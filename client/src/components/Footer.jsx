@@ -1,9 +1,11 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Box, Link, useTheme } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
 function Footer() {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   const styles = {
     footerContainer: {
@@ -31,7 +33,7 @@ function Footer() {
         rel="noopener noreferrer"
         sx={styles.footerItem}
       >
-        Report an issue
+        {t("reportAnIssue")}
       </Link>
       <Link
         component={RouterLink}
