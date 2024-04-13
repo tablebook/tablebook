@@ -171,7 +171,7 @@ function ColorPickerContainer() {
       <Typography sx={styles.customizeTitle}>{t("customize")}:</Typography>
 
       <Box sx={styles.colorPickerTitle}>
-        <Typography sx={styles.colorPickerPara}>{t("textColor")}:</Typography>
+        <Typography sx={styles.colorPickerPara}>{t("textColor")}</Typography>
         <ColorPicker
           onColorChange={(color) => updateColor("primary", color)}
           currColor={minutesState.minutes.colors.primary}
@@ -180,7 +180,7 @@ function ColorPickerContainer() {
 
       <Box sx={styles.colorPickerTitle}>
         <Typography sx={styles.colorPickerPara}>
-          {t("backgroundColor")}:
+          {t("backgroundColor")}
         </Typography>
         <ColorPicker
           onColorChange={(color) => updateColor("secondary", color)}

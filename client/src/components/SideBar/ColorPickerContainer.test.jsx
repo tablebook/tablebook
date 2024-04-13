@@ -2,17 +2,14 @@ import React from "react";
 import { expect, test, describe, beforeEach, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
+import { I18nextProvider } from "react-i18next";
+import i18n from "../../i18n/config";
 import theme from "../../theme";
 import MinutesContext from "../../contexts/MinutesContext";
 import ColorPickerContainer from "./ColorPickerContainer";
 import { mockMinutesContextState } from "../../util/test.helpers";
 
 describe("ColorPickerContainer", () => {
-  vi.mock("react-i18next", () => ({
-    useTranslation: () => ({
-      t: (key) => key, // Replace with your translation logic for testing
-    }),
-  }));
   const updateMinutesMock = vi.fn();
 
   beforeEach(() => {
@@ -21,19 +18,21 @@ describe("ColorPickerContainer", () => {
         value={[mockMinutesContextState, { updateMinutes: updateMinutesMock }]}
       >
         <ThemeProvider theme={theme}>
-          <ColorPickerContainer />
+          <I18nextProvider i18n={i18n}>
+            <ColorPickerContainer />
+          </I18nextProvider>
         </ThemeProvider>
       </MinutesContext.Provider>,
     );
   });
 
   test("renders the primary color element", () => {
-    const primaryColorBox = screen.getByText("textColor:");
+    const primaryColorBox = screen.getByText("Text color");
     expect(primaryColorBox).toBeDefined();
   });
 
   test("renders the secondary color element", () => {
-    const secondaryColorBox = screen.getByText("backgroundColor:");
+    const secondaryColorBox = screen.getByText("Background color");
     expect(secondaryColorBox).toBeDefined();
   });
 
@@ -62,7 +61,7 @@ describe("ColorPickerContainer", () => {
   });
 
   test("renders the restore defaults button", () => {
-    const restoreButton = screen.getByText("restoreDefaults");
+    const restoreButton = screen.getByText("Restore Defaults");
     expect(restoreButton).toBeDefined();
   });
 });
