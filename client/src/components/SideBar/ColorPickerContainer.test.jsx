@@ -8,6 +8,11 @@ import ColorPickerContainer from "./ColorPickerContainer";
 import { mockMinutesContextState } from "../../util/test.helpers";
 
 describe("ColorPickerContainer", () => {
+  vi.mock("react-i18next", () => ({
+    useTranslation: () => ({
+      t: (key) => key, // Replace with your translation logic for testing
+    }),
+  }));
   const updateMinutesMock = vi.fn();
 
   beforeEach(() => {
@@ -23,12 +28,12 @@ describe("ColorPickerContainer", () => {
   });
 
   test("renders the primary color element", () => {
-    const primaryColorBox = screen.getByText("Text color");
+    const primaryColorBox = screen.getByText("textColor:");
     expect(primaryColorBox).toBeDefined();
   });
 
   test("renders the secondary color element", () => {
-    const secondaryColorBox = screen.getByText("Background color");
+    const secondaryColorBox = screen.getByText("backgroundColor:");
     expect(secondaryColorBox).toBeDefined();
   });
 
@@ -57,9 +62,7 @@ describe("ColorPickerContainer", () => {
   });
 
   test("renders the restore defaults button", () => {
-    const restoreButton = screen.getByText("Restore defaults", {
-      selector: "button",
-    });
+    const restoreButton = screen.getByText("restoreDefaults");
     expect(restoreButton).toBeDefined();
   });
 });
