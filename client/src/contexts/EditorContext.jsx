@@ -3,7 +3,7 @@ import React, { createContext, useMemo, useState } from "react";
 const EditorContext = createContext();
 
 const initialState = {
-  language: "EN",
+  language: "en",
   isSignatureModalOpen: false,
   isPreviewPrintPDFModalOpen: false,
   sharePopupAnchorElement: null,
