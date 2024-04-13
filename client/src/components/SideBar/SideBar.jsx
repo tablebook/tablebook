@@ -23,9 +23,10 @@ function SideBar() {
     },
 
     buttonContainer: {
+      mt: 14,
       display: "flex",
       flexDirection: "column",
-      width: "75%",
+      width: "85%",
       maxWidth: 240,
     },
 
