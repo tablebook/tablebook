@@ -5,5 +5,30 @@
     "restoreDefaults": "Restore Defaults",
     "addAField": "Add a field",
     "sign": "Sign",
-    "preview": "Preview"
+
+    "enterTheMainTitle": "Enter the main title",
+    "enterTheContent": "Enter the content",
+    "enterTheTitle": "Enter the title",
+    "signature": "Signature",
+    "date": "Date",
+
+    "drawYourSignature" : "Draw your signature",
+    "enterNameClarification": "Enter name clarification",
+    "insertCurrentTimestampOnMinutes": "Insert current timestamp on minutes",
+    "clear": "clear",
+    "confirm": "confirm",
+    "cancel": "cancel",
+
+    "editingStoredMinutes": "Editing stored minutes",
+    "minutesNotStored": "Minutes not stored",
+    "readingStoredMinutes": "Reading stored minutes",
+    "createNew": "Create new",
+    "reload": "Reload",
+    "share": "Share",
+    "readLink": "Read link",
+    "editLink": "Edit link",
+    "preview/printPdf": "Preview/print Pdf",
+    "closeWindow": "Close window",
+
+    "reportAnIssue": "Report an issue"
 }

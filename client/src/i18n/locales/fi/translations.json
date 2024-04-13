@@ -5,5 +5,30 @@
     "restoreDefaults": "Alkuperäiset",
     "addAField": "Lisää kenttä",
     "sign": "Allekirjoita",
-    "preview": "Esikatsele"
+
+    "enterTheMainTitle": "Lisää otsikko",
+    "enterTheContent": "Lisää sisältöä",
+    "enterTheTitle": "Lisää alaotsikko",
+    "signature": "Allekirjoitus",
+    "date": "Päiväys",
+
+    "drawYourSignature" : "Allekirjoita",
+    "enterNameClarification": "Lisää nimenselvennys",
+    "insertCurrentTimestampOnMinutes": "Lisää aikaleima pöytäkirjaan",
+    "clear": "tyhjennä",
+    "confirm": "vahvista",
+    "cancel": "peruuta",
+
+    "editingStoredMinutes": "Muokataan tallennettua pöytäkirjaa",
+    "minutesNotStored": "Pöytäkirjaa ei tallennettu",
+    "readingStoredMinutes": "Luetaan tallennettua pöytäkirjaa",
+    "createNew": "Luo uusi",
+    "reload": "Päivitä",
+    "share": "Jaa",
+    "readLink": "Lukulinkki",
+    "editLink": "Muokkauslinkki",
+    "preview/printPdf": "Esikatsele/tulosta",
+    "closeWindow": "Sulje",
+
+    "reportAnIssue": "Ilmoita ongelmasta"
 }
