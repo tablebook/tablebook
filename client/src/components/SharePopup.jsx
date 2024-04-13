@@ -6,6 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import LinkIcon from "@mui/icons-material/Link";
 import { toast } from "react-toastify";
 
@@ -14,6 +15,7 @@ import MinutesContext from "../contexts/MinutesContext";
 import PopupBase from "./Shared/PopupBase";
 
 function SharePopup() {
+  const { t } = useTranslation();
   const [editorState, updateEditor] = useContext(EditorContext);
   const [minutesState] = useContext(MinutesContext);
 
@@ -63,7 +65,7 @@ function SharePopup() {
       <PopupBase title="Share">
         {minutesState.metadata.readToken && (
           <>
-            <Typography>Read link</Typography>
+            <Typography>{t("readLink")}</Typography>
             <TextField
               data-testid="read-only-link"
               value={baseUrl + (minutesState.metadata.readToken ?? "")}
@@ -73,7 +75,7 @@ function SharePopup() {
         )}
         {minutesState.metadata.writeToken && (
           <>
-            <Typography>Edit link</Typography>
+            <Typography>{t("editLink")}</Typography>
             <TextField
               data-testid="write-link"
               value={baseUrl + (minutesState.metadata.writeToken ?? "")}

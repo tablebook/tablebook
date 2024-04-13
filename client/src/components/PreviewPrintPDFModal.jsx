@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Box, Modal, Button, useTheme } from "@mui/material";
 import { PDFViewer } from "@react-pdf/renderer";
 import { marked } from "marked";
+import { useTranslation } from "react-i18next";
 import DOMPurify from "dompurify";
 import PDFDocument from "./PDFDocument";
 import EditorContext from "../contexts/EditorContext";
@@ -9,6 +10,7 @@ import MinutesContext from "../contexts/MinutesContext";
 
 function PreviewPrintPDFModal() {
   const theme = useTheme();
+  const { t } = useTranslation();
   const [minutesState] = useContext(MinutesContext);
   const [editor, updateEditor] = useContext(EditorContext);
 
@@ -169,7 +171,7 @@ function PreviewPrintPDFModal() {
             color="secondary"
             onClick={handleModalClose}
           >
-            Close window
+            {t("closeWindow")}
           </Button>
         </Box>
       </Box>
