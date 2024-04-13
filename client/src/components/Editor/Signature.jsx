@@ -1,10 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import moment from "moment";
 import { Box, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import MinutesContext from "../../contexts/MinutesContext";
 import ImageElement from "../Shared/Image";
 
 function Signature() {
+  const { t } = useTranslation();
   const [state] = useContext(MinutesContext);
   const [modifiedSignature, setModifiedSignature] = useState(null);
 
@@ -137,7 +139,7 @@ function Signature() {
           )}
 
         <Typography variant="h5" sx={styles.signatureAndDateText}>
-          Signature
+          {t("signature")}
         </Typography>
       </Box>
 
@@ -161,7 +163,7 @@ function Signature() {
         <Box sx={styles.signatureAndDateLine} />
 
         <Typography variant="h5" sx={styles.signatureAndDateText}>
-          Date
+          {t("date")}
         </Typography>
       </Box>
     </Box>

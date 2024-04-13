@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { Box, InputBase, useTheme } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import MinutesContext from "../../contexts/MinutesContext";
 import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffectingChange";
 
 function Title() {
   const theme = useTheme();
+  const { t } = useTranslation();
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
   const handleSignatureAffectingChange = useHandleSignatureAffectingChange();
 
@@ -34,7 +36,7 @@ function Title() {
     <Box sx={styles.titleContainer} data-testid="title-component">
       <InputBase
         name="title"
-        placeholder="Enter main title"
+        placeholder={t("enterTheMainTitle")}
         value={minutesState.minutes.name}
         fullWidth
         inputProps={{

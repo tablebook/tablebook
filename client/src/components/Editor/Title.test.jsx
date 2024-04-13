@@ -2,6 +2,8 @@ import React from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import { expect, test, describe, beforeEach, vi, afterEach } from "vitest";
 import { render, screen, fireEvent, renderHook } from "@testing-library/react";
+import { I18nextProvider } from "react-i18next";
+import i18n from "../../i18n/config";
 import Title from "./Title";
 import MinutesContext from "../../contexts/MinutesContext";
 import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffectingChange";
@@ -24,7 +26,9 @@ describe("Title", () => {
         ]}
       >
         <ThemeProvider theme={theme}>
-          <Title />
+          <I18nextProvider i18n={i18n}>
+            <Title />
+          </I18nextProvider>
         </ThemeProvider>
       </MinutesContext.Provider>,
     );
@@ -45,12 +49,12 @@ describe("Title", () => {
       });
 
       test("title input is NOT readonly", async () => {
-        const titleInput = screen.getByPlaceholderText("Enter main title");
+        const titleInput = screen.getByPlaceholderText("Enter the main title");
         expect(titleInput.attributes.readonly).toBeFalsy();
       });
 
       test("renders title input with correct placeholder", () => {
-        const titleInput = screen.getByPlaceholderText("Enter main title");
+        const titleInput = screen.getByPlaceholderText("Enter the main title");
         expect(titleInput).toBeInTheDocument();
       });
     });
@@ -66,7 +70,7 @@ describe("Title", () => {
       });
 
       test("on signature check confirm, changing the title calls updateMinutes and clearSignatures", async () => {
-        const titleInput = screen.getByPlaceholderText("Enter main title");
+        const titleInput = screen.getByPlaceholderText("Enter the main title");
 
         window.confirm.mockReturnValue(true);
 
@@ -79,7 +83,7 @@ describe("Title", () => {
       });
 
       test("on signature check cancel, changing the title doesnt call updateMinutes or clearSignatures", async () => {
-        const titleInput = screen.getByPlaceholderText("Enter main title");
+        const titleInput = screen.getByPlaceholderText("Enter the main title");
 
         window.confirm.mockReturnValue(false);
 
@@ -108,7 +112,7 @@ describe("Title", () => {
       });
 
       test("changing the title calls updateMinutes and not clearSignatures", async () => {
-        const titleInput = screen.getByPlaceholderText("Enter main title");
+        const titleInput = screen.getByPlaceholderText("Enter the main title");
 
         fireEvent.change(titleInput, { target: { value: "new" } });
 
@@ -133,12 +137,12 @@ describe("Title", () => {
     });
 
     test("renders title input with correct placeholder", () => {
-      const titleInput = screen.getByPlaceholderText("Enter main title");
+      const titleInput = screen.getByPlaceholderText("Enter the main title");
       expect(titleInput).toBeInTheDocument();
     });
 
     test("title input is readonly", async () => {
-      const titleInput = screen.getByPlaceholderText("Enter main title");
+      const titleInput = screen.getByPlaceholderText("Enter the main title");
       expect(titleInput.attributes.readonly).toBeTruthy();
     });
   });

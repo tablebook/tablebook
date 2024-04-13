@@ -3,11 +3,13 @@ import { Box, IconButton, useTheme } from "@mui/material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useTranslation } from "react-i18next";
 import MinutesContext from "../../contexts/MinutesContext";
 import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffectingChange";
 
 function SegmentButtons({ segmentIndex }) {
   const theme = useTheme();
+  const { t } = useTranslation();
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
   const handleSignatureAffectingChange = useHandleSignatureAffectingChange();
 
@@ -33,9 +35,7 @@ function SegmentButtons({ segmentIndex }) {
 
     if (
       !(isNameEmpty && isContentEmpty) &&
-      !window.confirm(
-        "This action will delete the segment and its content. Are you sure?",
-      )
+      !window.confirm(t("deleteSegment"))
     ) {
       return;
     }

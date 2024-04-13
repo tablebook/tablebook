@@ -1,6 +1,8 @@
 import React from "react";
 import { expect, test, describe, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { I18nextProvider } from "react-i18next";
+import i18n from "../../i18n/config";
 import Signature from "./Signature";
 import MinutesContext from "../../contexts/MinutesContext";
 import { mockMinutesContextState } from "../../util/test.helpers";
@@ -9,7 +11,9 @@ describe("Signature", () => {
   beforeEach(() => {
     render(
       <MinutesContext.Provider value={[mockMinutesContextState, {}]}>
-        <Signature />
+        <I18nextProvider i18n={i18n}>
+          <Signature />
+        </I18nextProvider>
       </MinutesContext.Provider>,
     );
   });
