@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Font,
 } from "@react-pdf/renderer";
+import { useTranslation } from "react-i18next";
 import Html from "react-pdf-html";
 import moment from "moment";
 import RobotoRegular from "../assets/fonts/Roboto-Regular.ttf";
@@ -17,6 +18,8 @@ import RobotoBoldItalic from "../assets/fonts/Roboto-BoldItalic.ttf";
 import RobotoMonoRegular from "../assets/fonts/RobotoMono-Regular.ttf";
 
 function PDFDocument({ minutesState, parsedMinutes }) {
+  const { t } = useTranslation();
+
   Font.register({
     family: "Roboto",
     fonts: [
@@ -224,7 +227,7 @@ function PDFDocument({ minutesState, parsedMinutes }) {
                   {minutesState.minutes.signatures[0].signer}
                 </Text>
               )}
-            <Text style={styles.signatureAndDateText}>Signature</Text>
+            <Text style={styles.signatureAndDateText}>{t("signature")}</Text>
           </View>
           <View style={styles.dateContainer}>
             {minutesState.minutes.signatures.length > 0 &&
@@ -243,7 +246,7 @@ function PDFDocument({ minutesState, parsedMinutes }) {
                 </View>
               )}
             <View style={styles.signatureAndDateLine} />
-            <Text style={styles.signatureAndDateText}>Date</Text>
+            <Text style={styles.signatureAndDateText}>{t("date")}</Text>
           </View>
         </View>
       </Page>
