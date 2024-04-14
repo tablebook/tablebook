@@ -67,6 +67,19 @@ describe("TopBar", () => {
     );
   };
 
+  beforeEach(() => {
+    vi.mock("@react-pdf/renderer", async () => {
+      const originalModule = await vi.importActual("@react-pdf/renderer");
+
+      const usePDF = vi.fn(() => [{ loading: false, error: null }, vi.fn()]);
+
+      return {
+        ...originalModule,
+        usePDF,
+      };
+    });
+  });
+
   afterEach(async () => {
     vi.clearAllMocks();
   });
