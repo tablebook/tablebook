@@ -2,6 +2,7 @@ import { Box, Link, Button, useTheme, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import _ from "lodash";
+import { toast } from "react-toastify";
 import EditorContext from "../contexts/EditorContext";
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
@@ -113,9 +114,9 @@ function TopBar() {
         minutesState.minutes,
       );
 
-      alert("Minutes saved successfully!");
+      toast.success("Minutes saved successfully!");
     } catch (error) {
-      alert("Saving minutes failed");
+      toast.error("Saving minutes failed");
     }
   };
 
@@ -154,10 +155,9 @@ function TopBar() {
         readToken: minutesResponse.readToken,
         writeToken: minutesResponse.writeToken,
       });
-
-      alert("Successfully loaded minutes");
+      toast.success("Successfully loaded minutes");
     } catch (error) {
-      alert("Reloading minutes failed");
+      toast.error("Reloading minutes failed");
     }
   };
 
