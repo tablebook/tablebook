@@ -1,7 +1,6 @@
 import { Box, Link, Button, useTheme, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import _ from "lodash";
 import { toast } from "react-toastify";
 import EditorContext from "../contexts/EditorContext";
 import LanguagePickerContainer from "./LanguagePickerContainer";
@@ -9,12 +8,16 @@ import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
 import logoImage from "../assets/images/logo.png";
 import Image from "./Shared/Image";
+import useReloadMinutes from "../util/useReloadMinutes";
+import useSaveMinutes from "../util/useSaveMinutes";
 
-function TopBar() {
+function TopBar({ containerRef }) {
   const theme = useTheme();
   const [, updateEditor] = useContext(EditorContext);
-  const [minutesState, { updateMinutes, updateMetadata, clearState }] =
+  const [minutesState, { updateMetadata, clearState }] =
     useContext(MinutesContext);
+  const reloadMinutes = useReloadMinutes();
+  const saveMinutes = useSaveMinutes();
 
   const styles = {
     topBarContainer: {
@@ -114,19 +117,6 @@ function TopBar() {
     }
   };
 
-  const handleSaveClicked = async () => {
-    try {
-      await minutesService.updateMinutesByToken(
-        minutesState.metadata.writeToken,
-        minutesState.minutes,
-      );
-
-      toast.success("Minutes saved successfully!");
-    } catch (error) {
-      toast.error("Saving minutes failed");
-    }
-  };
-
   const getStatusMessage = () => {
     switch (minutesState.metadata.writeAccess) {
       case null:
@@ -140,36 +130,8 @@ function TopBar() {
     }
   };
 
-  const handleReloadClicked = async () => {
-    try {
-      const minutesResponse = await minutesService.getMinutesByToken(
-        minutesState.metadata.writeToken ?? minutesState.metadata.readToken,
-      );
-
-      if (
-        !_.isEqual(minutesState.minutes, minutesResponse.data) && // If state differs from incoming minutes
-        !window.confirm(
-          "There are changes in the incoming minutes. Are you sure you want to overwrite the current minutes?",
-        ) // If user cancels
-      ) {
-        return;
-      }
-
-      updateMinutes(minutesResponse.data);
-
-      updateMetadata({
-        writeAccess: minutesResponse.writeAccess,
-        readToken: minutesResponse.readToken,
-        writeToken: minutesResponse.writeToken,
-      });
-      toast.success("Successfully loaded minutes");
-    } catch (error) {
-      toast.error("Reloading minutes failed");
-    }
-  };
-
   return (
-    <Box sx={styles.topBarContainer}>
+    <Box sx={styles.topBarContainer} ref={containerRef}>
       <Link
         component={RouterLink}
         to="/minutes"
@@ -204,7 +166,7 @@ function TopBar() {
             variant="contained"
             color="secondary"
             sx={styles.topBarButton}
-            onClick={handleSaveClicked}
+            onClick={saveMinutes}
           >
             Save
           </Button>
@@ -215,7 +177,7 @@ function TopBar() {
             variant="contained"
             color="secondary"
             sx={styles.topBarButton}
-            onClick={handleReloadClicked}
+            onClick={reloadMinutes}
           >
             Reload
           </Button>

@@ -1,11 +1,5 @@
 import { z } from "zod";
 
-const mongoIdSchema = z
-  .string()
-  .refine((value) => /^[0-9a-fA-F]{24}$/.test(value), {
-    message: "Invalid MongoDB id",
-  });
-
 const segmentSchema = z.object({
   name: z.string(),
   content: z.string(),
@@ -26,7 +20,6 @@ const minutesSchema = z.object({
   segments: z.array(segmentSchema),
   startTime: z.string().datetime().nullable(),
   signatures: z.array(signatureSchema),
-  id: mongoIdSchema,
 });
 
 export default minutesSchema;

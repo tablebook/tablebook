@@ -2,20 +2,33 @@ import React from "react";
 import { expect, test, describe, beforeEach, afterEach, vi } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
-import { RouterProvider } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { toast } from "react-toastify";
 import TopBar from "./TopBar";
 import MinutesContext from "../contexts/MinutesContext";
 import EditorContext from "../contexts/EditorContext";
 import {
   mockEditorContextState,
-  mockGetMinutesResponse,
   mockMinutesContextState,
   mockPostMinutesResponse,
 } from "../util/test.helpers";
 import theme from "../theme";
 import minutesService from "../services/minutesService";
-import router from "../router";
+
+const mockSaveMinutes = vi.fn();
+const mockReloadMinutes = vi.fn();
+
+vi.mock("../util/useSaveMinutes", () => {
+  return {
+    default: () => mockSaveMinutes,
+  };
+});
+
+vi.mock("../util/useReloadMinutes", () => {
+  return {
+    default: () => mockReloadMinutes,
+  };
+});
 
 describe("TopBar", () => {
   const updateEditorMock = vi.fn();
@@ -23,31 +36,30 @@ describe("TopBar", () => {
   const updateMetadataMock = vi.fn();
   const clearStateMock = vi.fn();
 
-  const mockSuccessToast = vi.spyOn(toast, "success");
   const mockErrorToast = vi.spyOn(toast, "error");
 
   const renderWith = (mockMinutesState) => {
     render(
-      <MinutesContext.Provider
-        value={[
-          mockMinutesState,
-          {
-            updateMinutes: updateMinutesMock,
-            updateMetadata: updateMetadataMock,
-            clearState: clearStateMock,
-          },
-        ]}
-      >
-        <EditorContext.Provider
-          value={[mockEditorContextState, updateEditorMock]}
+      <BrowserRouter>
+        <MinutesContext.Provider
+          value={[
+            mockMinutesState,
+            {
+              updateMinutes: updateMinutesMock,
+              updateMetadata: updateMetadataMock,
+              clearState: clearStateMock,
+            },
+          ]}
         >
-          <ThemeProvider theme={theme}>
-            <RouterProvider router={router}>
+          <EditorContext.Provider
+            value={[mockEditorContextState, updateEditorMock]}
+          >
+            <ThemeProvider theme={theme}>
               <TopBar />
-            </RouterProvider>
-          </ThemeProvider>
-        </EditorContext.Provider>
-      </MinutesContext.Provider>,
+            </ThemeProvider>
+          </EditorContext.Provider>
+        </MinutesContext.Provider>
+      </BrowserRouter>,
     );
   };
 
@@ -270,62 +282,17 @@ describe("TopBar", () => {
         expect(saveButton).toBeDefined();
       });
 
-      test("calls minutesService and notifies user when successful", async () => {
-        const mockUpdateMinutes = vi.spyOn(
-          minutesService,
-          "updateMinutesByToken",
-        );
-        mockUpdateMinutes.mockResolvedValueOnce(mockPostMinutesResponse);
-
+      test("calls saveMinutes hook", () => {
         const saveButton = screen.getByText("Save", {
           selector: "button",
         });
-
         saveButton.click();
 
-        await waitFor(() => {
-          expect(mockUpdateMinutes).toHaveBeenCalledOnce();
-          expect(mockUpdateMinutes).toHaveBeenCalledWith(
-            mockMinutesContextState.metadata.writeToken,
-            mockMinutesContextState.minutes,
-          );
-          expect(mockSuccessToast).toHaveBeenCalledOnce();
-          expect(mockSuccessToast).toHaveBeenCalledWith(
-            "Minutes saved successfully!",
-          );
-        });
-      });
-
-      test("calls minutesService and notifies user when service throws error", async () => {
-        const mockUpdateMinutes = vi.spyOn(
-          minutesService,
-          "updateMinutesByToken",
-        );
-        mockUpdateMinutes.mockRejectedValueOnce();
-
-        const saveButton = screen.getByText("Save", {
-          selector: "button",
-        });
-
-        saveButton.click();
-
-        await waitFor(() => {
-          expect(mockUpdateMinutes).toHaveBeenCalledOnce();
-          expect(mockErrorToast).toHaveBeenCalledOnce();
-          expect(mockErrorToast).toHaveBeenCalledWith("Saving minutes failed");
-        });
+        expect(mockSaveMinutes).toHaveBeenCalledOnce();
       });
     });
 
     describe("Reload button", () => {
-      beforeEach(() => {
-        vi.stubGlobal("confirm", vi.fn());
-      });
-
-      afterEach(() => {
-        vi.unstubAllGlobals();
-      });
-
       test("renders", () => {
         const reloadButton = screen.getByText("Reload", {
           selector: "button",
@@ -333,84 +300,13 @@ describe("TopBar", () => {
         expect(reloadButton).toBeInTheDocument();
       });
 
-      test("fetches minutes and gets confirmation from user if they have changed", async () => {
-        const mockGetMinutes = vi.spyOn(minutesService, "getMinutesByToken");
-        mockGetMinutes.mockResolvedValueOnce(mockGetMinutesResponse);
+      test("calls reloadMinutes hook", () => {
         const reloadButton = screen.getByText("Reload", {
           selector: "button",
         });
-        window.confirm.mockReturnValueOnce(true);
-
         reloadButton.click();
 
-        await waitFor(() => {
-          expect(mockGetMinutes).toHaveBeenCalledOnce();
-          expect(mockGetMinutes).toHaveBeenCalledWith(
-            mockMinutesContextState.metadata.writeToken,
-          );
-          expect(window.confirm).toHaveBeenCalled();
-          expect(updateMinutesMock).toHaveBeenCalledOnce();
-          expect(updateMinutesMock).toHaveBeenCalledWith(
-            mockGetMinutesResponse.data,
-          );
-          expect(updateMetadataMock).toHaveBeenCalledOnce();
-          expect(updateMetadataMock).toHaveBeenCalledWith({
-            writeAccess: true,
-            readToken: mockGetMinutesResponse.readToken,
-            writeToken: mockGetMinutesResponse.writeToken,
-          });
-          expect(mockSuccessToast).toHaveBeenCalledOnce();
-          expect(mockSuccessToast).toHaveBeenCalledWith(
-            "Successfully loaded minutes",
-          );
-        });
-      });
-
-      test("doesn't overwrite minutes when user declines confirmation", async () => {
-        const mockGetMinutes = vi.spyOn(minutesService, "getMinutesByToken");
-        mockGetMinutes.mockResolvedValueOnce(mockGetMinutesResponse);
-        const reloadButton = screen.getByText("Reload", {
-          selector: "button",
-        });
-        window.confirm.mockReturnValueOnce(false);
-
-        reloadButton.click();
-
-        await waitFor(() => {
-          expect(mockGetMinutes).toHaveBeenCalledOnce();
-          expect(mockGetMinutes).toHaveBeenCalledWith(
-            mockMinutesContextState.metadata.writeToken,
-          );
-          expect(window.confirm).toHaveBeenCalled();
-          expect(updateMinutesMock).not.toHaveBeenCalled();
-          expect(updateMetadataMock).not.toHaveBeenCalled();
-          expect(mockErrorToast).not.toHaveBeenCalled();
-          expect(mockSuccessToast).not.toHaveBeenCalled();
-        });
-      });
-
-      test("handles errors and notifies user", async () => {
-        const mockGetMinutes = vi.spyOn(minutesService, "getMinutesByToken");
-        mockGetMinutes.mockRejectedValueOnce();
-        const reloadButton = screen.getByText("Reload", {
-          selector: "button",
-        });
-
-        reloadButton.click();
-
-        await waitFor(() => {
-          expect(mockGetMinutes).toHaveBeenCalledOnce();
-          expect(mockGetMinutes).toHaveBeenCalledWith(
-            mockMinutesContextState.metadata.writeToken,
-          );
-          expect(window.confirm).not.toHaveBeenCalled();
-          expect(updateMinutesMock).not.toHaveBeenCalledOnce();
-          expect(updateMetadataMock).not.toHaveBeenCalled();
-          expect(mockErrorToast).toHaveBeenCalledOnce();
-          expect(mockErrorToast).toHaveBeenCalledWith(
-            "Reloading minutes failed",
-          );
-        });
+        expect(mockReloadMinutes).toHaveBeenCalledOnce();
       });
     });
 
@@ -480,14 +376,6 @@ describe("TopBar", () => {
     });
 
     describe("Reload button", () => {
-      beforeEach(() => {
-        vi.stubGlobal("confirm", vi.fn());
-      });
-
-      afterEach(() => {
-        vi.unstubAllGlobals();
-      });
-
       test("renders", () => {
         const reloadButton = screen.getByText("Reload", {
           selector: "button",
@@ -495,84 +383,13 @@ describe("TopBar", () => {
         expect(reloadButton).toBeInTheDocument();
       });
 
-      test("fetches minutes and gets confirmation from user if they have changed", async () => {
-        const mockGetMinutes = vi.spyOn(minutesService, "getMinutesByToken");
-        mockGetMinutes.mockResolvedValueOnce(mockGetMinutesResponse);
+      test("calls reloadMinutes hook", () => {
         const reloadButton = screen.getByText("Reload", {
           selector: "button",
         });
-        window.confirm.mockReturnValueOnce(true);
-
         reloadButton.click();
 
-        await waitFor(() => {
-          expect(mockGetMinutes).toHaveBeenCalledOnce();
-          expect(mockGetMinutes).toHaveBeenCalledWith(
-            mockMinutesContextState.metadata.readToken,
-          );
-          expect(window.confirm).toHaveBeenCalled();
-          expect(updateMinutesMock).toHaveBeenCalledOnce();
-          expect(updateMinutesMock).toHaveBeenCalledWith(
-            mockGetMinutesResponse.data,
-          );
-          expect(updateMetadataMock).toHaveBeenCalledOnce();
-          expect(updateMetadataMock).toHaveBeenCalledWith({
-            writeAccess: true,
-            readToken: mockGetMinutesResponse.readToken,
-            writeToken: mockGetMinutesResponse.writeToken,
-          });
-          expect(mockSuccessToast).toHaveBeenCalledOnce();
-          expect(mockSuccessToast).toHaveBeenCalledWith(
-            "Successfully loaded minutes",
-          );
-        });
-      });
-
-      test("doesn't overwrite minutes when user declines confirmation", async () => {
-        const mockGetMinutes = vi.spyOn(minutesService, "getMinutesByToken");
-        mockGetMinutes.mockResolvedValueOnce(mockGetMinutesResponse);
-        const reloadButton = screen.getByText("Reload", {
-          selector: "button",
-        });
-        window.confirm.mockReturnValueOnce(false);
-
-        reloadButton.click();
-
-        await waitFor(() => {
-          expect(mockGetMinutes).toHaveBeenCalledOnce();
-          expect(mockGetMinutes).toHaveBeenCalledWith(
-            mockMinutesContextState.metadata.readToken,
-          );
-          expect(window.confirm).toHaveBeenCalled();
-          expect(updateMinutesMock).not.toHaveBeenCalled();
-          expect(updateMetadataMock).not.toHaveBeenCalled();
-          expect(mockErrorToast).not.toHaveBeenCalled();
-          expect(mockSuccessToast).not.toHaveBeenCalled();
-        });
-      });
-
-      test("handles errors and notifies user", async () => {
-        const mockGetMinutes = vi.spyOn(minutesService, "getMinutesByToken");
-        mockGetMinutes.mockRejectedValueOnce();
-        const reloadButton = screen.getByText("Reload", {
-          selector: "button",
-        });
-
-        reloadButton.click();
-
-        await waitFor(() => {
-          expect(mockGetMinutes).toHaveBeenCalledOnce();
-          expect(mockGetMinutes).toHaveBeenCalledWith(
-            mockMinutesContextState.metadata.readToken,
-          );
-          expect(window.confirm).not.toHaveBeenCalled();
-          expect(updateMinutesMock).not.toHaveBeenCalledOnce();
-          expect(updateMetadataMock).not.toHaveBeenCalled();
-          expect(mockErrorToast).toHaveBeenCalledOnce();
-          expect(mockErrorToast).toHaveBeenCalledWith(
-            "Reloading minutes failed",
-          );
-        });
+        expect(mockReloadMinutes).toHaveBeenCalledOnce();
       });
     });
 

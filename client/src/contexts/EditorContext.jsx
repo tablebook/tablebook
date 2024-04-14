@@ -7,6 +7,7 @@ const initialState = {
   isSignatureModalOpen: false,
   isPreviewPrintPDFModalOpen: false,
   sharePopupAnchorElement: null,
+  reloadPopupAnchorElement: null,
 };
 
 export function EditorContextProvider({ children }) {
