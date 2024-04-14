@@ -2,6 +2,7 @@ import { Box, Link, Button, useTheme, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import EditorContext from "../contexts/EditorContext";
 import LanguagePickerContainer from "./LanguagePickerContainer";
 import minutesService from "../services/minutesService";
@@ -79,31 +80,39 @@ function TopBar({ containerRef }) {
   };
 
   const handleShareClicked = async (event) => {
-    const shareButton = event.currentTarget;
+    try {
+      const shareButton = event.currentTarget;
 
-    const isAlreadyStored =
-      minutesState.metadata.writeToken || minutesState.metadata.readToken;
+      const isAlreadyStored =
+        minutesState.metadata.writeToken || minutesState.metadata.readToken;
 
-    if (isAlreadyStored) {
+      if (isAlreadyStored) {
+        updateEditor({ sharePopupAnchorElement: shareButton });
+        return;
+      }
+
+      if (
+        !window.confirm(
+          "This action will store the document in the cloud where it will be accessible to anyone with the provided link. Are you sure?",
+        )
+      ) {
+        return;
+      }
+
+      const createdMinutes = await minutesService.createMinutes(
+        minutesState.minutes,
+      );
+
+      updateMetadata({
+        writeAccess: true,
+        writeToken: createdMinutes.writeToken,
+        readToken: createdMinutes.readToken,
+      });
+
       updateEditor({ sharePopupAnchorElement: shareButton });
-      return;
+    } catch (error) {
+      toast.error(t("sharingError"));
     }
-
-    if (!window.confirm(t("storeDocument"))) {
-      return;
-    }
-
-    const createdMinutes = await minutesService.createMinutes(
-      minutesState.minutes,
-    );
-
-    updateMetadata({
-      writeAccess: true,
-      writeToken: createdMinutes.writeToken,
-      readToken: createdMinutes.readToken,
-    });
-
-    updateEditor({ sharePopupAnchorElement: shareButton });
   };
 
   const getStatusMessage = () => {

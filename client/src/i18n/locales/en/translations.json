@@ -39,6 +39,7 @@
     "changesInMinutes": "There are changes in the incoming minutes. Are you sure you want to overwrite the current minutes?",
     "loadedMinutesSuccesful": "Successfully loaded minutes",
     "loadedMinutesFail": "Reloading minutes failed",
+    "sharingError": "Error while sharing minutes",
 
 
     "reportAnIssue": "Report an issue"

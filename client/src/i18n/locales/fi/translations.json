@@ -39,6 +39,7 @@
     "changesInMinutes": "Ladatussa pöytäkirjassa on muutoksia. Oletko varma että haluat päivittää pöytäkirjan?",
     "loadedMinutesSuccesful": "Pöytäkirjan päivittäminen onnistui",
     "loadedMinutesFail": "Pöytäkirjan päivittäminen epäonnistui",
+    "sharingError": "Ongelma pöytäkirjan jakamisessa",
 
     "reportAnIssue": "Ilmoita ongelmasta"
 }
