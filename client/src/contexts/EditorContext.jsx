@@ -18,10 +18,10 @@ export function EditorContextProvider({ children }) {
     // if there is a stored context, initial state and the context are combined
     // because not everything from editorContext is stored there
     if (sessionData) {
-      return { ...initialState, ...JSON.parse(sessionData) };
+      return { ...initialState, language: sessionData };
     }
     if (localData) {
-      return { ...initialState, ...JSON.parse(localData) };
+      return { ...initialState, language: localData };
     }
     return initialState;
   });
@@ -33,8 +33,8 @@ export function EditorContextProvider({ children }) {
         ...newEditorData,
       };
       const { language } = newState;
-      sessionStorage.setItem("EditorContext", JSON.stringify({ language }));
-      localStorage.setItem("EditorContext", JSON.stringify({ language }));
+      sessionStorage.setItem("EditorContext", language);
+      localStorage.setItem("EditorContext", language);
       return newState;
     });
   };

@@ -52,8 +52,8 @@ function LanguagePickerContainer() {
 
   const handleLanguageChange = (newLanguage) => {
     setIsLanguagePickerOpen(!isLanguagePickerOpen);
-    updateEditor({ language: newLanguage });
     i18n.changeLanguage(newLanguage);
+    updateEditor({ language: newLanguage });
   };
 
   return (

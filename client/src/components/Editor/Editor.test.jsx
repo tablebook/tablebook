@@ -2,7 +2,9 @@ import React from "react";
 import { expect, test, describe, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
+import { I18nextProvider } from "react-i18next";
 import Editor from "./Editor";
+import i18n from "../../i18n/config";
 import MinutesContext from "../../contexts/MinutesContext";
 import theme from "../../theme";
 import { mockMinutesContextState } from "../../util/test.helpers";
@@ -12,7 +14,9 @@ describe("Editor", () => {
     render(
       <MinutesContext.Provider value={[mockMinutesState, {}]}>
         <ThemeProvider theme={theme}>
-          <Editor />
+          <I18nextProvider i18n={i18n}>
+            <Editor />
+          </I18nextProvider>
         </ThemeProvider>
       </MinutesContext.Provider>,
     );
