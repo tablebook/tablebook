@@ -193,7 +193,7 @@ function PDFDocument({ pdfReadyMinutes }) {
   });
 
   return (
-    <Document>
+    <Document creator="TableBook" producer="TableBook">
       <Page size="A4" style={styles.page}>
         <View style={styles.minutesContent}>
           <Html stylesheet={stylesheet} style={styles.titleText}>
