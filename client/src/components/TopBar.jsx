@@ -2,6 +2,7 @@ import { Box, Link, Button, useTheme, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import _ from "lodash";
+import { toast } from "react-toastify";
 import EditorContext from "../contexts/EditorContext";
 import LanguagePickerContainer from "./LanguagePickerContainer";
 import minutesService from "../services/minutesService";
@@ -78,35 +79,39 @@ function TopBar() {
   };
 
   const handleShareClicked = async (event) => {
-    const shareButton = event.currentTarget;
+    try {
+      const shareButton = event.currentTarget;
 
-    const isAlreadyStored =
-      minutesState.metadata.writeToken || minutesState.metadata.readToken;
+      const isAlreadyStored =
+        minutesState.metadata.writeToken || minutesState.metadata.readToken;
 
-    if (isAlreadyStored) {
+      if (isAlreadyStored) {
+        updateEditor({ sharePopupAnchorElement: shareButton });
+        return;
+      }
+
+      if (
+        !window.confirm(
+          "This action will store the document in the cloud where it will be accessible to anyone with the provided link. Are you sure?",
+        )
+      ) {
+        return;
+      }
+
+      const createdMinutes = await minutesService.createMinutes(
+        minutesState.minutes,
+      );
+
+      updateMetadata({
+        writeAccess: true,
+        writeToken: createdMinutes.writeToken,
+        readToken: createdMinutes.readToken,
+      });
+
       updateEditor({ sharePopupAnchorElement: shareButton });
-      return;
+    } catch (error) {
+      toast.error("Error while sharing minutes");
     }
-
-    if (
-      !window.confirm(
-        "This action will store the document in the cloud where it will be accessible to anyone with the provided link. Are you sure?",
-      )
-    ) {
-      return;
-    }
-
-    const createdMinutes = await minutesService.createMinutes(
-      minutesState.minutes,
-    );
-
-    updateMetadata({
-      writeAccess: true,
-      writeToken: createdMinutes.writeToken,
-      readToken: createdMinutes.readToken,
-    });
-
-    updateEditor({ sharePopupAnchorElement: shareButton });
   };
 
   const handleSaveClicked = async () => {
@@ -116,9 +121,9 @@ function TopBar() {
         minutesState.minutes,
       );
 
-      alert("Minutes saved successfully!");
+      toast.success("Minutes saved successfully!");
     } catch (error) {
-      alert("Saving minutes failed");
+      toast.error("Saving minutes failed");
     }
   };
 
@@ -157,10 +162,9 @@ function TopBar() {
         readToken: minutesResponse.readToken,
         writeToken: minutesResponse.writeToken,
       });
-
-      alert("Successfully loaded minutes");
+      toast.success("Successfully loaded minutes");
     } catch (error) {
-      alert("Reloading minutes failed");
+      toast.error("Reloading minutes failed");
     }
   };
 

@@ -2,6 +2,7 @@ import React from "react";
 import { render, waitFor, screen } from "@testing-library/react";
 import { afterEach, describe, test, vi, expect } from "vitest";
 import { ThemeProvider } from "@mui/material";
+import { toast } from "react-toastify";
 import MinutesContext from "../contexts/MinutesContext";
 import {
   mockGetMinutesResponse,
@@ -48,7 +49,6 @@ describe("LoadingPage", () => {
     vi.clearAllMocks();
   });
   test("renders loading", () => {
-    vi.stubGlobal("alert", vi.fn());
     const mockGetMinutesByToken = vi.spyOn(minutesService, "getMinutesByToken");
     mockGetMinutesByToken.mockResolvedValueOnce(mockGetMinutesResponse);
 
@@ -62,7 +62,6 @@ describe("LoadingPage", () => {
   });
 
   test("renders image", () => {
-    vi.stubGlobal("alert", vi.fn());
     const mockGetMinutesByToken = vi.spyOn(minutesService, "getMinutesByToken");
     mockGetMinutesByToken.mockResolvedValueOnce(mockGetMinutesResponse);
 
@@ -75,14 +74,14 @@ describe("LoadingPage", () => {
   });
 
   test("fetches minutes and sets context state", async () => {
-    vi.stubGlobal("alert", vi.fn());
+    const mockToast = vi.spyOn(toast, "error");
     const mockGetMinutesByToken = vi.spyOn(minutesService, "getMinutesByToken");
     mockGetMinutesByToken.mockResolvedValueOnce(mockGetMinutesResponse);
 
     renderElement();
 
     await waitFor(() => {
-      expect(window.alert).not.toHaveBeenCalled();
+      expect(mockToast).not.toHaveBeenCalled();
 
       expect(mockGetMinutesByToken).toHaveBeenCalledOnce();
       expect(mockGetMinutesByToken).toHaveBeenCalledWith(mockToken);
@@ -99,14 +98,17 @@ describe("LoadingPage", () => {
   });
 
   test("alerts user and navigates to /minutes on error", async () => {
-    vi.stubGlobal("alert", vi.fn());
-    window.alert.mockResolvedValueOnce();
     const mockGetMinutesByToken = vi.spyOn(minutesService, "getMinutesByToken");
     mockGetMinutesByToken.mockRejectedValueOnce();
+    const mockToast = vi.spyOn(toast, "error");
 
     renderElement();
 
     await waitFor(() => {
+      expect(mockToast).toHaveBeenCalledOnce();
+      expect(mockToast).toHaveBeenCalledWith(
+        "There was a problem loading minutes",
+      );
       expect(mockNavigate.mock.calls[0][0]).toBe("/minutes");
     });
 
