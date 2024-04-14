@@ -60,11 +60,6 @@ describe("SideBar", () => {
         expect(colorPickerContainer).toBeDefined();
       });
 
-      test("renders LanguagePickerContainer", () => {
-        const languagePickerContainer = screen.getByTestId("flagTrigger");
-        expect(languagePickerContainer).toBeDefined();
-      });
-
       test("renders the sign button", () => {
         const signButton = screen.getByText("Sign", { selector: "button" });
         expect(signButton).toBeDefined();
@@ -205,11 +200,6 @@ describe("SideBar", () => {
     test("doesn't render ColorPickerContainer", () => {
       const colorPickerContainer = screen.queryByTestId("colorPickerContainer");
       expect(colorPickerContainer).not.toBeInTheDocument();
-    });
-
-    test("renders LanguagePickerContainer", () => {
-      const languagePickerContainer = screen.getByTestId("flagTrigger");
-      expect(languagePickerContainer).toBeDefined();
     });
 
     test("doesn't render the sign button", () => {

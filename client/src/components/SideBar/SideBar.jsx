@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import ColorPickerContainer from "./ColorPickerContainer";
-import LanguagePickerContainer from "./LanguagePickerContainer";
 import MinutesContext from "../../contexts/MinutesContext";
 import EditorContext from "../../contexts/EditorContext";
 import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffectingChange";
@@ -24,9 +23,10 @@ function SideBar() {
     },
 
     buttonContainer: {
+      mt: 14,
       display: "flex",
       flexDirection: "column",
-      width: "75%",
+      width: "85%",
       maxWidth: 240,
     },
 
@@ -57,7 +57,6 @@ function SideBar() {
       {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
         <ColorPickerContainer />
       )}
-      <LanguagePickerContainer />
 
       <Box sx={styles.buttonContainer}>
         {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false

@@ -4,6 +4,7 @@ import { Link as RouterLink } from "react-router-dom";
 import _ from "lodash";
 import { toast } from "react-toastify";
 import EditorContext from "../contexts/EditorContext";
+import LanguagePickerContainer from "./LanguagePickerContainer";
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
 import logoImage from "../assets/images/logo.png";
@@ -29,14 +30,14 @@ function TopBar() {
     },
 
     topBarButton: {
-      mx: 1.5,
       fontSize: theme.fontSizes.s,
+      mx: 1.5,
     },
 
     buttonContainer: {
       display: "flex",
-      overflow: "auto",
       px: 1,
+      alignItems: "center",
     },
 
     titleContainer: {
@@ -54,7 +55,9 @@ function TopBar() {
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: theme.palette.background.main,
+      mx: 1.5,
       px: 2,
+      py: 1,
       borderRadius: 1,
     },
 
@@ -235,6 +238,9 @@ function TopBar() {
         >
           Preview/Print PDF
         </Button>
+        <Box>
+          <LanguagePickerContainer />
+        </Box>
       </Box>
     </Box>
   );

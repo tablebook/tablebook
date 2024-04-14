@@ -31,7 +31,7 @@ function ColorPickerContainer() {
   const styles = {
     colorPickerContainer: {
       width: "85%",
-      maxWidth: 280,
+      maxWidth: 240,
       position: "relative",
       display: "flex",
       flexDirection: "column",
@@ -48,11 +48,14 @@ function ColorPickerContainer() {
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      borderRadius: 5,
-      border: 0.5,
+      borderRadius: 1.5,
       boxShadow: 1,
       p: 2,
       m: 1,
+    },
+
+    colorPickerPara: {
+      color: theme.palette.secondary.contrastText,
     },
 
     restoreButtonContainer: {
@@ -64,7 +67,6 @@ function ColorPickerContainer() {
     restoreButton: {
       width: "75%",
       fontSize: theme.fontSizes.xs,
-      border: 0.5,
     },
   };
 
@@ -169,7 +171,7 @@ function ColorPickerContainer() {
       <Typography sx={styles.customizeTitle}>{t("customize")}:</Typography>
 
       <Box sx={styles.colorPickerTitle}>
-        <Typography>Text color</Typography>
+        <Typography sx={styles.colorPickerPara}>Text color</Typography>
         <ColorPicker
           onColorChange={(color) => updateColor("primary", color)}
           currColor={minutesState.minutes.colors.primary}
@@ -177,7 +179,7 @@ function ColorPickerContainer() {
       </Box>
 
       <Box sx={styles.colorPickerTitle}>
-        <Typography>Background color</Typography>
+        <Typography sx={styles.colorPickerPara}>Background color</Typography>
         <ColorPicker
           onColorChange={(color) => updateColor("secondary", color)}
           currColor={minutesState.minutes.colors.secondary}

@@ -73,6 +73,11 @@ describe("TopBar", () => {
       expect(titleElement.href).toEqual("http://localhost:3000/minutes");
     });
 
+    test("renders LanguagePickerContainer", () => {
+      const languagePickerContainer = screen.getByTestId("flagTrigger");
+      expect(languagePickerContainer).toBeDefined();
+    });
+
     test("renders correct storage status", () => {
       const storageStatus = screen.getByText("Minutes not stored");
       expect(storageStatus).toBeInTheDocument();
@@ -245,6 +250,11 @@ describe("TopBar", () => {
   describe("with saved minutes and write access", () => {
     beforeEach(() => {
       renderWith(mockMinutesContextState);
+    });
+
+    test("renders LanguagePickerContainer", () => {
+      const languagePickerContainer = screen.getByTestId("flagTrigger");
+      expect(languagePickerContainer).toBeDefined();
     });
 
     test("renders correct storage status", () => {
@@ -457,6 +467,11 @@ describe("TopBar", () => {
           writeToken: null,
         },
       });
+    });
+
+    test("renders LanguagePickerContainer", () => {
+      const languagePickerContainer = screen.getByTestId("flagTrigger");
+      expect(languagePickerContainer).toBeDefined();
     });
 
     test("renders correct storage status", () => {

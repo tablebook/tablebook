@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Box, List, ListItemButton } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import flagFi from "../../i18n/locales/flags/fi.svg";
-import flagEn from "../../i18n/locales/flags/en.svg";
+import flagFi from "../i18n/locales/flags/fi.svg";
+import flagEn from "../i18n/locales/flags/en.svg";
 
 function LanguagePickerContainer() {
   const [isLanguagePickerOpen, setIsLanguagePickerOpen] = useState(false);
@@ -11,15 +11,16 @@ function LanguagePickerContainer() {
 
   const styles = {
     languagePickerContainer: {
-      textAlign: "center",
-      mt: 3,
-      mb: 8,
+      display: "flex",
       position: "relative",
       cursor: "pointer",
+      zIndex: 1,
+      px: 1.5,
     },
 
     flagList: {
       display: "flex",
+      flexDirection: "column",
       p: 0,
       position: "absolute",
       left: "50%",
@@ -31,8 +32,6 @@ function LanguagePickerContainer() {
     },
 
     flagListItem: {
-      display: "flex",
-      justifyContent: "center",
       padding: 1.5,
       "&:hover": {
         backgroundColor: "#f0f0f0",
@@ -40,7 +39,7 @@ function LanguagePickerContainer() {
     },
 
     flag: {
-      width: 34,
+      width: 38,
       height: "auto",
       border: 1,
       borderRadius: 1,
