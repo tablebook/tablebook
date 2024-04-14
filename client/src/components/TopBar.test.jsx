@@ -3,6 +3,7 @@ import { expect, test, describe, beforeEach, afterEach, vi } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
 import { RouterProvider } from "react-router-dom";
+import { toast } from "react-toastify";
 import TopBar from "./TopBar";
 import MinutesContext from "../contexts/MinutesContext";
 import EditorContext from "../contexts/EditorContext";
@@ -21,6 +22,9 @@ describe("TopBar", () => {
   const updateMinutesMock = vi.fn();
   const updateMetadataMock = vi.fn();
   const clearStateMock = vi.fn();
+
+  const mockSuccessToast = vi.spyOn(toast, "success");
+  const mockErrorToast = vi.spyOn(toast, "error");
 
   const renderWith = (mockMinutesState) => {
     render(
@@ -48,7 +52,7 @@ describe("TopBar", () => {
   };
 
   afterEach(async () => {
-    vi.restoreAllMocks();
+    vi.clearAllMocks();
   });
 
   describe("with unsaved minutes", () => {
@@ -136,6 +140,8 @@ describe("TopBar", () => {
     });
 
     describe("Share button", () => {
+      const mockCreateMinutes = vi.spyOn(minutesService, "createMinutes");
+
       beforeEach(() => {
         vi.stubGlobal("confirm", vi.fn());
       });
@@ -153,7 +159,6 @@ describe("TopBar", () => {
 
       test("opens confirm dialogue on click, calls minutesService, and sets contexts properly", async () => {
         window.confirm.mockReturnValueOnce(true);
-        const mockCreateMinutes = vi.spyOn(minutesService, "createMinutes");
         mockCreateMinutes.mockResolvedValueOnce(mockPostMinutesResponse);
 
         const shareButton = screen.getByText("Share", {
@@ -179,12 +184,30 @@ describe("TopBar", () => {
           expect(
             updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
           ).toHaveRole("button");
+          expect(mockErrorToast).not.toHaveBeenCalled();
+        });
+      });
+
+      test("notifies user with error message toast when error occurs", async () => {
+        window.confirm.mockReturnValueOnce(true);
+        mockCreateMinutes.mockRejectedValueOnce();
+
+        const shareButton = screen.getByText("Share", {
+          selector: "button",
+        });
+
+        shareButton.click();
+
+        await waitFor(() => {
+          expect(window.confirm).toHaveBeenCalledOnce();
+          expect(mockErrorToast).toHaveBeenCalled(
+            "Error while sharing minutes",
+          );
         });
       });
 
       test("doesn't do anything when confirm dialogue is cancelled", async () => {
         window.confirm.mockReturnValueOnce(false);
-        const mockCreateMinutes = vi.spyOn(minutesService, "createMinutes");
         mockCreateMinutes.mockResolvedValueOnce(mockPostMinutesResponse);
 
         const shareButton = screen.getByText("Share", {
@@ -230,14 +253,6 @@ describe("TopBar", () => {
     });
 
     describe("Save button", () => {
-      beforeEach(() => {
-        vi.stubGlobal("alert", vi.fn());
-      });
-
-      afterEach(() => {
-        vi.unstubAllGlobals();
-      });
-
       test("renders", () => {
         const saveButton = screen.getByText("Save", {
           selector: "button",
@@ -264,8 +279,10 @@ describe("TopBar", () => {
             mockMinutesContextState.metadata.writeToken,
             mockMinutesContextState.minutes,
           );
-          expect(alert).toHaveBeenCalledOnce();
-          expect(alert).toHaveBeenCalledWith("Minutes saved successfully!");
+          expect(mockSuccessToast).toHaveBeenCalledOnce();
+          expect(mockSuccessToast).toHaveBeenCalledWith(
+            "Minutes saved successfully!",
+          );
         });
       });
 
@@ -284,8 +301,8 @@ describe("TopBar", () => {
 
         await waitFor(() => {
           expect(mockUpdateMinutes).toHaveBeenCalledOnce();
-          expect(alert).toHaveBeenCalledOnce();
-          expect(alert).toHaveBeenCalledWith("Saving minutes failed");
+          expect(mockErrorToast).toHaveBeenCalledOnce();
+          expect(mockErrorToast).toHaveBeenCalledWith("Saving minutes failed");
         });
       });
     });
@@ -293,7 +310,6 @@ describe("TopBar", () => {
     describe("Reload button", () => {
       beforeEach(() => {
         vi.stubGlobal("confirm", vi.fn());
-        vi.stubGlobal("alert", vi.fn());
       });
 
       afterEach(() => {
@@ -333,8 +349,8 @@ describe("TopBar", () => {
             readToken: mockGetMinutesResponse.readToken,
             writeToken: mockGetMinutesResponse.writeToken,
           });
-          expect(window.alert).toHaveBeenCalledOnce();
-          expect(window.alert).toHaveBeenCalledWith(
+          expect(mockSuccessToast).toHaveBeenCalledOnce();
+          expect(mockSuccessToast).toHaveBeenCalledWith(
             "Successfully loaded minutes",
           );
         });
@@ -358,7 +374,8 @@ describe("TopBar", () => {
           expect(window.confirm).toHaveBeenCalled();
           expect(updateMinutesMock).not.toHaveBeenCalled();
           expect(updateMetadataMock).not.toHaveBeenCalled();
-          expect(window.alert).not.toHaveBeenCalled();
+          expect(mockErrorToast).not.toHaveBeenCalled();
+          expect(mockSuccessToast).not.toHaveBeenCalled();
         });
       });
 
@@ -379,8 +396,10 @@ describe("TopBar", () => {
           expect(window.confirm).not.toHaveBeenCalled();
           expect(updateMinutesMock).not.toHaveBeenCalledOnce();
           expect(updateMetadataMock).not.toHaveBeenCalled();
-          expect(window.alert).toHaveBeenCalledOnce();
-          expect(window.alert).toHaveBeenCalledWith("Reloading minutes failed");
+          expect(mockErrorToast).toHaveBeenCalledOnce();
+          expect(mockErrorToast).toHaveBeenCalledWith(
+            "Reloading minutes failed",
+          );
         });
       });
     });
@@ -448,7 +467,6 @@ describe("TopBar", () => {
     describe("Reload button", () => {
       beforeEach(() => {
         vi.stubGlobal("confirm", vi.fn());
-        vi.stubGlobal("alert", vi.fn());
       });
 
       afterEach(() => {
@@ -488,8 +506,8 @@ describe("TopBar", () => {
             readToken: mockGetMinutesResponse.readToken,
             writeToken: mockGetMinutesResponse.writeToken,
           });
-          expect(window.alert).toHaveBeenCalledOnce();
-          expect(window.alert).toHaveBeenCalledWith(
+          expect(mockSuccessToast).toHaveBeenCalledOnce();
+          expect(mockSuccessToast).toHaveBeenCalledWith(
             "Successfully loaded minutes",
           );
         });
@@ -513,7 +531,8 @@ describe("TopBar", () => {
           expect(window.confirm).toHaveBeenCalled();
           expect(updateMinutesMock).not.toHaveBeenCalled();
           expect(updateMetadataMock).not.toHaveBeenCalled();
-          expect(window.alert).not.toHaveBeenCalled();
+          expect(mockErrorToast).not.toHaveBeenCalled();
+          expect(mockSuccessToast).not.toHaveBeenCalled();
         });
       });
 
@@ -534,8 +553,10 @@ describe("TopBar", () => {
           expect(window.confirm).not.toHaveBeenCalled();
           expect(updateMinutesMock).not.toHaveBeenCalledOnce();
           expect(updateMetadataMock).not.toHaveBeenCalled();
-          expect(window.alert).toHaveBeenCalledOnce();
-          expect(window.alert).toHaveBeenCalledWith("Reloading minutes failed");
+          expect(mockErrorToast).toHaveBeenCalledOnce();
+          expect(mockErrorToast).toHaveBeenCalledWith(
+            "Reloading minutes failed",
+          );
         });
       });
     });

@@ -2,6 +2,7 @@ import React from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import { render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
+import { toast } from "react-toastify";
 import MinutesContext from "../contexts/MinutesContext";
 import {
   mockEditorContextState,
@@ -39,7 +40,7 @@ describe("SharePopup", () => {
   };
 
   afterEach(async () => {
-    vi.restoreAllMocks();
+    vi.clearAllMocks();
   });
 
   describe("with writeAccess", () => {
@@ -95,6 +96,8 @@ describe("SharePopup", () => {
     });
 
     describe("Clipboard", () => {
+      const mockInfoToast = vi.spyOn(toast, "info");
+
       beforeEach(() => {
         vi.stubGlobal("navigator", {
           clipboard: {
@@ -117,6 +120,8 @@ describe("SharePopup", () => {
         expect(navigator.clipboard.writeText).toHaveBeenCalledOnce(
           "http://localhost:3000/minutes/readaccesstoken",
         );
+        expect(mockInfoToast).toHaveBeenCalledOnce();
+        expect(mockInfoToast).toHaveBeenCalledWith("Link copied to clipboard");
       });
 
       test("copies write link copy button copies to clipboard", () => {
@@ -129,6 +134,8 @@ describe("SharePopup", () => {
         expect(navigator.clipboard.writeText).toHaveBeenCalledOnce(
           "http://localhost:3000/minutes/writeaccesstoken",
         );
+        expect(mockInfoToast).toHaveBeenCalledOnce();
+        expect(mockInfoToast).toHaveBeenCalledWith("Link copied to clipboard");
       });
     });
   });

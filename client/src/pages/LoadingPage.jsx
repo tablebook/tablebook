@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, Typography, useTheme } from "@mui/material";
+import { toast } from "react-toastify";
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
 import logoImage from "../assets/images/logo.png";
@@ -52,8 +53,7 @@ function LoadingPage() {
             writeToken: minutesResponse.writeToken,
           });
         } catch (error) {
-          // This await is needed to show the alert before navigation is executed
-          await alert("There was a problem loading minutes");
+          toast.error("There was a problem loading minutes");
         } finally {
           navigate("/minutes", { replace: true });
         }

@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import React, { useContext } from "react";
 import LinkIcon from "@mui/icons-material/Link";
+import { toast } from "react-toastify";
 
 import EditorContext from "../contexts/EditorContext";
 import MinutesContext from "../contexts/MinutesContext";
@@ -50,6 +51,8 @@ function SharePopup() {
     inputElement.select();
 
     navigator.clipboard.writeText(inputElementValue);
+
+    toast.info("Link copied to clipboard");
   };
 
   const inputProps = {
