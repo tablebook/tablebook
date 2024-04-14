@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Box, Modal, Button, useTheme } from "@mui/material";
-import { PDFViewer } from "@react-pdf/renderer";
+import { PDFViewer, usePDF } from "@react-pdf/renderer";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import moment from "moment";
 import PDFDocument from "./PDFDocument";
 import EditorContext from "../contexts/EditorContext";
@@ -13,13 +14,16 @@ function PreviewPrintPDFModal() {
   const { t } = useTranslation();
   const [minutesState] = useContext(MinutesContext);
   const [editor, updateEditor] = useContext(EditorContext);
+  const pdfReadyMinutes = prepareMinutesForPDF(minutesState);
+
+  const [PDFInstance, updatePDFInstance] = usePDF({
+    document: <PDFDocument pdfReadyMinutes={pdfReadyMinutes} />,
+  });
 
   const pdfDocumentRatio = 2 / 3;
 
   const pdfDocumentHeight = "80dvh";
   const pdfDocumentWidth = `calc(${pdfDocumentHeight} * ${pdfDocumentRatio})`;
-
-  const pdfReadyMinutes = prepareMinutesForPDF(minutesState);
 
   // Create the filename for downloaded PDF based on the minutes state and current timestamp
   const titleFirstWord = minutesState.minutes.name.split(" ")[0];
@@ -51,21 +55,28 @@ function PreviewPrintPDFModal() {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      "& > Button": {
-        mx: 4,
-        my: 1,
-      },
-    },
-
-    mimicButtonMargins: {
-      mx: 4,
-      my: 1,
     },
 
     buttonStyle: {
       width: 100,
+      mx: 4,
+      my: 1,
     },
   };
+
+  // Update usePDF hooks document when module is opened
+  useEffect(() => {
+    if (editor.isPreviewPrintPDFModalOpen === true) {
+      updatePDFInstance(<PDFDocument pdfReadyMinutes={pdfReadyMinutes} />);
+    }
+  }, [editor.isPreviewPrintPDFModalOpen, pdfReadyMinutes, updatePDFInstance]);
+
+  useEffect(() => {
+    if (PDFInstance.error)
+      toast.error("Error generating PDF document", {
+        toastId: "PDF-Document-Error",
+      });
+  }, [PDFInstance.error]);
 
   const handlePrintPDF = (url) => {
     // Create a hidden iframe element
@@ -94,6 +105,98 @@ function PreviewPrintPDFModal() {
     updateEditor({ isPreviewPrintPDFModalOpen: false });
   };
 
+  const normalState = (
+    <Box sx={styles.buttonsContainer}>
+      <Button
+        data-testid="print-pdf-button"
+        variant="contained"
+        color="secondary"
+        onClick={() => handlePrintPDF(PDFInstance.url)}
+        sx={styles.buttonStyle}
+      >
+        Print PDF
+      </Button>
+      <Button
+        data-testid="download-pdf-button"
+        variant="contained"
+        color="secondary"
+        href={PDFInstance.url}
+        download={fileName}
+        sx={styles.buttonStyle}
+      >
+        Download PDF
+      </Button>
+      <Button
+        variant="contained"
+        color="delete"
+        onClick={handleModalClose}
+        sx={styles.buttonStyle}
+      >
+        {t("closeWindow")}
+      </Button>
+    </Box>
+  );
+
+  const loadingState = (
+    <Box sx={styles.buttonsContainer}>
+      <Button
+        data-testid="print-pdf-button"
+        variant="contained"
+        color="primary"
+        disabled
+        sx={styles.buttonStyle}
+      >
+        Loading document
+      </Button>
+      <Button
+        data-testid="download-pdf-button"
+        variant="contained"
+        color="primary"
+        disabled
+        sx={styles.buttonStyle}
+      >
+        Loading document
+      </Button>
+      <Button
+        variant="contained"
+        color="delete"
+        onClick={handleModalClose}
+        sx={styles.buttonStyle}
+      >
+        {t("closeWindow")}
+      </Button>
+    </Box>
+  );
+
+  const errorState = (
+    <Box sx={styles.buttonsContainer}>
+      <Button
+        data-testid="print-pdf-button-error"
+        variant="contained"
+        disabled
+        sx={styles.buttonStyle}
+      >
+        Error in PDF generating
+      </Button>
+      <Button
+        data-testid="download-pdf-button-error"
+        variant="contained"
+        disabled
+        sx={styles.buttonStyle}
+      >
+        Error in PDF generating
+      </Button>
+      <Button
+        variant="contained"
+        color="delete"
+        onClick={handleModalClose}
+        sx={styles.buttonStyle}
+      >
+        {t("closeWindow")}
+      </Button>
+    </Box>
+  );
+
   return (
     <Modal
       open={editor.isPreviewPrintPDFModalOpen}
@@ -106,50 +209,12 @@ function PreviewPrintPDFModal() {
             <PDFDocument pdfReadyMinutes={pdfReadyMinutes} />
           </PDFViewer>
         </Box>
-        <Box sx={styles.buttonsContainer}>
-          <Box sx={styles.mimicButtonMargins}>
-            <BlobProvider
-              document={<PDFDocument pdfReadyMinutes={pdfReadyMinutes} />}
-            >
-              {({ url, loading }) => (
-                <Button
-                  variant="contained"
-                  color={loading ? "primary" : "secondary"}
-                  onClick={loading ? undefined : () => handlePrintPDF(url)}
-                  disabled={loading}
-                  sx={styles.buttonStyle}
-                >
-                  {loading ? "Loading document" : "Print PDF"}
-                </Button>
-              )}
-            </BlobProvider>
-          </Box>
-          <Box sx={styles.mimicButtonMargins}>
-            <PDFDownloadLink
-              document={<PDFDocument pdfReadyMinutes={pdfReadyMinutes} />}
-              fileName={fileName}
-            >
-              {({ loading }) => (
-                <Button
-                  variant="contained"
-                  color={loading ? "primary" : "secondary"}
-                  disabled={loading}
-                  sx={styles.buttonStyle}
-                >
-                  {loading ? "Loading document" : "Download PDF"}
-                </Button>
-              )}
-            </PDFDownloadLink>
-          </Box>
-          <Button
-            variant="contained"
-            color="delete"
-            onClick={handleModalClose}
-            sx={styles.buttonStyle}
-          >
-            {t("closeWindow")}
-          </Button>
-        </Box>
+        {/* eslint-disable-next-line no-nested-ternary */}
+        {PDFInstance.error
+          ? errorState
+          : PDFInstance.loading
+            ? loadingState
+            : normalState}
       </Box>
     </Modal>
   );
