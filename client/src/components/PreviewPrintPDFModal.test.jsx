@@ -20,11 +20,24 @@ describe("PreviewPrintPDFModal", () => {
       create: (styles) => styles,
     };
     const PDFViewer = vi.fn(() => <div data-testid="pdf-viewer" />);
+    const BlobProvider = vi.fn(({ children }) =>
+      children({ url: "mocked-url", loading: false }),
+    );
+    const PDFDownloadLink = vi.fn(({ children }) =>
+      children({
+        loading: false,
+        error: null,
+        blob: new Blob(["pdf content"], { type: "application/pdf" }),
+        url: "mocked-url",
+      }),
+    );
 
     return {
       ...originalModule,
       StyleSheet,
       PDFViewer,
+      BlobProvider,
+      PDFDownloadLink,
     };
   });
 
