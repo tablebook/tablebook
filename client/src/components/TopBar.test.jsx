@@ -140,6 +140,8 @@ describe("TopBar", () => {
     });
 
     describe("Share button", () => {
+      const mockCreateMinutes = vi.spyOn(minutesService, "createMinutes");
+
       beforeEach(() => {
         vi.stubGlobal("confirm", vi.fn());
       });
@@ -157,7 +159,6 @@ describe("TopBar", () => {
 
       test("opens confirm dialogue on click, calls minutesService, and sets contexts properly", async () => {
         window.confirm.mockReturnValueOnce(true);
-        const mockCreateMinutes = vi.spyOn(minutesService, "createMinutes");
         mockCreateMinutes.mockResolvedValueOnce(mockPostMinutesResponse);
 
         const shareButton = screen.getByText("Share", {
@@ -183,12 +184,30 @@ describe("TopBar", () => {
           expect(
             updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
           ).toHaveRole("button");
+          expect(mockErrorToast).not.toHaveBeenCalled();
+        });
+      });
+
+      test("notifies user with error message toast when error occurs", async () => {
+        window.confirm.mockReturnValueOnce(true);
+        mockCreateMinutes.mockRejectedValueOnce();
+
+        const shareButton = screen.getByText("Share", {
+          selector: "button",
+        });
+
+        shareButton.click();
+
+        await waitFor(() => {
+          expect(window.confirm).toHaveBeenCalledOnce();
+          expect(mockErrorToast).toHaveBeenCalled(
+            "Error while sharing minutes",
+          );
         });
       });
 
       test("doesn't do anything when confirm dialogue is cancelled", async () => {
         window.confirm.mockReturnValueOnce(false);
-        const mockCreateMinutes = vi.spyOn(minutesService, "createMinutes");
         mockCreateMinutes.mockResolvedValueOnce(mockPostMinutesResponse);
 
         const shareButton = screen.getByText("Share", {
