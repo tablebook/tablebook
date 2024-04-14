@@ -1,11 +1,9 @@
 import {
-  Box,
   Button,
   InputAdornment,
   Popover,
   TextField,
   Typography,
-  useTheme,
 } from "@mui/material";
 import React, { useContext } from "react";
 import LinkIcon from "@mui/icons-material/Link";
@@ -13,34 +11,14 @@ import { toast } from "react-toastify";
 
 import EditorContext from "../contexts/EditorContext";
 import MinutesContext from "../contexts/MinutesContext";
+import PopupBase from "./Shared/PopupBase";
 
 function SharePopup() {
-  const theme = useTheme();
   const [editorState, updateEditor] = useContext(EditorContext);
   const [minutesState] = useContext(MinutesContext);
 
   const isPopupOpen = Boolean(editorState.sharePopupAnchorElement);
   const closePopup = () => updateEditor({ sharePopupAnchorElement: null });
-
-  const styles = {
-    outerContainer: {
-      display: "flex",
-      flexDirection: "column",
-    },
-    innerContainer: {
-      p: 3,
-      width: 400,
-      display: "flex",
-      flexDirection: "column",
-      gap: 1,
-    },
-    header: {
-      textAlign: "center",
-      backgroundColor: theme.palette.background.main,
-      p: 1,
-      fontSize: theme.fontSizes.m,
-    },
-  };
 
   const handleCopyUrl = (event) => {
     const inputElement =
@@ -82,31 +60,28 @@ function SharePopup() {
         horizontal: "right",
       }}
     >
-      <Box sx={styles.outerContainer}>
-        <Typography sx={styles.header}>Share</Typography>
-        <Box sx={styles.innerContainer}>
-          {minutesState.metadata.readToken && (
-            <>
-              <Typography>Read link</Typography>
-              <TextField
-                data-testid="read-only-link"
-                value={baseUrl + (minutesState.metadata.readToken ?? "")}
-                InputProps={inputProps}
-              />
-            </>
-          )}
-          {minutesState.metadata.writeToken && (
-            <>
-              <Typography>Edit link</Typography>
-              <TextField
-                data-testid="write-link"
-                value={baseUrl + (minutesState.metadata.writeToken ?? "")}
-                InputProps={inputProps}
-              />
-            </>
-          )}
-        </Box>
-      </Box>
+      <PopupBase title="Share">
+        {minutesState.metadata.readToken && (
+          <>
+            <Typography>Read link</Typography>
+            <TextField
+              data-testid="read-only-link"
+              value={baseUrl + (minutesState.metadata.readToken ?? "")}
+              InputProps={inputProps}
+            />
+          </>
+        )}
+        {minutesState.metadata.writeToken && (
+          <>
+            <Typography>Edit link</Typography>
+            <TextField
+              data-testid="write-link"
+              value={baseUrl + (minutesState.metadata.writeToken ?? "")}
+              InputProps={inputProps}
+            />
+          </>
+        )}
+      </PopupBase>
     </Popover>
   );
 }
