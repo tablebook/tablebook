@@ -1,23 +1,33 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Box, Modal, Button, useTheme } from "@mui/material";
-import { PDFViewer } from "@react-pdf/renderer";
-import { marked } from "marked";
+import { PDFViewer, usePDF } from "@react-pdf/renderer";
 import { useTranslation } from "react-i18next";
-import DOMPurify from "dompurify";
+import { toast } from "react-toastify";
+import moment from "moment";
 import PDFDocument from "./PDFDocument";
 import EditorContext from "../contexts/EditorContext";
 import MinutesContext from "../contexts/MinutesContext";
+import prepareMinutesForPDF from "../util/prepareMinutesForPDF";
 
 function PreviewPrintPDFModal() {
   const theme = useTheme();
   const { t } = useTranslation();
   const [minutesState] = useContext(MinutesContext);
   const [editor, updateEditor] = useContext(EditorContext);
+  const pdfReadyMinutes = prepareMinutesForPDF(minutesState);
+
+  const [PDFInstance, updatePDFInstance] = usePDF({
+    document: <PDFDocument pdfReadyMinutes={pdfReadyMinutes} />,
+  });
 
   const pdfDocumentRatio = 2 / 3;
 
   const pdfDocumentHeight = "80dvh";
   const pdfDocumentWidth = `calc(${pdfDocumentHeight} * ${pdfDocumentRatio})`;
+
+  // Create the filename for downloaded PDF based on the minutes state and current timestamp
+  const titleFirstWord = minutesState.minutes.name.split(" ")[0];
+  const fileName = `${titleFirstWord}_${moment().format("YYYY-MM-DD")}.pdf`;
 
   const styles = {
     modalStyle: {
@@ -45,110 +55,148 @@ function PreviewPrintPDFModal() {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      "& > Button": {
-        mx: 4,
-        my: 1,
-      },
+    },
+
+    buttonStyle: {
+      width: 100,
+      mx: 4,
+      my: 1,
+      textAlign: "center",
     },
   };
 
-  const preprocessMarkdown = (markdown) => {
-    // Escape input tags
-    const preprocessedMarkdown = markdown
-      .replace(/\[ \]/g, "\\[ \\]")
-      .replace(/\[x\]/gi, "\\[x\\]");
+  // Update usePDF hooks document when module is opened
+  useEffect(() => {
+    if (editor.isPreviewPrintPDFModalOpen === true) {
+      updatePDFInstance(<PDFDocument pdfReadyMinutes={pdfReadyMinutes} />);
+    }
+  }, [editor.isPreviewPrintPDFModalOpen, pdfReadyMinutes, updatePDFInstance]);
 
-    return preprocessedMarkdown;
-  };
+  useEffect(() => {
+    if (PDFInstance.error)
+      toast.error(t("errorInPDFGeneration"), {
+        toastId: "PDF-Document-Error",
+      });
+  }, [PDFInstance.error, t]);
 
-  const transformAndStyleHtml = (html) => {
-    const processedHTML = html
-      // Create newlines on one enter press inside <p> tags
-      .replace(
-        /<p>(.*?)<\/p>/gs,
-        (_, content) => `<p>${content.replace(/\n/g, "<br>")}</p>`,
-      )
-      // Apply line-through style for <del> tags
-      .replace(
-        /<del>(.*?)<\/del>/g,
-        (_, content) => `<span class="delStyle">${content}</span>`,
-      )
-      // Apply backticks around <code> tags
-      .replace(
-        /<code>(.*?)<\/code>/g,
-        (_, content) => `<span class="codeStyle">${content}</span>`,
-      )
-      // Apply three backticks around <pre><code> tag combos
-      .replace(
-        /<pre><code>([\s\S]*?)<\/code><\/pre>/g,
-        (_, content) => `<pre class="preCodeStyle">${content}</pre>`,
-      );
+  const handlePrintPDF = (url) => {
+    // Create a hidden iframe element
+    const iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    iframe.src = url;
+    document.body.appendChild(iframe);
 
-    return processedHTML;
-  };
-
-  const sanitizeConfig = {
-    ALLOWED_TAGS: [
-      "br",
-      "p",
-      "h1",
-      "h2",
-      "h3",
-      "h4",
-      "h5",
-      "h6",
-      "div",
-      "ul",
-      "li",
-      "ol",
-      "blockquote",
-      "code",
-      "pre",
-      "b",
-      "strong",
-      "i",
-      "em",
-      "del",
-      "a",
-      "img",
-      "table",
-      "tbody",
-      "tr",
-      "td",
-      "th",
-      "thead",
-      "tfoot",
-    ],
-    ALLOWED_ATTR: ["href", "title", "target", "src", "alt", "width", "height"],
-  };
-
-  const parsedMinutes = {
-    // Copy over the styles and other properties that don't need parsing
-    name: transformAndStyleHtml(
-      DOMPurify.sanitize(
-        marked.parse(preprocessMarkdown(minutesState.minutes.name)),
-        sanitizeConfig,
-      ),
-    ),
-    segments: minutesState.minutes.segments.map((segment) => ({
-      name: transformAndStyleHtml(
-        DOMPurify.sanitize(
-          marked.parse(preprocessMarkdown(segment.name)),
-          sanitizeConfig,
-        ),
-      ),
-      content: transformAndStyleHtml(
-        DOMPurify.sanitize(
-          marked.parse(preprocessMarkdown(segment.content)),
-          sanitizeConfig,
-        ),
-      ),
-    })),
+    iframe.onload = () => {
+      if (iframe.contentWindow && "print" in iframe.contentWindow) {
+        iframe.contentWindow.print();
+        iframe.contentWindow.onafterprint = () => {
+          // Clear DOM and URL resource
+          document.body.removeChild(iframe);
+          URL.revokeObjectURL(url);
+        };
+      } else {
+        // Clear DOM and URL resource
+        document.body.removeChild(iframe);
+        URL.revokeObjectURL(url);
+      }
+    };
   };
 
   const handleModalClose = () => {
     updateEditor({ isPreviewPrintPDFModalOpen: false });
   };
+
+  const normalState = (
+    <Box sx={styles.buttonsContainer}>
+      <Button
+        data-testid="print-pdf-button"
+        variant="contained"
+        color="secondary"
+        onClick={() => handlePrintPDF(PDFInstance.url)}
+        sx={styles.buttonStyle}
+      >
+        {t("printPDF")}
+      </Button>
+      <Button
+        data-testid="download-pdf-button"
+        variant="contained"
+        color="secondary"
+        href={PDFInstance.url}
+        download={fileName}
+        sx={styles.buttonStyle}
+      >
+        {t("downloadPDF")}
+      </Button>
+      <Button
+        variant="contained"
+        color="delete"
+        onClick={handleModalClose}
+        sx={styles.buttonStyle}
+      >
+        {t("closeWindow")}
+      </Button>
+    </Box>
+  );
+
+  const loadingState = (
+    <Box sx={styles.buttonsContainer}>
+      <Button
+        data-testid="print-pdf-button"
+        variant="contained"
+        color="primary"
+        disabled
+        sx={styles.buttonStyle}
+      >
+        {t("loadingDocument")}
+      </Button>
+      <Button
+        data-testid="download-pdf-button"
+        variant="contained"
+        color="primary"
+        disabled
+        sx={styles.buttonStyle}
+      >
+        {t("loadingDocument")}
+      </Button>
+      <Button
+        variant="contained"
+        color="delete"
+        onClick={handleModalClose}
+        sx={styles.buttonStyle}
+      >
+        {t("closeWindow")}
+      </Button>
+    </Box>
+  );
+
+  const errorState = (
+    <Box sx={styles.buttonsContainer}>
+      <Button
+        data-testid="print-pdf-button-error"
+        variant="contained"
+        disabled
+        sx={styles.buttonStyle}
+      >
+        {t("errorInPDFGeneration")}
+      </Button>
+      <Button
+        data-testid="download-pdf-button-error"
+        variant="contained"
+        disabled
+        sx={styles.buttonStyle}
+      >
+        {t("errorInPDFGeneration")}
+      </Button>
+      <Button
+        variant="contained"
+        color="delete"
+        onClick={handleModalClose}
+        sx={styles.buttonStyle}
+      >
+        {t("closeWindow")}
+      </Button>
+    </Box>
+  );
 
   return (
     <Modal
@@ -159,21 +207,15 @@ function PreviewPrintPDFModal() {
       <Box sx={styles.modalStyle}>
         <Box sx={styles.pdfViewerContainer}>
           <PDFViewer style={styles.pdfViewerStyle}>
-            <PDFDocument
-              minutesState={minutesState}
-              parsedMinutes={parsedMinutes}
-            />
+            <PDFDocument pdfReadyMinutes={pdfReadyMinutes} />
           </PDFViewer>
         </Box>
-        <Box sx={styles.buttonsContainer}>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleModalClose}
-          >
-            {t("closeWindow")}
-          </Button>
-        </Box>
+        {/* eslint-disable-next-line no-nested-ternary */}
+        {PDFInstance.error
+          ? errorState
+          : PDFInstance.loading
+            ? loadingState
+            : normalState}
       </Box>
     </Modal>
   );
