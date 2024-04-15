@@ -23,3 +23,15 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add("getByPlaceHolder", (placeHolder) => {
+  return cy.get(`*[placeholder="${placeHolder}"]`);
+});
+
+Cypress.Commands.add("getByValue", (value) => {
+  return cy.get(`*[value="${value}"]`);
+});
+
+Cypress.Commands.add("getByTestId", (testId) => {
+  return cy.get(`*[data-testid="${testId}"]`);
+});
