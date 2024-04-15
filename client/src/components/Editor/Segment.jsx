@@ -55,6 +55,27 @@ function Segment({ segmentIndex }) {
     updateMinutes({ segments: newSegments });
   };
 
+  const handleTabPress = (event) => {
+    if (!handleSignatureAffectingChange()) {
+      return;
+    }
+
+    const { value, selectionStart, selectionEnd } = event.target;
+    const newValue = `${value.substring(0, selectionStart)}\t${value.substring(selectionEnd)}`;
+
+    const newSegments = structuredClone(minutesState.minutes.segments);
+    newSegments[segmentIndex].content = newValue;
+    updateMinutes({ segments: newSegments });
+
+    // Calculate the new cursor position after inserting spaces
+    const cursorPosition = selectionStart + 1;
+
+    // using setTimeout to ensure that the cursor goes to the right place
+    setTimeout(() => {
+      event.target.setSelectionRange(cursorPosition, cursorPosition);
+    }, 0);
+  };
+
   return (
     <Box sx={styles.contentContainer} data-testid="segment-component">
       <InputBase
@@ -81,6 +102,12 @@ function Segment({ segmentIndex }) {
         }}
         sx={styles.contentInput}
         onChange={handleContentChange}
+        onKeyDown={(event) => {
+          if (event.key === "Tab") {
+            event.preventDefault();
+            handleTabPress(event);
+          }
+        }}
       />
     </Box>
   );
