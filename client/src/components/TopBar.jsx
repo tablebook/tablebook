@@ -91,11 +91,7 @@ function TopBar({ containerRef }) {
         return;
       }
 
-      if (
-        !window.confirm(
-          "This action will store the document in the cloud where it will be accessible to anyone with the provided link. Are you sure?",
-        )
-      ) {
+      if (!window.confirm(t("storeDocument"))) {
         return;
       }
 
