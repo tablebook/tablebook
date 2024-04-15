@@ -134,13 +134,13 @@ describe("PreviewPrintPDFModal", () => {
     test("print pdf button shows error state and is disabled", () => {
       const printPDFButton = screen.getByTestId("print-pdf-button-error");
       expect(printPDFButton).toBeInTheDocument();
-      expect(printPDFButton).toHaveTextContent("Error in PDF generating");
+      expect(printPDFButton).toHaveTextContent("Error in PDF generation");
       expect(printPDFButton).toBeDisabled();
     });
     test("download pdf button shows error state and is disabled", () => {
       const downloadPDFButton = screen.getByTestId("download-pdf-button-error");
       expect(downloadPDFButton).toBeInTheDocument();
-      expect(downloadPDFButton).toHaveTextContent("Error in PDF generating");
+      expect(downloadPDFButton).toHaveTextContent("Error in PDF generation");
       expect(downloadPDFButton).toBeDisabled();
     });
   });

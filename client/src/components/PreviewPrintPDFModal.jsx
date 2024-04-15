@@ -61,6 +61,7 @@ function PreviewPrintPDFModal() {
       width: 100,
       mx: 4,
       my: 1,
+      textAlign: "center",
     },
   };
 
@@ -73,10 +74,10 @@ function PreviewPrintPDFModal() {
 
   useEffect(() => {
     if (PDFInstance.error)
-      toast.error("Error generating PDF document", {
+      toast.error(t("errorInPDFGeneration"), {
         toastId: "PDF-Document-Error",
       });
-  }, [PDFInstance.error]);
+  }, [PDFInstance.error, t]);
 
   const handlePrintPDF = (url) => {
     // Create a hidden iframe element
@@ -114,7 +115,7 @@ function PreviewPrintPDFModal() {
         onClick={() => handlePrintPDF(PDFInstance.url)}
         sx={styles.buttonStyle}
       >
-        Print PDF
+        {t("printPDF")}
       </Button>
       <Button
         data-testid="download-pdf-button"
@@ -124,7 +125,7 @@ function PreviewPrintPDFModal() {
         download={fileName}
         sx={styles.buttonStyle}
       >
-        Download PDF
+        {t("downloadPDF")}
       </Button>
       <Button
         variant="contained"
@@ -146,7 +147,7 @@ function PreviewPrintPDFModal() {
         disabled
         sx={styles.buttonStyle}
       >
-        Loading document
+        {t("loadingDocument")}
       </Button>
       <Button
         data-testid="download-pdf-button"
@@ -155,7 +156,7 @@ function PreviewPrintPDFModal() {
         disabled
         sx={styles.buttonStyle}
       >
-        Loading document
+        {t("loadingDocument")}
       </Button>
       <Button
         variant="contained"
@@ -176,7 +177,7 @@ function PreviewPrintPDFModal() {
         disabled
         sx={styles.buttonStyle}
       >
-        Error in PDF generating
+        {t("errorInPDFGeneration")}
       </Button>
       <Button
         data-testid="download-pdf-button-error"
@@ -184,7 +185,7 @@ function PreviewPrintPDFModal() {
         disabled
         sx={styles.buttonStyle}
       >
-        Error in PDF generating
+        {t("errorInPDFGeneration")}
       </Button>
       <Button
         variant="contained"
