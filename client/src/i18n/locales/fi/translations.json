@@ -1,9 +1,45 @@
 {
-    "customize": "kustomoi",
+    "customize": "muokkaa",
     "textColor": "Tekstin väri",
     "backgroundColor": "Taustan väri",
-    "restoreDefaults": "Alkuperäiset",
+    "restoreDefaults": "Alkuperäisvärit",
     "addAField": "Lisää kenttä",
     "sign": "Allekirjoita",
-    "preview": "Esikatsele"
+
+    "enterTheMainTitle": "Lisää otsikko",
+    "enterTheContent": "Lisää sisältöä",
+    "deleteSegment": "Osio poistuu sisältöineen. Vahvistetaanko?",
+    "enterTheTitle": "Lisää alaotsikko",
+    "signature": "Allekirjoitus",
+    "date": "Päiväys",
+
+    "drawYourSignature" : "Allekirjoita",
+    "enterNameClarification": "Lisää nimenselvennys",
+    "insertCurrentTimestampOnMinutes": "Lisää aikaleima pöytäkirjaan",
+    "clear": "tyhjennä",
+    "confirm": "vahvista",
+    "cancel": "peruuta",
+
+    "editingStoredMinutes": "Muokataan tallennettua pöytäkirjaa",
+    "minutesNotStored": "Pöytäkirjaa ei tallennettu",
+    "readingStoredMinutes": "Luetaan tallennettua pöytäkirjaa",
+    "unknownState": "Unknown state",
+    "createNew": "Luo uusi",
+    "reload": "Päivitä",
+    "share": "Jaa",
+    "save": "Tallenna",
+    "readLink": "Lukulinkki",
+    "editLink": "Muokkauslinkki",
+    "preview/printPdf": "Esikatsele/tulosta",
+    "closeWindow": "Sulje",
+    "clearDocument": "Pyötäkirja tyhjentyy täysin. Vahvistetaanko?",
+    "storeDocument": "Pöytäkirja tallentuu pilveen, mistä se on saatavilla kaikille linkin avulla. Vahvistetaanko?",
+    "minutesSaved": "Pöytäkirja tallennettu!",
+    "minutesSavingFailed": "Pöytäkirjan tallennus epäonnistui",
+    "changesInMinutes": "Ladatussa pöytäkirjassa on muutoksia. Oletko varma että haluat päivittää pöytäkirjan?",
+    "loadedMinutesSuccesful": "Pöytäkirjan päivittäminen onnistui",
+    "loadedMinutesFail": "Pöytäkirjan päivittäminen epäonnistui",
+    "sharingError": "Ongelma pöytäkirjan jakamisessa",
+
+    "reportAnIssue": "Ilmoita ongelmasta"
 }

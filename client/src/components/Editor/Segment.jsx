@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { Box, InputBase, useTheme } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import MinutesContext from "../../contexts/MinutesContext";
 import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffectingChange";
 
 function Segment({ segmentIndex }) {
   const theme = useTheme();
+  const { t } = useTranslation();
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
   const handleSignatureAffectingChange = useHandleSignatureAffectingChange();
 
@@ -80,7 +82,7 @@ function Segment({ segmentIndex }) {
     <Box sx={styles.contentContainer} data-testid="segment-component">
       <InputBase
         name="contentTitle"
-        placeholder="Enter the title"
+        placeholder={t("enterTheTitle")}
         value={minutesState.minutes.segments[segmentIndex].name}
         fullWidth
         inputProps={{
@@ -92,7 +94,7 @@ function Segment({ segmentIndex }) {
       />
       <InputBase
         name="content"
-        placeholder="Enter the content"
+        placeholder={t("enterTheContent")}
         value={minutesState.minutes.segments[segmentIndex].content}
         fullWidth
         multiline

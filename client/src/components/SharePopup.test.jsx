@@ -3,11 +3,13 @@ import { ThemeProvider } from "@mui/material/styles";
 import { render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import { toast } from "react-toastify";
+import { I18nextProvider } from "react-i18next";
 import MinutesContext from "../contexts/MinutesContext";
 import {
   mockEditorContextState,
   mockMinutesContextState,
 } from "../util/test.helpers";
+import i18n from "../i18n/config";
 import EditorContext from "../contexts/EditorContext";
 import SharePopup from "./SharePopup";
 import theme from "../theme";
@@ -28,7 +30,9 @@ describe("SharePopup", () => {
           ]}
         >
           <ThemeProvider theme={theme}>
-            <SharePopup />
+            <I18nextProvider i18n={i18n}>
+              <SharePopup />
+            </I18nextProvider>
           </ThemeProvider>
         </EditorContext.Provider>
       </MinutesContext.Provider>,

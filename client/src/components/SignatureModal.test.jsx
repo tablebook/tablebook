@@ -1,7 +1,9 @@
 import React from "react";
 import { expect, test, describe, beforeEach, vi, afterEach } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
+import { I18nextProvider } from "react-i18next";
 import { ThemeProvider } from "@mui/material/styles";
+import i18n from "../i18n/config";
 import SignatureModal from "./SignatureModal";
 import MinutesContext from "../contexts/MinutesContext";
 import EditorContext from "../contexts/EditorContext";
@@ -29,7 +31,9 @@ describe("SignatureModal", () => {
           ]}
         >
           <ThemeProvider theme={theme}>
-            <SignatureModal />
+            <I18nextProvider i18n={i18n}>
+              <SignatureModal />
+            </I18nextProvider>
           </ThemeProvider>
         </MinutesContext.Provider>
       </EditorContext.Provider>,

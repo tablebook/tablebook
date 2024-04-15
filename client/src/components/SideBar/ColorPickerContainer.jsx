@@ -8,9 +8,9 @@ import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffe
 
 function ColorPickerContainer() {
   const theme = useTheme();
+  const { t } = useTranslation();
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
   const handleSignatureAffectingChange = useHandleSignatureAffectingChange();
-  const { t } = useTranslation();
   const updateSignatureDebounced = useDebouncedCallback(
     // function
     (value) => {
@@ -171,7 +171,7 @@ function ColorPickerContainer() {
       <Typography sx={styles.customizeTitle}>{t("customize")}:</Typography>
 
       <Box sx={styles.colorPickerTitle}>
-        <Typography sx={styles.colorPickerPara}>Text color</Typography>
+        <Typography sx={styles.colorPickerPara}>{t("textColor")}</Typography>
         <ColorPicker
           onColorChange={(color) => updateColor("primary", color)}
           currColor={minutesState.minutes.colors.primary}
@@ -179,7 +179,9 @@ function ColorPickerContainer() {
       </Box>
 
       <Box sx={styles.colorPickerTitle}>
-        <Typography sx={styles.colorPickerPara}>Background color</Typography>
+        <Typography sx={styles.colorPickerPara}>
+          {t("backgroundColor")}
+        </Typography>
         <ColorPicker
           onColorChange={(color) => updateColor("secondary", color)}
           currColor={minutesState.minutes.colors.secondary}
@@ -193,7 +195,7 @@ function ColorPickerContainer() {
           sx={styles.restoreButton}
           onClick={restoreDefaults}
         >
-          Restore defaults
+          {t("restoreDefaults")}
         </Button>
       </Box>
     </Box>

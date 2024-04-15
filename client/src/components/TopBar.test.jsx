@@ -1,9 +1,11 @@
 import React from "react";
 import { expect, test, describe, beforeEach, afterEach, vi } from "vitest";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { I18nextProvider } from "react-i18next";
 import { ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter } from "react-router-dom";
 import { toast } from "react-toastify";
+import i18n from "../i18n/config";
 import TopBar from "./TopBar";
 import MinutesContext from "../contexts/MinutesContext";
 import EditorContext from "../contexts/EditorContext";
@@ -55,7 +57,9 @@ describe("TopBar", () => {
             value={[mockEditorContextState, updateEditorMock]}
           >
             <ThemeProvider theme={theme}>
-              <TopBar />
+              <I18nextProvider i18n={i18n}>
+                <TopBar />
+              </I18nextProvider>
             </ThemeProvider>
           </EditorContext.Provider>
         </MinutesContext.Provider>

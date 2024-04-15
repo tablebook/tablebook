@@ -2,6 +2,8 @@ import React from "react";
 import { expect, test, describe, beforeEach, vi } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
+import { I18nextProvider } from "react-i18next";
+import i18n from "../../i18n/config";
 import theme from "../../theme";
 import MinutesContext from "../../contexts/MinutesContext";
 import ColorPickerContainer from "./ColorPickerContainer";
@@ -16,7 +18,9 @@ describe("ColorPickerContainer", () => {
         value={[mockMinutesContextState, { updateMinutes: updateMinutesMock }]}
       >
         <ThemeProvider theme={theme}>
-          <ColorPickerContainer />
+          <I18nextProvider i18n={i18n}>
+            <ColorPickerContainer />
+          </I18nextProvider>
         </ThemeProvider>
       </MinutesContext.Provider>,
     );
@@ -57,9 +61,7 @@ describe("ColorPickerContainer", () => {
   });
 
   test("renders the restore defaults button", () => {
-    const restoreButton = screen.getByText("Restore defaults", {
-      selector: "button",
-    });
+    const restoreButton = screen.getByText("Restore Defaults");
     expect(restoreButton).toBeDefined();
   });
 });

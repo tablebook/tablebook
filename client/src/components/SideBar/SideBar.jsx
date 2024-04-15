@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Box, Button, useTheme } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import ColorPickerContainer from "./ColorPickerContainer";
 import MinutesContext from "../../contexts/MinutesContext";
 import EditorContext from "../../contexts/EditorContext";
@@ -7,6 +8,7 @@ import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffe
 
 function SideBar() {
   const theme = useTheme();
+  const { t } = useTranslation();
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
   const [, updateEditor] = useContext(EditorContext);
   const handleSignatureAffectingChange = useHandleSignatureAffectingChange();
@@ -67,7 +69,7 @@ function SideBar() {
               onClick={handleAddField}
               sx={styles.sideBarButton}
             >
-              Add a field
+              {t("addAField")}
             </Button>
 
             <Button
@@ -76,7 +78,7 @@ function SideBar() {
               sx={styles.sideBarButton}
               onClick={() => updateEditor({ isSignatureModalOpen: true })}
             >
-              Sign
+              {t("sign")}
             </Button>
           </>
         )}

@@ -2,6 +2,8 @@ import React from "react";
 import { expect, test, describe, beforeEach, vi, afterEach } from "vitest";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
+import { I18nextProvider } from "react-i18next";
+import i18n from "../i18n/config";
 import PreviewPrintPDFModal from "./PreviewPrintPDFModal";
 import MinutesContext from "../contexts/MinutesContext";
 import EditorContext from "../contexts/EditorContext";
@@ -38,7 +40,9 @@ describe("PreviewPrintPDFModal", () => {
       >
         <MinutesContext.Provider value={[mockMinutesContextState]}>
           <ThemeProvider theme={theme}>
-            <PreviewPrintPDFModal />
+            <I18nextProvider i18n={i18n}>
+              <PreviewPrintPDFModal />
+            </I18nextProvider>
           </ThemeProvider>
         </MinutesContext.Provider>
       </EditorContext.Provider>,

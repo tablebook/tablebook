@@ -8,12 +8,14 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import SignatureCanvas from "react-signature-canvas";
 import MinutesContext from "../contexts/MinutesContext";
 import EditorContext from "../contexts/EditorContext";
 
 function SignatureModal() {
   const theme = useTheme();
+  const { t } = useTranslation();
   const [state, { updateMinutes }] = useContext(MinutesContext);
   const [editor, updateEditor] = useContext(EditorContext);
   const [signer, setSigner] = useState("");
@@ -120,7 +122,7 @@ function SignatureModal() {
       aria-labelledby="signature-modal"
     >
       <Box sx={styles.modalStyle}>
-        <Typography variant="h4">Draw your signature</Typography>
+        <Typography variant="h4">{t("drawYourSignature")}</Typography>
         <Box sx={styles.canvasBox}>
           <SignatureCanvas
             ref={signaturePadRef}
@@ -135,7 +137,7 @@ function SignatureModal() {
         <Box sx={styles.signerContainer}>
           <InputBase
             name="signer"
-            placeholder="Enter name clarification"
+            placeholder={t("enterNameClarification")}
             fullWidth
             inputProps={{ style: styles.signerText }}
             sx={styles.signerTextColor}
@@ -149,17 +151,17 @@ function SignatureModal() {
             sx={styles.timestampCheckboxStyle}
             inputProps={{ "data-testid": "timestamp-checkbox" }}
           />
-          <Typography>Insert current timestamp on minutes</Typography>
+          <Typography>{t("insertCurrentTimestampOnMinutes")}</Typography>
         </Box>
         <Box sx={styles.buttonsBox}>
           <Button variant="contained" color="primary" onClick={clearSignature}>
-            Clear
+            {t("clear")}
           </Button>
           <Button variant="contained" color="confirm" onClick={getSignature}>
-            Confirm
+            {t("confirm")}
           </Button>
           <Button variant="contained" color="delete" onClick={handleModalClose}>
-            Cancel
+            {t("cancel")}
           </Button>
         </Box>
       </Box>

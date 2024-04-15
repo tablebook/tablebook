@@ -1,7 +1,9 @@
 import React from "react";
 import { expect, test, describe, beforeEach, vi, afterEach } from "vitest";
 import { render, screen, fireEvent, renderHook } from "@testing-library/react";
+import { I18nextProvider } from "react-i18next";
 import { ThemeProvider } from "@mui/material/styles";
+import i18n from "../../i18n/config";
 import MinutesContext from "../../contexts/MinutesContext";
 import EditorContext from "../../contexts/EditorContext";
 import theme from "../../theme";
@@ -34,7 +36,9 @@ describe("SideBar", () => {
           ]}
         >
           <ThemeProvider theme={theme}>
-            <SideBar />
+            <I18nextProvider i18n={i18n}>
+              <SideBar />
+            </I18nextProvider>
           </ThemeProvider>
         </MinutesContext.Provider>
       </EditorContext.Provider>,

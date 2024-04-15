@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Box, List, ListItemButton } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import EditorContext from "../contexts/EditorContext";
 import flagFi from "../i18n/locales/flags/fi.svg";
 import flagEn from "../i18n/locales/flags/en.svg";
 
 function LanguagePickerContainer() {
   const [isLanguagePickerOpen, setIsLanguagePickerOpen] = useState(false);
-  const [language, setLanguage] = useState("en");
+  const [editorState, updateEditor] = useContext(EditorContext);
   const { i18n } = useTranslation();
 
   const styles = {
@@ -47,12 +48,12 @@ function LanguagePickerContainer() {
     },
   };
 
-  const flagSrc = language === "en" ? flagEn : flagFi;
+  const flagSrc = editorState.language === "en" ? flagEn : flagFi;
 
   const handleLanguageChange = (newLanguage) => {
-    setLanguage(newLanguage);
     setIsLanguagePickerOpen(!isLanguagePickerOpen);
     i18n.changeLanguage(newLanguage);
+    updateEditor({ language: newLanguage });
   };
 
   return (

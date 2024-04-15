@@ -1,6 +1,7 @@
 import { Box, Link, Button, useTheme, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import EditorContext from "../contexts/EditorContext";
 import LanguagePickerContainer from "./LanguagePickerContainer";
@@ -13,6 +14,7 @@ import useSaveMinutes from "../util/useSaveMinutes";
 
 function TopBar({ containerRef }) {
   const theme = useTheme();
+  const { t } = useTranslation();
   const [, updateEditor] = useContext(EditorContext);
   const [minutesState, { updateMetadata, clearState }] =
     useContext(MinutesContext);
@@ -70,11 +72,7 @@ function TopBar({ containerRef }) {
   };
 
   const handleCreateNewClicked = () => {
-    if (
-      !window.confirm(
-        "This action will clear the whole document. Are you sure?",
-      )
-    ) {
+    if (!window.confirm(t("clearDocument"))) {
       return;
     }
 
@@ -93,11 +91,7 @@ function TopBar({ containerRef }) {
         return;
       }
 
-      if (
-        !window.confirm(
-          "This action will store the document in the cloud where it will be accessible to anyone with the provided link. Are you sure?",
-        )
-      ) {
+      if (!window.confirm(t("storeDocument"))) {
         return;
       }
 
@@ -113,20 +107,20 @@ function TopBar({ containerRef }) {
 
       updateEditor({ sharePopupAnchorElement: shareButton });
     } catch (error) {
-      toast.error("Error while sharing minutes");
+      toast.error(t("sharingError"));
     }
   };
 
   const getStatusMessage = () => {
     switch (minutesState.metadata.writeAccess) {
       case null:
-        return "Minutes not stored";
+        return t("minutesNotStored");
       case true:
-        return "Editing stored minutes";
+        return t("editingStoredMinutes");
       case false:
-        return "Reading stored minutes";
+        return t("readingStoredMinutes");
       default:
-        return "Unknown state";
+        return t("unknownState");
     }
   };
 
@@ -158,7 +152,7 @@ function TopBar({ containerRef }) {
           sx={styles.topBarButton}
           onClick={handleCreateNewClicked}
         >
-          Create New
+          {t("createNew")}
         </Button>
 
         {minutesState.metadata.writeAccess && (
@@ -168,7 +162,7 @@ function TopBar({ containerRef }) {
             sx={styles.topBarButton}
             onClick={saveMinutes}
           >
-            Save
+            {t("save")}
           </Button>
         )}
 
@@ -179,7 +173,7 @@ function TopBar({ containerRef }) {
             sx={styles.topBarButton}
             onClick={reloadMinutes}
           >
-            Reload
+            {t("reload")}
           </Button>
         )}
 
@@ -189,7 +183,7 @@ function TopBar({ containerRef }) {
           sx={styles.topBarButton}
           onClick={handleShareClicked}
         >
-          Share
+          {t("share")}
         </Button>
 
         <Button
@@ -198,7 +192,7 @@ function TopBar({ containerRef }) {
           sx={styles.topBarButton}
           onClick={() => updateEditor({ isPreviewPrintPDFModalOpen: true })}
         >
-          Preview/Print PDF
+          {t("preview/printPdf")}
         </Button>
         <Box>
           <LanguagePickerContainer />

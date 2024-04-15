@@ -34,7 +34,7 @@ export const mockMinutesContextState = {
 };
 
 export const mockEditorContextState = {
-  language: "EN",
+  language: "en",
   isSignatureModalOpen: false,
   sharePopupAnchorElement: null,
 };
