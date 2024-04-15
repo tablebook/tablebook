@@ -8,8 +8,9 @@
     "prettier": "3.2.5"
   },
   "scripts": {
+    "cypress:run": "cypress run",
     "cypress:open": "cypress open",
-    "test": "cypress run",
+    "test": "npm run cypress:run",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix"
   }
