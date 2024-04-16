@@ -22,7 +22,7 @@ function SharePopup() {
   const isPopupOpen = Boolean(editorState.sharePopupAnchorElement);
   const closePopup = () => updateEditor({ sharePopupAnchorElement: null });
 
-  const handleCopyUrl = (event) => {
+  const handleCopyUrl = async (event) => {
     const inputElement =
       event.currentTarget.parentElement.parentElement.querySelector("input");
     const inputElementValue = inputElement.value;
@@ -30,9 +30,12 @@ function SharePopup() {
     inputElement.focus();
     inputElement.select();
 
-    navigator.clipboard.writeText(inputElementValue);
-
-    toast.info("Link copied to clipboard");
+    try {
+      await navigator.clipboard.writeText(inputElementValue);
+      toast.info("Link copied to clipboard");
+    } catch (error) {
+      toast.error("Couldn't copy link to clipboard");
+    }
   };
 
   const inputProps = {

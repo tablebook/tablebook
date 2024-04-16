@@ -101,6 +101,7 @@ describe("SharePopup", () => {
 
     describe("Clipboard", () => {
       const mockInfoToast = vi.spyOn(toast, "info");
+      const mockErrorToast = vi.spyOn(toast, "error");
 
       beforeEach(() => {
         vi.stubGlobal("navigator", {
@@ -114,32 +115,65 @@ describe("SharePopup", () => {
         vi.unstubAllGlobals();
       });
 
-      test("copies read link copy button copies to clipboard", () => {
+      test("copies read link copy button copies to clipboard", async () => {
+        navigator.clipboard.writeText.mockResolvedValueOnce();
+
         const inputContainer = screen.getByTestId("read-only-link", {
           selector: "div",
         });
         const button = inputContainer.querySelector("button");
         button.click();
 
-        expect(navigator.clipboard.writeText).toHaveBeenCalledOnce(
-          "http://localhost:3000/minutes/readaccesstoken",
-        );
-        expect(mockInfoToast).toHaveBeenCalledOnce();
-        expect(mockInfoToast).toHaveBeenCalledWith("Link copied to clipboard");
+        await waitFor(() => {
+          expect(navigator.clipboard.writeText).toHaveBeenCalledOnce(
+            "http://localhost:3000/minutes/readaccesstoken",
+          );
+          expect(mockInfoToast).toHaveBeenCalledOnce();
+          expect(mockInfoToast).toHaveBeenCalledWith(
+            "Link copied to clipboard",
+          );
+        });
       });
 
-      test("copies write link copy button copies to clipboard", () => {
+      test("copies write link copy button copies to clipboard", async () => {
+        navigator.clipboard.writeText.mockResolvedValueOnce();
+
         const inputContainer = screen.getByTestId("write-link", {
           selector: "div",
         });
         const button = inputContainer.querySelector("button");
         button.click();
 
-        expect(navigator.clipboard.writeText).toHaveBeenCalledOnce(
-          "http://localhost:3000/minutes/writeaccesstoken",
-        );
-        expect(mockInfoToast).toHaveBeenCalledOnce();
-        expect(mockInfoToast).toHaveBeenCalledWith("Link copied to clipboard");
+        await waitFor(() => {
+          expect(navigator.clipboard.writeText).toHaveBeenCalledOnce(
+            "http://localhost:3000/minutes/writeaccesstoken",
+          );
+          expect(mockInfoToast).toHaveBeenCalledOnce();
+          expect(mockInfoToast).toHaveBeenCalledWith(
+            "Link copied to clipboard",
+          );
+        });
+      });
+
+      test("handles clipboard errors", async () => {
+        navigator.clipboard.writeText.mockRejectedValueOnce();
+
+        const inputContainer = screen.getByTestId("write-link", {
+          selector: "div",
+        });
+        const button = inputContainer.querySelector("button");
+        button.click();
+
+        await waitFor(() => {
+          expect(navigator.clipboard.writeText).toHaveBeenCalledOnce(
+            "http://localhost:3000/minutes/writeaccesstoken",
+          );
+          expect(mockInfoToast).not.toHaveBeenCalled();
+          expect(mockErrorToast).toHaveBeenCalledOnce();
+          expect(mockErrorToast).toHaveBeenCalledWith(
+            "Couldn't copy link to clipboard",
+          );
+        });
       });
     });
   });

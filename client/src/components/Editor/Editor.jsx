@@ -44,7 +44,7 @@ function Editor() {
 
   return (
     <Box sx={styles.outerContainer}>
-      <Box sx={styles.editorContainer}>
+      <Box sx={styles.editorContainer} data-testid="editor-component">
         <SegmentContainer>
           <SideContainer />
           <Title />
