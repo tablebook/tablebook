@@ -1,17 +1,36 @@
 import { Router as createRouter } from "express";
 
 import minutesService from "../services/minutesService.js";
-import minutesSchema from "../schemas/minutesSchema.js";
 import {
   createJwt,
   parseJwt,
   sendMinutesNotFound,
 } from "./minutesController.helpers.js";
+import {
+  getMinutesRequestParamsSchema,
+  getMinutesResponseBodySchema,
+} from "../schemas/endpoints/getMinutes.js";
+import {
+  postMinutesRequestBodySchema,
+  postMinutesResponseBodySchema,
+} from "../schemas/endpoints/postMinutes.js";
+import { ResponseParsingError } from "../utils/errors.js";
+import {
+  putMinutesRequestBodySchema,
+  putMinutesRequestParamsSchema,
+  putMinutesResponseBodySchema,
+} from "../schemas/endpoints/putMinutes.js";
+import {
+  deleteMinutesRequestParamsSchema,
+  deleteMinutesResponseBodySchema,
+} from "../schemas/endpoints/deleteMinutes.js";
 
 const minutesController = createRouter();
 
-minutesController.get("/:token", async (request, response) => {
-  const { token } = request.params;
+minutesController.get("/:token", async (request, response, next) => {
+  const { token } = await getMinutesRequestParamsSchema.parseAsync(
+    request.params,
+  );
   const { id, writeAccess } = await parseJwt(token);
 
   const minutes = await minutesService.getMinutesById(id);
@@ -23,33 +42,63 @@ minutesController.get("/:token", async (request, response) => {
   const readToken = createJwt(minutes.id, false);
   const writeToken = writeAccess ? createJwt(minutes.id, true) : undefined;
 
-  const responseBody = { data: minutes, writeAccess, readToken, writeToken };
+  const parsedResponseBody = getMinutesResponseBodySchema.safeParse({
+    data: minutes,
+    readToken,
+    writeToken,
+  });
 
-  return response.json(responseBody);
+  if (!parsedResponseBody.success) {
+    return next(
+      new ResponseParsingError(
+        `Get response parsing failed, ${parsedResponseBody.error}`,
+      ),
+    );
+  }
+
+  return response.json(parsedResponseBody.data);
 });
 
-minutesController.post("/", async (request, response) => {
-  const minutesBody = await minutesSchema.parseAsync(request.body);
+minutesController.post("/", async (request, response, next) => {
+  const minutesBody = await postMinutesRequestBodySchema.parseAsync(
+    request.body,
+  );
 
   const createdMinutes = await minutesService.createMinutes(minutesBody);
 
   const readToken = createJwt(createdMinutes.id, false);
   const writeToken = createJwt(createdMinutes.id, true);
 
-  const responseBody = { data: createdMinutes, readToken, writeToken };
+  const parsedResponseBody = postMinutesResponseBodySchema.safeParse({
+    data: createdMinutes,
+    readToken,
+    writeToken,
+  });
 
-  return response.status(201).json(responseBody);
+  if (!parsedResponseBody.success) {
+    return next(
+      new ResponseParsingError(
+        `Post response parsing failed, ${parsedResponseBody.error}`,
+      ),
+    );
+  }
+
+  return response.status(201).json(parsedResponseBody.data);
 });
 
-minutesController.put("/:token", async (request, response) => {
-  const { token } = request.params;
+minutesController.put("/:token", async (request, response, next) => {
+  const { token } = await putMinutesRequestParamsSchema.parseAsync(
+    request.params,
+  );
   const { id, writeAccess } = await parseJwt(token);
 
   if (!writeAccess) {
     return response.sendStatus(401);
   }
 
-  const minutesBody = await minutesSchema.parseAsync(request.body);
+  const minutesBody = await putMinutesRequestBodySchema.parseAsync(
+    request.body,
+  );
 
   const updatedMinutes = await minutesService.updateMinutes(id, minutesBody);
 
@@ -57,13 +106,25 @@ minutesController.put("/:token", async (request, response) => {
     return sendMinutesNotFound(response);
   }
 
-  const responseBody = { data: updatedMinutes };
+  const parsedResponseBody = putMinutesResponseBodySchema.safeParse({
+    data: updatedMinutes,
+  });
 
-  return response.json(responseBody);
+  if (!parsedResponseBody.success) {
+    return next(
+      new ResponseParsingError(
+        `Post response parsing failed, ${parsedResponseBody.error}`,
+      ),
+    );
+  }
+
+  return response.json(parsedResponseBody.data);
 });
 
-minutesController.delete("/:token", async (request, response) => {
-  const { token } = request.params;
+minutesController.delete("/:token", async (request, response, next) => {
+  const { token } = await deleteMinutesRequestParamsSchema.parseAsync(
+    request.params,
+  );
   const { id, writeAccess } = await parseJwt(token);
 
   if (!writeAccess) {
@@ -76,9 +137,19 @@ minutesController.delete("/:token", async (request, response) => {
     return sendMinutesNotFound(response);
   }
 
-  const responseBody = { data: deletedMinutes };
+  const parsedResponseBody = deleteMinutesResponseBodySchema.safeParse({
+    data: deletedMinutes,
+  });
 
-  return response.json(responseBody);
+  if (!parsedResponseBody.success) {
+    return next(
+      new ResponseParsingError(
+        `Delete response parsing failed, ${parsedResponseBody.error}`,
+      ),
+    );
+  }
+
+  return response.json(parsedResponseBody.data);
 });
 
 export default minutesController;

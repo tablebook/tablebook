@@ -3,7 +3,10 @@ import express from "express";
 import helmet from "helmet";
 import path from "path";
 import fs from "fs";
+import swaggerUi from "swagger-ui-express";
 
+import { OpenApiGeneratorV31 } from "@asteasolutions/zod-to-openapi";
+import { registry } from "./utils/openapi.js";
 import minutesController from "./controllers/minutesController.js";
 import errorHandler from "./utils/errorHandler.js";
 
@@ -32,6 +35,18 @@ app.use("/api/minutes", minutesController);
 app.get("/api/healthz", (request, response) => response.sendStatus(200));
 
 app.use(errorHandler);
+
+const generator = new OpenApiGeneratorV31(registry.definitions);
+
+const openapiDocs = generator.generateDocument({
+  openapi: "3.1.0",
+  info: {
+    title: "Minutes API",
+    description: "Used for storing, fetching, updating and deleting minutes",
+  },
+});
+
+app.use("/api", swaggerUi.serve, swaggerUi.setup(openapiDocs));
 
 app.get("/api/*", (req, res) => {
   return res.status(404).json({ error: "API route not found" });

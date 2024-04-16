@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-import tokenSchema from "../schemas/tokenSchema.js";
+import tokenContentSchema from "../schemas/tokenSchema.js";
 import environment from "../utils/environment.js";
 import { TokenError } from "../utils/errors.js";
 
@@ -19,7 +19,7 @@ export const createJwt = (id, writeAccess) => {
 export const parseJwt = async (token) => {
   try {
     const decodedToken = jwt.verify(token, environment.secret);
-    const parsedToken = await tokenSchema.parseAsync(decodedToken);
+    const parsedToken = await tokenContentSchema.parseAsync(decodedToken);
 
     return parsedToken;
   } catch (error) {

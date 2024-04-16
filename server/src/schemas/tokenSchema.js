@@ -6,9 +6,9 @@ const mongoIdSchema = z
     message: "Invalid MongoDB id",
   });
 
-const tokenSchema = z.object({
+const tokenContentSchema = z.object({
   id: mongoIdSchema,
   writeAccess: z.boolean(),
 });
 
-export default tokenSchema;
+export default tokenContentSchema;
