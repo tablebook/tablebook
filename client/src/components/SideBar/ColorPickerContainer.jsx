@@ -11,14 +11,6 @@ function ColorPickerContainer() {
   const { t } = useTranslation();
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
   const handleSignatureAffectingChange = useHandleSignatureAffectingChange();
-  const updateSignatureDebounced = useDebouncedCallback(
-    // function
-    (value) => {
-      updateMinutes(value);
-    },
-    // delay in ms
-    1000,
-  );
   const updateColorDebounced = useDebouncedCallback(
     // function
     (value) => {
@@ -70,67 +62,6 @@ function ColorPickerContainer() {
     },
   };
 
-  const hexToRgb = (hex) => {
-    const hexIsShort = hex.length === 4;
-    const rgbRed = parseInt(hexIsShort ? hex[1] + hex[1] : hex[1] + hex[2], 16);
-    const rgbGreen = parseInt(
-      hexIsShort ? hex[2] + hex[2] : hex[3] + hex[4],
-      16,
-    );
-    const rgbBlue = parseInt(
-      hexIsShort ? hex[3] + hex[3] : hex[5] + hex[6],
-      16,
-    );
-    return [rgbRed, rgbGreen, rgbBlue];
-  };
-
-  const changeSignatureColorsToContext = (color) => {
-    minutesState.minutes.signatures.forEach((signature) => {
-      if (signature.image) {
-        const newSignature = new Image();
-        newSignature.src = minutesState.minutes.signatures[0].image;
-        newSignature.onload = () => {
-          const canvas = document.createElement("canvas");
-          const canvasContext = canvas.getContext("2d");
-          canvas.width = newSignature.width;
-          canvas.height = newSignature.height;
-
-          canvasContext.drawImage(newSignature, 0, 0);
-
-          const canvasData = canvasContext.getImageData(
-            0,
-            0,
-            canvas.width,
-            canvas.height,
-          );
-          const { data } = canvasData;
-
-          const [rgbRed, rgbGreen, rgbBlue] = hexToRgb(color);
-
-          for (let i = 0; i < data.length; i += 4) {
-            // Only change non-transparent pixels
-            if (data[i + 3] > 0) {
-              data[i] = rgbRed;
-              data[i + 1] = rgbGreen;
-              data[i + 2] = rgbBlue;
-            }
-          }
-
-          canvasContext.putImageData(canvasData, 0, 0);
-
-          updateSignatureDebounced({
-            signatures: [
-              {
-                ...signature,
-                image: canvas.toDataURL(),
-              },
-            ],
-          });
-        };
-      }
-    });
-  };
-
   const updateColor = (type, color) => {
     if (!handleSignatureAffectingChange()) {
       return;
@@ -142,10 +73,6 @@ function ColorPickerContainer() {
         [type]: color,
       },
     });
-
-    if (type === "primary") {
-      changeSignatureColorsToContext(color);
-    }
   };
 
   const defaultColors = {
