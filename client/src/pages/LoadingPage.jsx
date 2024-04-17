@@ -48,7 +48,7 @@ function LoadingPage() {
           updateMinutes(minutesResponse.data);
 
           updateMetadata({
-            writeAccess: minutesResponse.writeAccess,
+            writeAccess: Boolean(minutesResponse.writeToken),
             readToken: minutesResponse.readToken,
             writeToken: minutesResponse.writeToken,
           });

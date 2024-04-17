@@ -46,7 +46,6 @@ describe("minutesApi", () => {
 
       expect(response.status).toBe(200);
       expect(response.body.data).toEqual(expect.objectContaining(dummyMinutes));
-      expect(response.body.writeAccess).toBe(false);
       expect(response.body.readToken).toBeDefined();
       expect(response.body.writeToken).not.toBeDefined();
     });
@@ -67,7 +66,6 @@ describe("minutesApi", () => {
 
       expect(response.status).toBe(200);
       expect(response.body.data).toEqual(expect.objectContaining(dummyMinutes));
-      expect(response.body.writeAccess).toBe(true);
       expect(response.body.readToken).toBeDefined();
       expect(response.body.writeToken).toBeDefined();
     });

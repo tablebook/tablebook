@@ -1,2 +1,4 @@
-/* eslint-disable import/prefer-default-export */ // This can be removed if other custom errors are created
+/* eslint-disable max-classes-per-file */
 export class TokenError extends Error {}
+
+export class ResponseParsingError extends Error {}

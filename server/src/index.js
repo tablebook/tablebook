@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import environment from "./utils/environment.js";
+import "./utils/openapi.js"; // Needs to be imported before any schemas are used
 import app from "./app.js";
 
 const main = async () => {
