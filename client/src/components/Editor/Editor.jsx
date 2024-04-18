@@ -7,6 +7,7 @@ import SegmentButtons from "./SegmentButtons";
 import Segment from "./Segment";
 import Signature from "./Signature";
 import MinutesContext from "../../contexts/MinutesContext";
+import SignatureButtons from "./SignatureButtons";
 
 function Editor() {
   const [minutesState] = useContext(MinutesContext);
@@ -65,7 +66,9 @@ function Editor() {
         {minutesState.minutes.signatures.map((signature, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <Box sx={styles.bottomContainer} key={index}>
-            <SideContainer />
+            <SideContainer>
+              <SignatureButtons signatureIndex={index} />
+            </SideContainer>
             <Box sx={styles.bottomContentContainer}>
               <Signature signatureIndex={index} />
             </Box>
