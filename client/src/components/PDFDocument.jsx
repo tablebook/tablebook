@@ -153,6 +153,7 @@ function PDFDocument({ pdfReadyMinutes }) {
       flexDirection: "row",
       marginTop: 20,
       justifyContent: "space-between",
+      minHeight: 75,
     },
 
     signatureContainer: {

@@ -33,6 +33,7 @@ function Editor() {
       display: "flex",
       flexGrow: 1,
       flexDirection: "row",
+      minHeight: 100,
     },
 
     bottomContentContainer: {
