@@ -85,7 +85,7 @@ For running the application without any additional setup using Docker, see: [Dev
   - Includes full request/response schemas and example requests/responses
   - Currently deployed documentation is found here: https://tablebook.onrender.com/api
   - The OpenAPI documentation is created from [Zod](https://zod.dev/) endpoint schemas. Using [zod-to-openapi](https://www.npmjs.com/package/@asteasolutions/zod-to-openapi).
-  - The OpenAPI intractable documentation endpoint is created with [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express)
+  - The OpenAPI interactable documentation endpoint is created with [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express)
 - Old documentation was created with [Postman](https://www.postman.com/) and could be found [here](https://documenter.getpostman.com/view/24955418/2sA2xmUqFr). **It is no longer updated**.
   - Postman documentation was thorough but not as not easily updated, as every request needed to be run again manually after any changes to API.
 
