@@ -211,44 +211,38 @@ function PDFDocument({ pdfReadyMinutes }) {
             </View>
           ))}
         </View>
-        <View style={styles.signatureAndDateContainer}>
-          <View style={styles.signatureContainer}>
-            {pdfReadyMinutes.signatures.length > 0 &&
-              pdfReadyMinutes.signatures[0].image && (
-                <Image
-                  src={pdfReadyMinutes.signatures[0].image}
-                  style={styles.signatureImage}
-                />
+        {pdfReadyMinutes.signatures.map((signature, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <View key={index} style={styles.signatureAndDateContainer}>
+            <View style={styles.signatureContainer}>
+              {Boolean(signature.image) && (
+                <Image src={signature.image} style={styles.signatureImage} />
               )}
-            <View style={styles.signatureAndDateLine} />
-            {pdfReadyMinutes.signatures.length > 0 &&
-              pdfReadyMinutes.signatures[0].signer.length > 0 && (
+
+              <View style={styles.signatureAndDateLine} />
+              {Boolean(signature.signer) && (
                 <Text style={styles.signatureAndDateText}>
-                  {pdfReadyMinutes.signatures[0].signer}
+                  {signature.signer}
                 </Text>
               )}
-            <Text style={styles.signatureAndDateText}>{t("signature")}</Text>
-          </View>
-          <View style={styles.dateContainer}>
-            {pdfReadyMinutes.signatures.length > 0 &&
-              pdfReadyMinutes.signatures[0].timestamp && (
+              <Text style={styles.signatureAndDateText}>{t("signature")}</Text>
+            </View>
+            <View style={styles.dateContainer}>
+              {Boolean(signature.timestamp) && (
                 <View style={styles.timestampContainer}>
                   <Text style={styles.signatureAndDateText}>
-                    {moment
-                      .utc(pdfReadyMinutes.signatures[0].timestamp)
-                      .format("YYYY-MM-DD")}
+                    {moment.utc(signature.timestamp).format("YYYY-MM-DD")}
                   </Text>
                   <Text style={styles.signatureAndDateText}>
-                    {moment
-                      .utc(pdfReadyMinutes.signatures[0].timestamp)
-                      .format("HH:mm z")}
+                    {moment.utc(signature.timestamp).format("HH:mm z")}
                   </Text>
                 </View>
               )}
-            <View style={styles.signatureAndDateLine} />
-            <Text style={styles.signatureAndDateText}>{t("date")}</Text>
+              <View style={styles.signatureAndDateLine} />
+              <Text style={styles.signatureAndDateText}>{t("date")}</Text>
+            </View>
           </View>
-        </View>
+        ))}
       </Page>
     </Document>
   );
