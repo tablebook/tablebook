@@ -90,17 +90,17 @@ export function MinutesContextProvider({ children }) {
 
       clearSignatures: () => {
         setState((prevState) => {
+          const newSignatures = prevState.minutes.signatures.map(() => ({
+            image: null,
+            signer: "",
+            timestamp: null,
+          }));
+
           const newState = {
             ...prevState,
             minutes: {
               ...prevState.minutes,
-              signatures: [
-                {
-                  image: null,
-                  signer: "",
-                  timestamp: null,
-                },
-              ],
+              signatures: newSignatures,
             },
           };
           sessionStorage.setItem("MinutesContext", JSON.stringify(newState));
