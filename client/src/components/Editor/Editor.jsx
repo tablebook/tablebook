@@ -62,12 +62,15 @@ function Editor() {
           </SegmentContainer>
         ))}
 
-        <Box sx={styles.bottomContainer}>
-          <SideContainer />
-          <Box sx={styles.bottomContentContainer}>
-            <Signature />
+        {minutesState.minutes.signatures.map((signature, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <Box sx={styles.bottomContainer} key={index}>
+            <SideContainer />
+            <Box sx={styles.bottomContentContainer}>
+              <Signature signatureIndex={index} />
+            </Box>
           </Box>
-        </Box>
+        ))}
       </Box>
     </Box>
   );

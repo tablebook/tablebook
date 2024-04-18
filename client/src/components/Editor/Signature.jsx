@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import MinutesContext from "../../contexts/MinutesContext";
 import ImageElement from "../Shared/Image";
 
-function Signature() {
+function Signature({ signatureIndex }) {
   const { t } = useTranslation();
   const [state] = useContext(MinutesContext);
 
@@ -63,23 +63,21 @@ function Signature() {
       data-testid="signature-component"
     >
       <Box sx={styles.signatureContainer}>
-        {state.minutes.signatures.length > 0 &&
-          state.minutes.signatures[0].image && (
-            <ImageElement
-              src={state.minutes.signatures[0].image}
-              sx={styles.signatureImage}
-              alt="Signature"
-            />
-          )}
+        {state.minutes.signatures[signatureIndex].image && (
+          <ImageElement
+            src={state.minutes.signatures[signatureIndex].image}
+            sx={styles.signatureImage}
+            alt="Signature"
+          />
+        )}
 
         <Box sx={styles.signatureAndDateLine} />
 
-        {state.minutes.signatures.length > 0 &&
-          state.minutes.signatures[0].signer && (
-            <Typography variant="h5" sx={styles.signatureAndDateText}>
-              {state.minutes.signatures[0].signer}
-            </Typography>
-          )}
+        {state.minutes.signatures[signatureIndex].signer && (
+          <Typography variant="h5" sx={styles.signatureAndDateText}>
+            {state.minutes.signatures[signatureIndex].signer}
+          </Typography>
+        )}
 
         <Typography variant="h5" sx={styles.signatureAndDateText}>
           {t("signature")}
@@ -87,21 +85,20 @@ function Signature() {
       </Box>
 
       <Box sx={styles.dateContainer}>
-        {state.minutes.signatures.length > 0 &&
-          state.minutes.signatures[0].timestamp && (
-            <Box sx={styles.timestampContainer}>
-              <Typography variant="h5" sx={styles.signatureAndDateText}>
-                {moment
-                  .utc(state.minutes.signatures[0].timestamp)
-                  .format("YYYY-MM-DD")}
-              </Typography>
-              <Typography variant="h5" sx={styles.signatureAndDateText}>
-                {moment
-                  .utc(state.minutes.signatures[0].timestamp)
-                  .format("HH:mm z")}
-              </Typography>
-            </Box>
-          )}
+        {state.minutes.signatures[signatureIndex].timestamp && (
+          <Box sx={styles.timestampContainer}>
+            <Typography variant="h5" sx={styles.signatureAndDateText}>
+              {moment
+                .utc(state.minutes.signatures[signatureIndex].timestamp)
+                .format("YYYY-MM-DD")}
+            </Typography>
+            <Typography variant="h5" sx={styles.signatureAndDateText}>
+              {moment
+                .utc(state.minutes.signatures[signatureIndex].timestamp)
+                .format("HH:mm z")}
+            </Typography>
+          </Box>
+        )}
 
         <Box sx={styles.signatureAndDateLine} />
 
