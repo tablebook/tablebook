@@ -9,7 +9,15 @@ const useHandleSignatureAffectingChange = () => {
    * @returns Should signature affecting change go through?
    */
   const handleSignatureAffectingChange = () => {
-    if (!minutesState.minutes.signatures.length) {
+    const firstSignature = minutesState.minutes.signatures[0];
+
+    const isSignaturesEmpty =
+      minutesState.minutes.signatures.length === 1 &&
+      !firstSignature.image &&
+      !firstSignature.signer &&
+      !firstSignature.timestamp;
+
+    if (isSignaturesEmpty) {
       return true;
     }
 
