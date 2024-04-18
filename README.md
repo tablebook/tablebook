@@ -99,7 +99,7 @@ For running the application without any additional setup using Docker, see: [Dev
 - The CI pipeline runs also when the changes are merged to `main` branch, and in addition to the `verification` job, it has three jobs that are **only** run when `main` is merged: `tag_release`, `publish_docker_image` and `deploy_to_render`.
   - After the `main` branch is verified, the commit is tagged with a [sematic version](https://www.geeksforgeeks.org/introduction-semantic-versioning/).
   - After that, a [docker image](https://www.techtarget.com/searchitoperations/definition/Docker-image) is created and published to [ghcr.io](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry) with the same sematic version tag that the commit was tagged with. It's also tagged with `latest`. It can then be found in the repository packages.
-  - Finally, the pipeline calls calls [Render](https://render.com/) to trigger the redeployment of the application. The Render deployment always fetches the image with the `latest` tag.
+  - Finally, the pipeline calls [Render](https://render.com/) to trigger the redeployment of the application. The Render deployment always fetches the image with the `latest` tag.
 - If any job fails, the following jobs are not run.
 
 ## Containerization
