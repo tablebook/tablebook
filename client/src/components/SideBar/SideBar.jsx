@@ -3,14 +3,12 @@ import { Box, Button, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import ColorPickerContainer from "./ColorPickerContainer";
 import MinutesContext from "../../contexts/MinutesContext";
-import EditorContext from "../../contexts/EditorContext";
 import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffectingChange";
 
 function SideBar() {
   const theme = useTheme();
   const { t } = useTranslation();
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
-  const [, updateEditor] = useContext(EditorContext);
   const handleSignatureAffectingChange = useHandleSignatureAffectingChange();
 
   const styles = {
@@ -54,6 +52,19 @@ function SideBar() {
     updateMinutes({ segments: newSegments });
   };
 
+  const handleAddSignatureField = () => {
+    const newSignatures = [
+      ...minutesState.minutes.signatures,
+      {
+        image: null,
+        signer: "",
+        timestamp: null,
+      },
+    ];
+
+    updateMinutes({ signatures: newSignatures });
+  };
+
   return (
     <Box sx={styles.sideBarContainer}>
       {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
@@ -76,9 +87,9 @@ function SideBar() {
               variant="contained"
               color="secondary"
               sx={styles.sideBarButton}
-              onClick={() => updateEditor({ isSignatureModalOpen: true })}
+              onClick={handleAddSignatureField}
             >
-              {t("sign")}
+              {t("addSignatureField")}
             </Button>
           </>
         )}
