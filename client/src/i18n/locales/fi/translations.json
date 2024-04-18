@@ -5,10 +5,13 @@
   "restoreDefaults": "Alkuperäisvärit",
   "addAField": "Lisää kenttä",
   "sign": "Allekirjoita",
+  "addSignatureField": "Lisää allekirjoituskenttä",
 
   "enterTheMainTitle": "Lisää otsikko",
   "enterTheContent": "Lisää sisältöä",
   "deleteSegment": "Osio poistuu sisältöineen. Vahvistetaanko?",
+  "deleteSignature": "Allekirjoitus poistuu. Vahvistetaanko?",
+  "overrideSignature": "Aikaisempi allekirjoitus ylikirjoitetaan. Vahvistetaanko?",
   "enterTheTitle": "Lisää alaotsikko",
   "signature": "Allekirjoitus",
   "date": "Päiväys",
