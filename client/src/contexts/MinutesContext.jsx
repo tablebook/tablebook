@@ -24,7 +24,13 @@ const initialState = {
       },
     ],
     startTime: null,
-    signatures: [],
+    signatures: [
+      {
+        image: null,
+        signer: "",
+        timestamp: null,
+      },
+    ],
   },
 
   metadata: {
@@ -88,7 +94,13 @@ export function MinutesContextProvider({ children }) {
             ...prevState,
             minutes: {
               ...prevState.minutes,
-              signatures: [],
+              signatures: [
+                {
+                  image: null,
+                  signer: "",
+                  timestamp: null,
+                },
+              ],
             },
           };
           sessionStorage.setItem("MinutesContext", JSON.stringify(newState));
