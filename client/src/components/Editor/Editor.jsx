@@ -35,13 +35,6 @@ function Editor() {
       flexDirection: "row",
       minHeight: 100,
     },
-
-    bottomContentContainer: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "end",
-      width: 1000,
-    },
   };
 
   return (
@@ -70,9 +63,7 @@ function Editor() {
             <SideContainer>
               <SignatureButtons signatureIndex={index} />
             </SideContainer>
-            <Box sx={styles.bottomContentContainer}>
-              <Signature signatureIndex={index} />
-            </Box>
+            <Signature signatureIndex={index} />
           </Box>
         ))}
       </Box>

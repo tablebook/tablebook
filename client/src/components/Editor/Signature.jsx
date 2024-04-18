@@ -10,6 +10,13 @@ function Signature({ signatureIndex }) {
   const [state] = useContext(MinutesContext);
 
   const styles = {
+    mainContainer: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "end",
+      width: 1000,
+    },
+
     dateAndSignatureContainer: {
       display: "flex",
       flexDirection: "row",
@@ -58,53 +65,52 @@ function Signature({ signatureIndex }) {
   };
 
   return (
-    <Box
-      sx={styles.dateAndSignatureContainer}
-      data-testid="signature-component"
-    >
-      <Box sx={styles.signatureContainer}>
-        {state.minutes.signatures[signatureIndex].image && (
-          <ImageElement
-            src={state.minutes.signatures[signatureIndex].image}
-            sx={styles.signatureImage}
-            alt="Signature"
-          />
-        )}
+    <Box sx={styles.mainContainer} data-testid="signature-component">
+      <Box sx={styles.dateAndSignatureContainer}>
+        <Box sx={styles.signatureContainer}>
+          {state.minutes.signatures[signatureIndex].image && (
+            <ImageElement
+              src={state.minutes.signatures[signatureIndex].image}
+              sx={styles.signatureImage}
+              alt="Signature"
+            />
+          )}
 
-        <Box sx={styles.signatureAndDateLine} />
+          <Box sx={styles.signatureAndDateLine} />
 
-        {state.minutes.signatures[signatureIndex].signer && (
+          {state.minutes.signatures[signatureIndex].signer && (
+            <Typography variant="h5" sx={styles.signatureAndDateText}>
+              {state.minutes.signatures[signatureIndex].signer}
+            </Typography>
+          )}
+
           <Typography variant="h5" sx={styles.signatureAndDateText}>
-            {state.minutes.signatures[signatureIndex].signer}
+            {t("signature")}
           </Typography>
-        )}
+        </Box>
 
-        <Typography variant="h5" sx={styles.signatureAndDateText}>
-          {t("signature")}
-        </Typography>
-      </Box>
+        <Box sx={styles.dateContainer}>
+          {state.minutes.signatures[signatureIndex].timestamp && (
+            <Box sx={styles.timestampContainer}>
+              <Typography variant="h5" sx={styles.signatureAndDateText}>
+                {moment
+                  .utc(state.minutes.signatures[signatureIndex].timestamp)
+                  .format("YYYY-MM-DD")}
+              </Typography>
+              <Typography variant="h5" sx={styles.signatureAndDateText}>
+                {moment
+                  .utc(state.minutes.signatures[signatureIndex].timestamp)
+                  .format("HH:mm z")}
+              </Typography>
+            </Box>
+          )}
 
-      <Box sx={styles.dateContainer}>
-        {state.minutes.signatures[signatureIndex].timestamp && (
-          <Box sx={styles.timestampContainer}>
-            <Typography variant="h5" sx={styles.signatureAndDateText}>
-              {moment
-                .utc(state.minutes.signatures[signatureIndex].timestamp)
-                .format("YYYY-MM-DD")}
-            </Typography>
-            <Typography variant="h5" sx={styles.signatureAndDateText}>
-              {moment
-                .utc(state.minutes.signatures[signatureIndex].timestamp)
-                .format("HH:mm z")}
-            </Typography>
-          </Box>
-        )}
+          <Box sx={styles.signatureAndDateLine} />
 
-        <Box sx={styles.signatureAndDateLine} />
-
-        <Typography variant="h5" sx={styles.signatureAndDateText}>
-          {t("date")}
-        </Typography>
+          <Typography variant="h5" sx={styles.signatureAndDateText}>
+            {t("date")}
+          </Typography>
+        </Box>
       </Box>
     </Box>
   );
