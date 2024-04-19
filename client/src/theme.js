@@ -27,7 +27,7 @@ const theme = createTheme({
       contrastText: "#000000",
     },
     footer: {
-      main: "#6c645d",
+      main: "#b7a18d",
       contrastText: "#ffffff",
     },
   },
@@ -39,6 +39,7 @@ const theme = createTheme({
     },
   },
   fontSizes: {
+    xxs: "0.6rem",
     xs: "0.8rem",
     s: "1rem",
     m: "1.5rem",
