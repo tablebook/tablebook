@@ -35,6 +35,7 @@ function Footer() {
           to="https://github.com/tablebook/tablebook/issues/new"
           color="primary.contrastText"
           underline="hover"
+          data-testid="reportButton"
         >
           <ReportIcon />
           <Typography sx={styles.itemText}>{t("reportAnIssue")}</Typography>
@@ -47,6 +48,7 @@ function Footer() {
           to="https://github.com/tablebook/tablebook"
           color="primary.contrastText"
           underline="hover"
+          data-testid="gitHubButton"
         >
           <GitHubIcon />
           <Typography sx={styles.itemText}>GitHub</Typography>
@@ -59,6 +61,7 @@ function Footer() {
           to="https://github.com/tablebook/tablebook/blob/main/LICENSE"
           color="primary.contrastText"
           underline="hover"
+          data-testid="copyrightButton"
         >
           <CopyrightIcon sx={styles.iconSize} />
           <Typography sx={styles.itemText}>Copyright</Typography>
