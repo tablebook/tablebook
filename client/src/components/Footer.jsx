@@ -1,7 +1,10 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Box, Link, useTheme } from "@mui/material";
+import { Box, Link, useTheme, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
+import ReportIcon from "@mui/icons-material/Report";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import CopyrightIcon from "@mui/icons-material/Copyright";
 
 function Footer() {
   const theme = useTheme();
@@ -12,53 +15,54 @@ function Footer() {
       backgroundColor: theme.palette.footer.main,
       display: "flex",
       justifyContent: "space-evenly",
-      alignItems: "center",
-      height: "100%",
     },
-
     footerItem: {
-      fontSize: theme.fontSizes.s,
+      display: "flex",
+      flexDirection: "column",
+      textAlign: "center",
+    },
+    itemText: {
+      fontSize: theme.fontSizes.xxs,
     },
   };
 
   return (
     <Box sx={styles.footerContainer}>
-      <Link
-        component={RouterLink}
-        to="https://github.com/tablebook/tablebook/issues/new"
-        variant="h5"
-        color="footer.contrastText"
-        underline="hover"
-        target="_blank"
-        rel="noopener noreferrer"
-        sx={styles.footerItem}
-      >
-        {t("reportAnIssue")}
-      </Link>
-      <Link
-        component={RouterLink}
-        to="https://github.com/tablebook/tablebook"
-        variant="h5"
-        color="footer.contrastText"
-        underline="hover"
-        target="_blank"
-        rel="noopener noreferrer"
-        sx={styles.footerItem}
-      >
-        GitHub
-      </Link>
-      <Link
-        component={RouterLink}
-        to="https://github.com/tablebook/tablebook/blob/main/LICENSE"
-        variant="h5"
-        color="footer.contrastText"
-        underline="hover"
-        target="_blank"
-        rel="noopener noreferrer"
-        sx={styles.footerItem}
-      >
-        Copyright
-      </Link>
+      <Box sx={styles.footerItem}>
+        <Link
+          component={RouterLink}
+          to="https://github.com/tablebook/tablebook/issues/new"
+          color="primary.contrastText"
+          underline="hover"
+        >
+          <ReportIcon />
+          <Typography sx={styles.itemText}>{t("reportAnIssue")}</Typography>
+        </Link>
+      </Box>
+
+      <Box sx={styles.footerItem}>
+        <Link
+          component={RouterLink}
+          to="https://github.com/tablebook/tablebook"
+          color="primary.contrastText"
+          underline="hover"
+        >
+          <GitHubIcon />
+          <Typography sx={styles.itemText}>GitHub</Typography>
+        </Link>
+      </Box>
+
+      <Box sx={styles.footerItem}>
+        <Link
+          component={RouterLink}
+          to="https://github.com/tablebook/tablebook/blob/main/LICENSE"
+          color="primary.contrastText"
+          underline="hover"
+        >
+          <CopyrightIcon sx={styles.iconSize} />
+          <Typography sx={styles.itemText}>Copyright</Typography>
+        </Link>
+      </Box>
     </Box>
   );
 }

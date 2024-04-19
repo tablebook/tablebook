@@ -39,7 +39,7 @@ function EditorPage() {
       overflowY: "auto",
     },
     footer: {
-      height: 30,
+      height: 42,
     },
     scrollable: {
       flexGrow: 1,
