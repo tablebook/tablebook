@@ -5,43 +5,32 @@ import { I18nextProvider } from "react-i18next";
 import { ThemeProvider } from "@mui/material/styles";
 import i18n from "../../i18n/config";
 import MinutesContext from "../../contexts/MinutesContext";
-import EditorContext from "../../contexts/EditorContext";
 import theme from "../../theme";
 import SideBar from "./SideBar";
 import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffectingChange";
 import { mockMinutesContextState } from "../../util/test.helpers";
 
 describe("SideBar", () => {
-  const updateEditorMock = vi.fn();
   const updateMinutesMock = vi.fn();
   const clearSignaturesMock = vi.fn();
 
   const renderWith = (minutesMockState) => {
     render(
-      <EditorContext.Provider
+      <MinutesContext.Provider
         value={[
+          minutesMockState,
           {
-            isSignatureModalOpen: false,
+            updateMinutes: updateMinutesMock,
+            clearSignatures: clearSignaturesMock,
           },
-          updateEditorMock,
         ]}
       >
-        <MinutesContext.Provider
-          value={[
-            minutesMockState,
-            {
-              updateMinutes: updateMinutesMock,
-              clearSignatures: clearSignaturesMock,
-            },
-          ]}
-        >
-          <ThemeProvider theme={theme}>
-            <I18nextProvider i18n={i18n}>
-              <SideBar />
-            </I18nextProvider>
-          </ThemeProvider>
-        </MinutesContext.Provider>
-      </EditorContext.Provider>,
+        <ThemeProvider theme={theme}>
+          <I18nextProvider i18n={i18n}>
+            <SideBar />
+          </I18nextProvider>
+        </ThemeProvider>
+      </MinutesContext.Provider>,
     );
   };
 
@@ -64,16 +53,39 @@ describe("SideBar", () => {
         expect(colorPickerContainer).toBeDefined();
       });
 
-      test("renders the sign button", () => {
-        const signButton = screen.getByText("Sign", { selector: "button" });
-        expect(signButton).toBeDefined();
+      test("renders the add signature field button", () => {
+        const addSignatureFieldButton = screen.getByText(
+          "Add Signature Field",
+          { selector: "button" },
+        );
+        expect(addSignatureFieldButton).toBeDefined();
       });
 
-      test("handles updateEditor when the sign button is pressed", () => {
-        const signButton = screen.getByText("Sign", { selector: "button" });
-        fireEvent.click(signButton);
-        expect(updateEditorMock).toHaveBeenCalledWith({
-          isSignatureModalOpen: true,
+      test("adds a new signature field on add signature field button click", () => {
+        const addSignatureFieldButton = screen.getByText(
+          "Add Signature Field",
+          { selector: "button" },
+        );
+        fireEvent.click(addSignatureFieldButton);
+        expect(updateMinutesMock).toHaveBeenCalledWith({
+          signatures: [
+            {
+              signer: "Test User",
+              timestamp: "2024-03-30T00:00:00.000Z",
+              image:
+                "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAB7CAYAAACb4F7QAAAAAXNSR0I",
+            },
+            {
+              signer: "",
+              timestamp: null,
+              image: null,
+            },
+            {
+              signer: "",
+              timestamp: null,
+              image: null,
+            },
+          ],
         });
       });
     });
@@ -206,9 +218,14 @@ describe("SideBar", () => {
       expect(colorPickerContainer).not.toBeInTheDocument();
     });
 
-    test("doesn't render the sign button", () => {
-      const signButton = screen.queryByText("Sign", { selector: "button" });
-      expect(signButton).not.toBeInTheDocument();
+    test("doesn't render the add signature field button", () => {
+      const addSignatureFieldButton = screen.queryByText(
+        "Add Signature Field",
+        {
+          selector: "button",
+        },
+      );
+      expect(addSignatureFieldButton).not.toBeInTheDocument();
     });
 
     test("doesn't render add field button", () => {
