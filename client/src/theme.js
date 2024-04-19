@@ -27,7 +27,7 @@ const theme = createTheme({
       contrastText: "#000000",
     },
     footer: {
-      main: "#6c645d",
+      main: "#a88a70",
       contrastText: "#ffffff",
     },
   },
