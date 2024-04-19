@@ -50,7 +50,7 @@ function SignatureButtons({ signatureIndex }) {
   };
 
   return (
-    <Box sx={styles.buttonsContainer} data-testid="segment-buttons">
+    <Box sx={styles.buttonsContainer} data-testid="signature-buttons">
       <IconButton
         size="small"
         onClick={handleDelete}
