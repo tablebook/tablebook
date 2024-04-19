@@ -379,7 +379,7 @@ describe("SegmentButtons", () => {
     });
   });
 
-  describe("Without signatures", () => {
+  describe("With empty signatures", () => {
     describe("Delete button", () => {
       beforeEach(() => {
         vi.stubGlobal("confirm", vi.fn());
@@ -397,7 +397,13 @@ describe("SegmentButtons", () => {
             minutes: {
               ...mockMinutesContextState.minutes,
               segments: customSegments,
-              signatures: [],
+              signatures: [
+                {
+                  signer: "",
+                  timestamp: null,
+                  image: null,
+                },
+              ],
             },
           });
         });
