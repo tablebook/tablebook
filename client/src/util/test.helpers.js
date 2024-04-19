@@ -23,6 +23,11 @@ export const mockMinutesContextState = {
         image:
           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAB7CAYAAACb4F7QAAAAAXNSR0I",
       },
+      {
+        signer: "",
+        timestamp: null,
+        image: null,
+      },
     ],
   },
 

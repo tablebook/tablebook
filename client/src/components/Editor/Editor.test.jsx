@@ -1,26 +1,36 @@
 import React from "react";
-import { expect, test, describe, beforeEach } from "vitest";
+import { expect, test, describe, beforeEach, vi, afterEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import { ThemeProvider } from "@mui/material/styles";
 import { I18nextProvider } from "react-i18next";
 import Editor from "./Editor";
 import i18n from "../../i18n/config";
 import MinutesContext from "../../contexts/MinutesContext";
+import EditorContext from "../../contexts/EditorContext";
 import theme from "../../theme";
-import { mockMinutesContextState } from "../../util/test.helpers";
+import {
+  mockMinutesContextState,
+  mockEditorContextState,
+} from "../../util/test.helpers";
 
 describe("Editor", () => {
   const renderWith = (mockMinutesState) => {
     render(
       <MinutesContext.Provider value={[mockMinutesState, {}]}>
-        <ThemeProvider theme={theme}>
-          <I18nextProvider i18n={i18n}>
-            <Editor />
-          </I18nextProvider>
-        </ThemeProvider>
+        <EditorContext.Provider value={[mockEditorContextState]}>
+          <ThemeProvider theme={theme}>
+            <I18nextProvider i18n={i18n}>
+              <Editor />
+            </I18nextProvider>
+          </ThemeProvider>
+        </EditorContext.Provider>
       </MinutesContext.Provider>,
     );
   };
+
+  afterEach(() => {
+    vi.clearAllMocks();
+  });
 
   describe("with writeAccess", () => {
     beforeEach(() => {
@@ -45,9 +55,20 @@ describe("Editor", () => {
       );
     });
 
-    test("renders signature component", () => {
-      const signatureComponent = screen.getByTestId("signature-component");
-      expect(signatureComponent).toBeDefined();
+    test("renders the right amount of signature components", () => {
+      const signatureComponents = screen.getAllByTestId("signature-component");
+      expect(signatureComponents.length).toBe(
+        mockMinutesContextState.minutes.signatures.length,
+      );
+    });
+
+    test("renders the right amount of signatureButton components", () => {
+      const signatureButtonComponents =
+        screen.getAllByTestId("signature-buttons");
+
+      expect(signatureButtonComponents.length).toBe(
+        mockMinutesContextState.minutes.signatures.length,
+      );
     });
   });
 
@@ -56,6 +77,12 @@ describe("Editor", () => {
       const segmentButtonComponents =
         screen.queryAllByTestId("segment-buttons");
       expect(segmentButtonComponents.length).toBe(0);
+    });
+
+    test("doesn't render any signatureButton components", () => {
+      const signatureButtonComponents =
+        screen.queryAllByTestId("signature-buttons");
+      expect(signatureButtonComponents.length).toBe(0);
     });
   });
 });

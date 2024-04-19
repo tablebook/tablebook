@@ -14,12 +14,13 @@ describe("SignatureModal", () => {
   const updateEditorMock = vi.fn();
   const updateMinutesMock = vi.fn();
 
-  beforeEach(async () => {
+  const renderWith = (signatureIndex) => {
     render(
       <EditorContext.Provider
         value={[
           {
             isSignatureModalOpen: true,
+            signatureIndex,
           },
           updateEditorMock,
         ]}
@@ -38,73 +39,144 @@ describe("SignatureModal", () => {
         </MinutesContext.Provider>
       </EditorContext.Provider>,
     );
-  });
+  };
 
   afterEach(() => {
     vi.clearAllMocks();
   });
 
-  test("renders infography typography", () => {
-    const infographyElement = screen.getByText("Draw your signature");
-    expect(infographyElement).toBeDefined();
-  });
+  describe("", () => {
+    beforeEach(() => {
+      renderWith(0);
+    });
 
-  test("renders SignatureCanvas", () => {
-    const canvasElement = document.querySelector("canvas");
-    expect(canvasElement).toBeDefined();
-  });
+    test("renders infography typography", () => {
+      const infographyElement = screen.getByText("Draw your signature");
+      expect(infographyElement).toBeDefined();
+    });
 
-  test("renders signer input with correct placeholder", () => {
-    const signerInput = screen.getByPlaceholderText("Enter name clarification");
-    expect(signerInput).toBeInTheDocument();
-  });
+    test("renders SignatureCanvas", () => {
+      const canvasElement = document.querySelector("canvas");
+      expect(canvasElement).toBeDefined();
+    });
 
-  test("renders checkbox", () => {
-    const checkbox = screen.getByTestId("timestamp-checkbox");
-    expect(checkbox).toBeInTheDocument();
-  });
+    test("renders signer input with correct placeholder", () => {
+      const signerInput = screen.getByPlaceholderText(
+        "Enter name clarification",
+      );
+      expect(signerInput).toBeInTheDocument();
+    });
 
-  test("checkbox toggles state when clicked", () => {
-    const checkbox = screen.getByTestId("timestamp-checkbox");
-    expect(checkbox).toBeChecked();
-    fireEvent.click(checkbox);
-    expect(checkbox).not.toBeChecked();
-  });
+    test("renders checkbox", () => {
+      const checkbox = screen.getByTestId("timestamp-checkbox");
+      expect(checkbox).toBeInTheDocument();
+    });
 
-  test("renders clear button", () => {
-    const clearButton = screen.getByText("Clear", { selector: "button" });
-    expect(clearButton).toBeDefined();
-  });
+    test("checkbox toggles state when clicked", () => {
+      const checkbox = screen.getByTestId("timestamp-checkbox");
+      expect(checkbox).toBeChecked();
+      fireEvent.click(checkbox);
+      expect(checkbox).not.toBeChecked();
+    });
 
-  test("renders confirm button", () => {
-    const confirmButton = screen.getByText("Confirm", { selector: "button" });
-    expect(confirmButton).toBeDefined();
-  });
+    test("renders clear button", () => {
+      const clearButton = screen.getByText("Clear", { selector: "button" });
+      expect(clearButton).toBeDefined();
+    });
 
-  test("clicking confirm button generates null image, empty signer string and timestamp string", () => {
-    const confirmButton = screen.getByText("Confirm", { selector: "button" });
-    fireEvent.click(confirmButton);
-    expect(updateMinutesMock).toHaveBeenCalledWith({
-      signatures: [
-        {
-          image: null,
-          signer: "",
-          timestamp: expect.any(String),
-        },
-      ],
+    test("renders confirm button", () => {
+      const confirmButton = screen.getByText("Confirm", { selector: "button" });
+      expect(confirmButton).toBeDefined();
+    });
+
+    test("renders cancel button", () => {
+      const cancelButton = screen.getByText("Cancel", { selector: "button" });
+      expect(cancelButton).toBeDefined();
+    });
+
+    test("handles updateEditor when cancel button is clicked", () => {
+      const cancelButton = screen.getByText("Cancel", { selector: "button" });
+      fireEvent.click(cancelButton);
+      expect(updateEditorMock).toHaveBeenCalledWith({
+        isSignatureModalOpen: false,
+      });
     });
   });
 
-  test("renders cancel button", () => {
-    const cancelButton = screen.getByText("Cancel", { selector: "button" });
-    expect(cancelButton).toBeDefined();
+  describe("with signature that has content", () => {
+    beforeEach(async () => {
+      vi.stubGlobal("confirm", vi.fn());
+      renderWith(0);
+    });
+
+    test("clicking confirm button and window confirm, generates null image, empty signer string and timestamp string", () => {
+      window.confirm.mockReturnValueOnce(true);
+
+      const confirmButton = screen.getByText("Confirm", { selector: "button" });
+      fireEvent.click(confirmButton);
+
+      expect(window.confirm).toHaveBeenCalledOnce();
+      expect(updateMinutesMock).toHaveBeenCalled();
+      expect(updateMinutesMock).toHaveBeenCalledWith({
+        signatures: [
+          {
+            signer: "",
+            timestamp: expect.any(String),
+            image: null,
+          },
+          {
+            signer: "",
+            timestamp: null,
+            image: null,
+          },
+        ],
+      });
+      expect(updateEditorMock).toHaveBeenCalledWith({
+        isSignatureModalOpen: false,
+      });
+    });
+
+    test("clicking confirm button and window cancel doesnt call updateMinutes", () => {
+      window.confirm.mockReturnValueOnce(false);
+
+      const confirmButton = screen.getByText("Confirm", { selector: "button" });
+      fireEvent.click(confirmButton);
+
+      expect(window.confirm).toHaveBeenCalledOnce();
+      expect(updateMinutesMock).not.toHaveBeenCalled();
+    });
   });
 
-  test("handles updateEditor when cancel button is clicked", () => {
-    const cancelButton = screen.getByText("Cancel", { selector: "button" });
-    fireEvent.click(cancelButton);
-    expect(updateEditorMock).toHaveBeenCalledWith({
-      isSignatureModalOpen: false,
+  describe("with empty signature", () => {
+    beforeEach(async () => {
+      vi.stubGlobal("confirm", vi.fn());
+      renderWith(1);
+    });
+
+    test("clicking confirm button generates null image, empty signer string and timestamp string and doesnt call window confirm", () => {
+      const confirmButton = screen.getByText("Confirm", { selector: "button" });
+      fireEvent.click(confirmButton);
+
+      expect(window.confirm).not.toHaveBeenCalled();
+      expect(updateMinutesMock).toHaveBeenCalled();
+      expect(updateMinutesMock).toHaveBeenCalledWith({
+        signatures: [
+          {
+            signer: "Test User",
+            timestamp: "2024-03-30T00:00:00.000Z",
+            image:
+              "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAB7CAYAAACb4F7QAAAAAXNSR0I",
+          },
+          {
+            signer: "",
+            timestamp: expect.any(String),
+            image: null,
+          },
+        ],
+      });
+      expect(updateEditorMock).toHaveBeenCalledWith({
+        isSignatureModalOpen: false,
+      });
     });
   });
 });

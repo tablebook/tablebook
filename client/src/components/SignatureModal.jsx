@@ -103,15 +103,24 @@ function SignatureModal() {
     const image = !signaturePadRef.current.isEmpty()
       ? signaturePadRef.current.getTrimmedCanvas().toDataURL("image/png")
       : null;
-    updateMinutes({
-      signatures: [
-        {
-          signer,
-          timestamp,
-          image,
-        },
-      ],
-    });
+
+    const signature = state.minutes.signatures[editor.signatureIndex];
+    const isSignatureEmpty =
+      !signature.image && !signature.signer && !signature.timestamp;
+
+    if (!isSignatureEmpty) {
+      if (!window.confirm(t("overrideSignature"))) {
+        return;
+      }
+    }
+
+    const newSignatures = structuredClone(state.minutes.signatures);
+    newSignatures[editor.signatureIndex] = {
+      signer,
+      timestamp,
+      image,
+    };
+    updateMinutes({ signatures: newSignatures });
     handleModalClose();
   };
 

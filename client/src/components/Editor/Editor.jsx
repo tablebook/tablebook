@@ -7,6 +7,7 @@ import SegmentButtons from "./SegmentButtons";
 import Segment from "./Segment";
 import Signature from "./Signature";
 import MinutesContext from "../../contexts/MinutesContext";
+import SignatureButtons from "./SignatureButtons";
 
 function Editor() {
   const [minutesState] = useContext(MinutesContext);
@@ -32,13 +33,7 @@ function Editor() {
       display: "flex",
       flexGrow: 1,
       flexDirection: "row",
-    },
-
-    bottomContentContainer: {
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "end",
-      width: 1000,
+      minHeight: 100,
     },
   };
 
@@ -62,12 +57,15 @@ function Editor() {
           </SegmentContainer>
         ))}
 
-        <Box sx={styles.bottomContainer}>
-          <SideContainer />
-          <Box sx={styles.bottomContentContainer}>
-            <Signature />
+        {minutesState.minutes.signatures.map((signature, index) => (
+          // eslint-disable-next-line react/no-array-index-key
+          <Box sx={styles.bottomContainer} key={index}>
+            <SideContainer>
+              <SignatureButtons signatureIndex={index} />
+            </SideContainer>
+            <Signature signatureIndex={index} />
           </Box>
-        </Box>
+        ))}
       </Box>
     </Box>
   );

@@ -95,14 +95,20 @@ describe("Title", () => {
       });
     });
 
-    describe("without signatures", () => {
+    describe("with empty signatures", () => {
       beforeEach(() => {
         vi.stubGlobal("confirm", vi.fn());
         renderWith({
           ...mockMinutesContextState,
           minutes: {
             ...mockMinutesContextState.minutes,
-            signatures: [],
+            signatures: [
+              {
+                signer: "",
+                timestamp: null,
+                image: null,
+              },
+            ],
           },
         });
       });

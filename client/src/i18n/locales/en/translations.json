@@ -5,11 +5,14 @@
   "restoreDefaults": "Restore Defaults",
   "addAField": "Add a field",
   "sign": "Sign",
+  "addSignatureField": "Add Signature Field",
 
   "enterTheMainTitle": "Enter the main title",
   "enterTheContent": "Enter the content",
   "enterTheTitle": "Enter the title",
   "deleteSegment": "This action will delete the segment and its content. Are you sure?",
+  "deleteSignature": "This action will delete the signature field. Are you sure?",
+  "overrideSignature": "This action will override the previous signature. Are you sure?",
   "signature": "Signature",
   "date": "Date",
 

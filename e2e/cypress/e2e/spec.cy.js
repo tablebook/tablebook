@@ -89,7 +89,7 @@ describe("Scenarios", () => {
     );
 
     // Sign
-    cy.contains("Sign").click();
+    cy.getByTestId("signButton").click();
     cy.get("canvas").should("exist");
     cy.getByPlaceHolder("Enter name clarification").type("Tester");
     cy.contains("Confirm").click();
