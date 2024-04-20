@@ -46,8 +46,7 @@ function Editor() {
         </SegmentContainer>
 
         {minutesState.minutes.segments.map((segment, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <SegmentContainer key={index}>
+          <SegmentContainer key={segment.id}>
             <SideContainer>
               {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
                 <SegmentButtons segmentIndex={index} />
@@ -58,8 +57,7 @@ function Editor() {
         ))}
 
         {minutesState.minutes.signatures.map((signature, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <Box sx={styles.bottomContainer} key={index}>
+          <Box sx={styles.bottomContainer} key={signature.id}>
             <SideContainer>
               <SignatureButtons signatureIndex={index} />
             </SideContainer>

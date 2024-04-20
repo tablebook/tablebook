@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useMemo, useState } from "react";
+import { v4 as uuid } from "uuid";
 
 const MinutesContext = createContext();
 
@@ -11,14 +12,17 @@ const initialState = {
     },
     segments: [
       {
+        id: uuid(),
         name: "Agenda",
         content: "",
       },
       {
+        id: uuid(),
         name: "Decisions",
         content: "",
       },
       {
+        id: uuid(),
         name: "",
         content: "",
       },
@@ -26,6 +30,7 @@ const initialState = {
     startTime: null,
     signatures: [
       {
+        id: uuid(),
         image: null,
         signer: "",
         timestamp: null,
@@ -90,11 +95,14 @@ export function MinutesContextProvider({ children }) {
 
       clearSignatures: () => {
         setState((prevState) => {
-          const newSignatures = prevState.minutes.signatures.map(() => ({
-            image: null,
-            signer: "",
-            timestamp: null,
-          }));
+          const newSignatures = prevState.minutes.signatures.map(
+            (signature) => ({
+              ...signature,
+              image: null,
+              signer: "",
+              timestamp: null,
+            }),
+          );
 
           const newState = {
             ...prevState,

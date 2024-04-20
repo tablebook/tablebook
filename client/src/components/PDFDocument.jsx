@@ -200,9 +200,8 @@ function PDFDocument({ pdfReadyMinutes }) {
           <Html stylesheet={stylesheet} style={styles.titleText}>
             {pdfReadyMinutes.name}
           </Html>
-          {pdfReadyMinutes.segments.map((segment, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <View key={index} style={styles.section}>
+          {pdfReadyMinutes.segments.map((segment) => (
+            <View key={segment.id} style={styles.section}>
               <Html stylesheet={stylesheet} style={styles.contentTitleText}>
                 {segment.name}
               </Html>
@@ -212,9 +211,8 @@ function PDFDocument({ pdfReadyMinutes }) {
             </View>
           ))}
         </View>
-        {pdfReadyMinutes.signatures.map((signature, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <View key={index} style={styles.signatureAndDateContainer}>
+        {pdfReadyMinutes.signatures.map((signature) => (
+          <View key={signature.id} style={styles.signatureAndDateContainer}>
             <View style={styles.signatureContainer}>
               {Boolean(signature.image) && (
                 <Image src={signature.image} style={styles.signatureImage} />
