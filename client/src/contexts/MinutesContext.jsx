@@ -95,11 +95,14 @@ export function MinutesContextProvider({ children }) {
 
       clearSignatures: () => {
         setState((prevState) => {
-          const newSignatures = prevState.minutes.signatures.map(() => ({
-            image: null,
-            signer: "",
-            timestamp: null,
-          }));
+          const newSignatures = prevState.minutes.signatures.map(
+            (signature) => ({
+              ...signature,
+              image: null,
+              signer: "",
+              timestamp: null,
+            }),
+          );
 
           const newState = {
             ...prevState,

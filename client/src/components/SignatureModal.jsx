@@ -1,4 +1,5 @@
 import React, { useRef, useState, useContext } from "react";
+import { v4 as uuid } from "uuid";
 import {
   Box,
   Button,
@@ -116,6 +117,7 @@ function SignatureModal() {
 
     const newSignatures = structuredClone(state.minutes.signatures);
     newSignatures[editor.signatureIndex] = {
+      id: uuid(),
       signer,
       timestamp,
       image,
