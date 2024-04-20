@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 
 const segmentSchema = new mongoose.Schema(
   {
+    id: String,
     name: String,
     content: String,
   },
@@ -12,6 +13,7 @@ const segmentSchema = new mongoose.Schema(
 
 const signatrueSchema = new mongoose.Schema(
   {
+    id: String,
     signer: String,
     timestamp: Date,
     image: String,
