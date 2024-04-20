@@ -61,7 +61,9 @@ function Editor() {
           // eslint-disable-next-line react/no-array-index-key
           <Box sx={styles.bottomContainer} key={index}>
             <SideContainer>
-              <SignatureButtons signatureIndex={index} />
+              {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
+                <SignatureButtons signatureIndex={index} />
+              )}
             </SideContainer>
             <Signature signatureIndex={index} />
           </Box>
