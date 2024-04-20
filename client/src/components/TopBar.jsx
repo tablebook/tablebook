@@ -1,8 +1,11 @@
 import { Box, Link, Button, useTheme, Typography } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { usePDF } from "@react-pdf/renderer";
+import { isMobile } from "react-device-detect";
+import moment from "moment";
 import EditorContext from "../contexts/EditorContext";
 import LanguagePickerContainer from "./LanguagePickerContainer";
 import minutesService from "../services/minutesService";
@@ -11,6 +14,8 @@ import logoImage from "../assets/images/logo.png";
 import Image from "./Shared/Image";
 import useReloadMinutes from "../util/useReloadMinutes";
 import useSaveMinutes from "../util/useSaveMinutes";
+import PDFDocument from "./PDFDocument";
+import prepareMinutesForPDF from "../util/prepareMinutesForPDF";
 
 function TopBar({ containerRef }) {
   const theme = useTheme();
@@ -20,6 +25,12 @@ function TopBar({ containerRef }) {
     useContext(MinutesContext);
   const reloadMinutes = useReloadMinutes();
   const saveMinutes = useSaveMinutes();
+  const [PDFInstance, updatePDFInstance] = usePDF({
+    document: (
+      <PDFDocument pdfReadyMinutes={prepareMinutesForPDF(minutesState)} />
+    ),
+  });
+  const [triggerPDFDownload, setTriggerPDFDownload] = useState(false);
 
   const styles = {
     topBarContainer: {
@@ -124,6 +135,78 @@ function TopBar({ containerRef }) {
     }
   };
 
+  useEffect(() => {
+    if (PDFInstance.error)
+      toast.error(t("errorInPDFGeneration"), {
+        toastId: "PDF-Document-Error",
+      });
+  }, [PDFInstance.error, t]);
+
+  const handlePDFDownload = () => {
+    updatePDFInstance(
+      <PDFDocument pdfReadyMinutes={prepareMinutesForPDF(minutesState)} />,
+    );
+    setTriggerPDFDownload(true);
+  };
+
+  // Downloads PDF only after the PDFInstance is updated
+  useEffect(() => {
+    if (
+      triggerPDFDownload &&
+      PDFInstance.url &&
+      !PDFInstance.loading &&
+      !PDFInstance.error
+    ) {
+      const link = document.createElement("a");
+      link.href = PDFInstance.url;
+      link.download = `${minutesState.minutes.name.split(" ")[0]}_${moment().format("YYYY-MM-DD")}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      setTriggerPDFDownload(false);
+    }
+  }, [
+    PDFInstance.url,
+    PDFInstance.loading,
+    PDFInstance.error,
+    triggerPDFDownload,
+    minutesState.minutes.name,
+  ]);
+
+  const downloadPDFButton =
+    // eslint-disable-next-line no-nested-ternary
+    PDFInstance.error ? (
+      <Button
+        data-testid="download-pdf-button-error"
+        variant="contained"
+        disabled
+        sx={styles.topBarButton}
+      >
+        {t("errorInPDFGeneration")}
+      </Button>
+    ) : PDFInstance.loading ? (
+      <Button
+        data-testid="download-pdf-button"
+        variant="contained"
+        color="primary"
+        disabled
+        sx={styles.topBarButton}
+      >
+        {t("loadingDocument")}
+      </Button>
+    ) : (
+      <Button
+        data-testid="download-pdf-button"
+        variant="contained"
+        color="secondary"
+        onClick={handlePDFDownload}
+        sx={styles.topBarButton}
+      >
+        {t("downloadPDF")}
+      </Button>
+    );
+
   return (
     <Box sx={styles.topBarContainer} ref={containerRef}>
       <Link
@@ -186,14 +269,19 @@ function TopBar({ containerRef }) {
           {t("share")}
         </Button>
 
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={styles.topBarButton}
-          onClick={() => updateEditor({ isPreviewPrintPDFModalOpen: true })}
-        >
-          {t("preview/printPdf")}
-        </Button>
+        {isMobile ? (
+          downloadPDFButton
+        ) : (
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={styles.topBarButton}
+            onClick={() => updateEditor({ isPreviewPrintPDFModalOpen: true })}
+          >
+            {t("preview/printPdf")}
+          </Button>
+        )}
+
         <Box>
           <LanguagePickerContainer />
         </Box>
