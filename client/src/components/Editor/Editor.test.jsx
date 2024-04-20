@@ -73,6 +73,17 @@ describe("Editor", () => {
   });
 
   describe("without writeAccess", () => {
+    beforeEach(() => {
+      renderWith({
+        ...mockMinutesContextState,
+        metadata: {
+          ...mockMinutesContextState.metadata,
+          writeAccess: false,
+          writeToken: null,
+        },
+      });
+    });
+
     test("doesn't render any segmentButton components", () => {
       const segmentButtonComponents =
         screen.queryAllByTestId("segment-buttons");

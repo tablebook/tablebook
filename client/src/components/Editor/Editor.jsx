@@ -59,7 +59,9 @@ function Editor() {
         {minutesState.minutes.signatures.map((signature, index) => (
           <Box sx={styles.bottomContainer} key={signature.id}>
             <SideContainer>
-              <SignatureButtons signatureIndex={index} />
+              {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
+                <SignatureButtons signatureIndex={index} />
+              )}
             </SideContainer>
             <Signature signatureIndex={index} />
           </Box>
