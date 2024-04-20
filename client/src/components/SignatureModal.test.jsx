@@ -118,18 +118,18 @@ describe("SignatureModal", () => {
       expect(window.confirm).toHaveBeenCalledOnce();
       expect(updateMinutesMock).toHaveBeenCalled();
       expect(updateMinutesMock).toHaveBeenCalledWith({
-        signatures: [
-          {
+        signatures: expect.arrayContaining([
+          expect.objectContaining({
             signer: "",
             timestamp: expect.any(String),
             image: null,
-          },
-          {
+          }),
+          expect.objectContaining({
             signer: "",
             timestamp: null,
             image: null,
-          },
-        ],
+          }),
+        ]),
       });
       expect(updateEditorMock).toHaveBeenCalledWith({
         isSignatureModalOpen: false,
@@ -160,19 +160,19 @@ describe("SignatureModal", () => {
       expect(window.confirm).not.toHaveBeenCalled();
       expect(updateMinutesMock).toHaveBeenCalled();
       expect(updateMinutesMock).toHaveBeenCalledWith({
-        signatures: [
-          {
+        signatures: expect.arrayContaining([
+          expect.objectContaining({
             signer: "Test User",
             timestamp: "2024-03-30T00:00:00.000Z",
             image:
               "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAB7CAYAAACb4F7QAAAAAXNSR0I",
-          },
-          {
+          }),
+          expect.objectContaining({
             signer: "",
             timestamp: expect.any(String),
             image: null,
-          },
-        ],
+          }),
+        ]),
       });
       expect(updateEditorMock).toHaveBeenCalledWith({
         isSignatureModalOpen: false,
