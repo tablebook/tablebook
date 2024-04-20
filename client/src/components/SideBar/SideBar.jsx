@@ -47,7 +47,7 @@ function SideBar() {
     const newSegments = [
       ...minutesState.minutes.segments,
       {
-        ui: uuid(),
+        id: uuid(),
         name: "",
         content: "",
       },
@@ -59,7 +59,7 @@ function SideBar() {
     const newSignatures = [
       ...minutesState.minutes.signatures,
       {
-        ui: uuid(),
+        id: uuid(),
         image: null,
         signer: "",
         timestamp: null,
