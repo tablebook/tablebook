@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { v4 as uuid } from "uuid";
+
 import ColorPickerContainer from "./ColorPickerContainer";
 import MinutesContext from "../../contexts/MinutesContext";
 import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffectingChange";
@@ -45,6 +47,7 @@ function SideBar() {
     const newSegments = [
       ...minutesState.minutes.segments,
       {
+        id: uuid(),
         name: "",
         content: "",
       },
@@ -56,6 +59,7 @@ function SideBar() {
     const newSignatures = [
       ...minutesState.minutes.signatures,
       {
+        id: uuid(),
         image: null,
         signer: "",
         timestamp: null,

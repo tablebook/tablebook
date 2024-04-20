@@ -81,6 +81,7 @@ const prepareMinutesForPDF = (minutesState) => {
     ),
     colors: minutesState.minutes.colors,
     segments: minutesState.minutes.segments.map((segment) => ({
+      id: segment.id,
       name: transformAndStyleHtml(
         DOMPurify.sanitize(
           marked.parse(preprocessMarkdown(segment.name)),

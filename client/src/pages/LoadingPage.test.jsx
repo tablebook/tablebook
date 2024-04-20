@@ -88,7 +88,7 @@ describe("LoadingPage", () => {
 
       expect(updateMetadataMock).toHaveBeenCalledOnce();
       expect(updateMetadataMock).toHaveBeenCalledWith({
-        writeAccess: mockGetMinutesResponse.writeAccess,
+        writeAccess: Boolean(mockGetMinutesResponse.writeToken),
         writeToken: mockGetMinutesResponse.writeToken,
         readToken: mockGetMinutesResponse.readToken,
       });

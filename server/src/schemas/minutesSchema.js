@@ -3,6 +3,11 @@ import "../utils/openapi.js";
 import dummyMinutes from "../../data/dummyMinutes.json";
 
 const segmentSchema = z.object({
+  id: z
+    .string()
+    .uuid()
+    .min(1)
+    .openapi({ examples: dummyMinutes.segments.map((segment) => segment.id) }),
   name: z.string().openapi({
     examples: dummyMinutes.segments.map((segment) => segment.name),
   }),
@@ -12,6 +17,13 @@ const segmentSchema = z.object({
 });
 
 const signatureSchema = z.object({
+  id: z
+    .string()
+    .uuid()
+    .min(1)
+    .openapi({
+      examples: dummyMinutes.signatures.map((signature) => signature.id),
+    }),
   signer: z.string().openapi({
     examples: dummyMinutes.signatures.map((signature) => signature.signer),
   }),

@@ -7,10 +7,12 @@ export const mockMinutesContextState = {
     },
     segments: [
       {
+        id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
         name: "Agenda",
         content: "Some content",
       },
       {
+        id: "123e4567-e89b-12d3-a456-426614174000",
         name: "Decisions",
         content: "Some content",
       },
@@ -18,12 +20,14 @@ export const mockMinutesContextState = {
     startTime: null,
     signatures: [
       {
+        id: "f47ac10b-58cc-4372-a567-0e02b2c3d479",
         signer: "Test User",
         timestamp: "2024-03-30T00:00:00.000Z",
         image:
           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAB7CAYAAACb4F7QAAAAAXNSR0I",
       },
       {
+        id: "55e3b7e7-9fbf-4f69-b633-8a1a8c03dde2",
         signer: "",
         timestamp: null,
         image: null,
@@ -53,6 +57,7 @@ export const mockGetMinutesResponse = {
     name: "test minutes",
     segments: [
       {
+        id: "123e4567-e89b-12d3-a456-426614174000",
         name: "test segment",
         content: "this is the first segment",
       },
@@ -60,14 +65,13 @@ export const mockGetMinutesResponse = {
     startTime: "2024-02-22T00:00:00.000Z",
     signatures: [
       {
+        id: "9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d",
         signer: "Test User",
         timestamp: "2024-02-22T00:00:00.000Z",
         image: "4rhcj2349rcym3498xfjxqm89324rcqo3m94trcq349",
       },
     ],
-    id: "65f6c154ff6538a943282d8e",
   },
-  writeAccess: true,
   writeToken: "writeaccesstoken",
   readToken: "readaccesstoken",
 };
@@ -81,6 +85,7 @@ export const mockPostMinutesResponse = {
     },
     segments: [
       {
+        id: "f47ac10b-58cc-4372-a567-0e02b2c3d479",
         name: "test segment",
         content: "this is the first segment",
       },
@@ -88,12 +93,12 @@ export const mockPostMinutesResponse = {
     startTime: "2024-02-22T00:00:00.000Z",
     signatures: [
       {
+        id: "55e3b7e7-9fbf-4f69-b633-8a1a8c03dde2",
         signer: "Test User",
         timestamp: "2024-02-22T00:00:00.000Z",
         image: "4rhcj2349rcym3498xfjxqm89324rcqo3m94trcq349",
       },
     ],
-    id: "65f6c154ff6538a943282d8e",
   },
   readToken:
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZjZjMTU0ZmY2NTM4YTk0MzI4MmQ4ZSIsIndyaXRlQWNjZXNzIjpmYWxzZSwiaWF0IjoxNzEwNjcwMTY0fQ.6QjvITaXY69dwpT8Eb4--VjXYCaJ4cPpMO4P4jdgySQ",

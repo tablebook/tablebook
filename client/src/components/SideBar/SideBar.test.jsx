@@ -68,24 +68,24 @@ describe("SideBar", () => {
         );
         fireEvent.click(addSignatureFieldButton);
         expect(updateMinutesMock).toHaveBeenCalledWith({
-          signatures: [
-            {
+          signatures: expect.arrayContaining([
+            expect.objectContaining({
               signer: "Test User",
               timestamp: "2024-03-30T00:00:00.000Z",
               image:
                 "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAB7CAYAAACb4F7QAAAAAXNSR0I",
-            },
-            {
+            }),
+            expect.objectContaining({
               signer: "",
               timestamp: null,
               image: null,
-            },
-            {
+            }),
+            expect.objectContaining({
               signer: "",
               timestamp: null,
               image: null,
-            },
-          ],
+            }),
+          ]),
         });
       });
     });
@@ -122,20 +122,20 @@ describe("SideBar", () => {
           expect(clearSignaturesMock).toHaveBeenCalledOnce();
           expect(updateMinutesMock).toHaveBeenCalledOnce();
           expect(updateMinutesMock).toHaveBeenCalledWith({
-            segments: [
-              {
+            segments: expect.arrayContaining([
+              expect.objectContaining({
                 name: "Agenda",
                 content: "Some content",
-              },
-              {
+              }),
+              expect.objectContaining({
                 name: "Decisions",
                 content: "Some content",
-              },
-              {
+              }),
+              expect.objectContaining({
                 name: "",
                 content: "",
-              },
-            ],
+              }),
+            ]),
           });
         });
 
@@ -161,13 +161,13 @@ describe("SideBar", () => {
             ...mockMinutesContextState,
             minutes: {
               ...mockMinutesContextState.minutes,
-              signatures: [
-                {
+              signatures: expect.arrayContaining([
+                expect.objectContaining({
                   signer: "",
                   timestamp: null,
                   image: null,
-                },
-              ],
+                }),
+              ]),
             },
           });
         });
@@ -187,20 +187,20 @@ describe("SideBar", () => {
           expect(clearSignaturesMock).not.toHaveBeenCalled();
           expect(updateMinutesMock).toHaveBeenCalledOnce();
           expect(updateMinutesMock).toHaveBeenCalledWith({
-            segments: [
-              {
+            segments: expect.arrayContaining([
+              expect.objectContaining({
                 name: "Agenda",
                 content: "Some content",
-              },
-              {
+              }),
+              expect.objectContaining({
                 name: "Decisions",
                 content: "Some content",
-              },
-              {
+              }),
+              expect.objectContaining({
                 name: "",
                 content: "",
-              },
-            ],
+              }),
+            ]),
           });
         });
       });

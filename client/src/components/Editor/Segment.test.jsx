@@ -105,16 +105,16 @@ describe("Segment", () => {
         expect(clearSignaturesMock).toHaveBeenCalledOnce();
         expect(updateMinutesMock).toHaveBeenCalled();
         expect(updateMinutesMock).toHaveBeenCalledWith({
-          segments: [
-            {
+          segments: expect.arrayContaining([
+            expect.objectContaining({
               name: "new",
               content: "Some content",
-            },
-            {
+            }),
+            expect.objectContaining({
               name: "Decisions",
               content: "Some content",
-            },
-          ],
+            }),
+          ]),
         });
       });
 
@@ -142,16 +142,16 @@ describe("Segment", () => {
         expect(clearSignaturesMock).toHaveBeenCalledOnce();
         expect(updateMinutesMock).toHaveBeenCalled();
         expect(updateMinutesMock).toHaveBeenCalledWith({
-          segments: [
-            {
+          segments: expect.arrayContaining([
+            expect.objectContaining({
               name: "Agenda",
               content: "new",
-            },
-            {
+            }),
+            expect.objectContaining({
               name: "Decisions",
               content: "Some content",
-            },
-          ],
+            }),
+          ]),
         });
       });
 
@@ -200,16 +200,16 @@ describe("Segment", () => {
         expect(clearSignaturesMock).not.toHaveBeenCalled();
         expect(updateMinutesMock).toHaveBeenCalled();
         expect(updateMinutesMock).toHaveBeenCalledWith({
-          segments: [
-            {
+          segments: expect.arrayContaining([
+            expect.objectContaining({
               name: "new",
               content: "Some content",
-            },
-            {
+            }),
+            expect.objectContaining({
               name: "Decisions",
               content: "Some content",
-            },
-          ],
+            }),
+          ]),
         });
       });
 
@@ -222,16 +222,16 @@ describe("Segment", () => {
         expect(clearSignaturesMock).not.toHaveBeenCalled();
         expect(updateMinutesMock).toHaveBeenCalled();
         expect(updateMinutesMock).toHaveBeenCalledWith({
-          segments: [
-            {
+          segments: expect.arrayContaining([
+            expect.objectContaining({
               name: "Agenda",
               content: "new",
-            },
-            {
+            }),
+            expect.objectContaining({
               name: "Decisions",
               content: "Some content",
-            },
-          ],
+            }),
+          ]),
         });
       });
     });
