@@ -521,6 +521,7 @@ describe("TopBar", () => {
           selector: "button",
         });
         expect(loadingDocument).toBeDefined();
+        expect(loadingDocument).toBeDisabled();
       });
     });
 
@@ -546,6 +547,7 @@ describe("TopBar", () => {
           },
         );
         expect(errorInPDFGeneration).toBeDefined();
+        expect(errorInPDFGeneration).toBeDisabled();
       });
     });
   });
