@@ -34,12 +34,6 @@ function Editor() {
     middleSpacing: {
       flexGrow: 1,
     },
-
-    bottomContainer: {
-      display: "flex",
-      flexDirection: "row",
-      minHeight: 100,
-    },
   };
 
   return (
@@ -66,14 +60,14 @@ function Editor() {
         </SegmentContainer>
 
         {minutesState.minutes.signatures.map((signature, index) => (
-          <Box sx={styles.bottomContainer} key={signature.id}>
+          <SegmentContainer key={signature.id}>
             <SideContainer>
               {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
                 <SignatureButtons signatureIndex={index} />
               )}
             </SideContainer>
             <Signature signatureIndex={index} />
-          </Box>
+          </SegmentContainer>
         ))}
       </Box>
     </Box>

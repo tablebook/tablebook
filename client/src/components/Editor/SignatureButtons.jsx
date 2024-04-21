@@ -17,6 +17,8 @@ function SignatureButtons({ signatureIndex }) {
     buttonsContainer: {
       display: "flex",
       flexDirection: "column",
+      justifyContent: "center",
+      height: "100%",
     },
 
     iconButton: {
