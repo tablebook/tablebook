@@ -19,7 +19,7 @@ function Editor() {
       alignItems: "flex-start",
       flexDirection: "row",
       justifyContent: "center",
-      my: 3,
+      height: "100%",
     },
 
     editorContainer: {

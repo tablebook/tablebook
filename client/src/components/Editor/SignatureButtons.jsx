@@ -66,7 +66,7 @@ function SignatureButtons({ signatureIndex }) {
         size="small"
         title={t("sign")}
         onClick={handleSignButtonClick}
-        sx={{ ...styles.iconButton, mb: 2 }}
+        sx={styles.iconButton}
         data-testid="signButton"
       >
         <DrawIcon sx={styles.iconSize} />
