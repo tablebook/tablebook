@@ -5,6 +5,7 @@ import { I18nextProvider } from "react-i18next";
 import { ThemeProvider } from "@mui/material/styles";
 import { BrowserRouter } from "react-router-dom";
 import { toast } from "react-toastify";
+import * as deviceDetect from "react-device-detect";
 import i18n from "../i18n/config";
 import TopBar from "./TopBar";
 import MinutesContext from "../contexts/MinutesContext";
@@ -71,7 +72,10 @@ describe("TopBar", () => {
     vi.mock("@react-pdf/renderer", async () => {
       const originalModule = await vi.importActual("@react-pdf/renderer");
 
-      const usePDF = vi.fn(() => [{ loading: false, error: null }, vi.fn()]);
+      const usePDF = vi.fn(() => [
+        { loading: false, error: null },
+        vi.fn(), // Mock function to simulate updating the PDF instance
+      ]);
 
       return {
         ...originalModule,
@@ -84,378 +88,427 @@ describe("TopBar", () => {
     vi.clearAllMocks();
   });
 
-  describe("with unsaved minutes", () => {
+  describe("desktiop devices", () => {
     beforeEach(() => {
-      renderWith({
-        ...mockMinutesContextState,
-        metadata: {
-          readToken: null,
-          writeAccess: null,
-          writeToken: null,
-        },
-      });
+      // eslint-disable-next-line no-import-assign
+      deviceDetect.isMobile = false;
     });
 
-    test("renders the title", () => {
-      const titleElement = screen.getByText("TableBook").closest("a");
-      expect(titleElement).toBeDefined();
-      expect(titleElement.href).toEqual("http://localhost:3000/minutes");
-    });
-
-    test("renders LanguagePickerContainer", () => {
-      const languagePickerContainer = screen.getByTestId("flagTrigger");
-      expect(languagePickerContainer).toBeDefined();
-    });
-
-    test("renders correct storage status", () => {
-      const storageStatus = screen.getByText("Minutes not stored");
-      expect(storageStatus).toBeInTheDocument();
-    });
-
-    describe("Create New Button", () => {
+    describe("with unsaved minutes", () => {
       beforeEach(() => {
-        vi.stubGlobal("confirm", vi.fn());
-      });
-
-      afterEach(() => {
-        vi.unstubAllGlobals();
-      });
-
-      test("renders", () => {
-        const createNewButton = screen.getByText("Create New", {
-          selector: "button",
-        });
-        expect(createNewButton).toBeDefined();
-      });
-
-      test("clears the state on confirm", async () => {
-        window.confirm.mockReturnValueOnce(true);
-
-        const createNewButton = screen.getByText("Create New", {
-          selector: "button",
-        });
-
-        createNewButton.click();
-
-        await waitFor(() => {
-          expect(window.confirm).toHaveBeenCalledOnce();
-          expect(clearStateMock).toHaveBeenCalledOnce();
+        renderWith({
+          ...mockMinutesContextState,
+          metadata: {
+            readToken: null,
+            writeAccess: null,
+            writeToken: null,
+          },
         });
       });
 
-      test("doesn't clear the state on cancel", async () => {
-        window.confirm.mockReturnValueOnce(false);
+      test("renders the title", () => {
+        const titleElement = screen.getByText("TableBook").closest("a");
+        expect(titleElement).toBeDefined();
+        expect(titleElement.href).toEqual("http://localhost:3000/minutes");
+      });
 
-        const createNewButton = screen.getByText("Create New", {
-          selector: "button",
+      test("renders LanguagePickerContainer", () => {
+        const languagePickerContainer = screen.getByTestId("flagTrigger");
+        expect(languagePickerContainer).toBeDefined();
+      });
+
+      test("renders correct storage status", () => {
+        const storageStatus = screen.getByText("Minutes not stored");
+        expect(storageStatus).toBeInTheDocument();
+      });
+
+      describe("Create New Button", () => {
+        beforeEach(() => {
+          vi.stubGlobal("confirm", vi.fn());
         });
 
-        createNewButton.click();
-
-        await waitFor(() => {
-          expect(window.confirm).toHaveBeenCalledOnce();
-          expect(clearStateMock).not.toHaveBeenCalledOnce();
-        });
-      });
-    });
-
-    test("doesn't render reload button", () => {
-      const reloadButton = screen.queryByText("Reload", {
-        selector: "button",
-      });
-      expect(reloadButton).not.toBeInTheDocument();
-    });
-
-    test("doesn't render save button", () => {
-      const saveButton = screen.queryByText("Save", {
-        selector: "button",
-      });
-      expect(saveButton).not.toBeInTheDocument();
-    });
-
-    describe("Share button", () => {
-      const mockCreateMinutes = vi.spyOn(minutesService, "createMinutes");
-
-      beforeEach(() => {
-        vi.stubGlobal("confirm", vi.fn());
-      });
-
-      afterEach(() => {
-        vi.unstubAllGlobals();
-      });
-
-      test("renders", () => {
-        const shareButton = screen.getByText("Share", {
-          selector: "button",
-        });
-        expect(shareButton).toBeDefined();
-      });
-
-      test("opens confirm dialogue on click, calls minutesService, and sets contexts properly", async () => {
-        window.confirm.mockReturnValueOnce(true);
-        mockCreateMinutes.mockResolvedValueOnce(mockPostMinutesResponse);
-
-        const shareButton = screen.getByText("Share", {
-          selector: "button",
+        afterEach(() => {
+          vi.unstubAllGlobals();
         });
 
-        shareButton.click();
-
-        // Waits for async calls to finish
-        await waitFor(() => {
-          expect(window.confirm).toHaveBeenCalledOnce();
-          expect(mockCreateMinutes).toHaveBeenCalledOnce();
-          expect(updateMetadataMock).toHaveBeenCalledOnce();
-          expect(updateMetadataMock).toHaveBeenCalledWith({
-            writeAccess: true,
-            writeToken: mockPostMinutesResponse.writeToken,
-            readToken: mockPostMinutesResponse.readToken,
+        test("renders", () => {
+          const createNewButton = screen.getByText("Create New", {
+            selector: "button",
           });
-          expect(updateEditorMock).toHaveBeenCalledOnce();
-          expect(
-            updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
-          ).toBeDefined();
-          expect(
-            updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
-          ).toHaveRole("button");
-          expect(mockErrorToast).not.toHaveBeenCalled();
+          expect(createNewButton).toBeDefined();
+        });
+
+        test("clears the state on confirm", async () => {
+          window.confirm.mockReturnValueOnce(true);
+
+          const createNewButton = screen.getByText("Create New", {
+            selector: "button",
+          });
+
+          createNewButton.click();
+
+          await waitFor(() => {
+            expect(window.confirm).toHaveBeenCalledOnce();
+            expect(clearStateMock).toHaveBeenCalledOnce();
+          });
+        });
+
+        test("doesn't clear the state on cancel", async () => {
+          window.confirm.mockReturnValueOnce(false);
+
+          const createNewButton = screen.getByText("Create New", {
+            selector: "button",
+          });
+
+          createNewButton.click();
+
+          await waitFor(() => {
+            expect(window.confirm).toHaveBeenCalledOnce();
+            expect(clearStateMock).not.toHaveBeenCalledOnce();
+          });
         });
       });
 
-      test("notifies user with error message toast when error occurs", async () => {
-        window.confirm.mockReturnValueOnce(true);
-        mockCreateMinutes.mockRejectedValueOnce();
-
-        const shareButton = screen.getByText("Share", {
+      test("doesn't render reload button", () => {
+        const reloadButton = screen.queryByText("Reload", {
           selector: "button",
         });
+        expect(reloadButton).not.toBeInTheDocument();
+      });
 
-        shareButton.click();
+      test("doesn't render save button", () => {
+        const saveButton = screen.queryByText("Save", {
+          selector: "button",
+        });
+        expect(saveButton).not.toBeInTheDocument();
+      });
 
-        await waitFor(() => {
-          expect(window.confirm).toHaveBeenCalledOnce();
-          expect(mockErrorToast).toHaveBeenCalled(
-            "Error while sharing minutes",
-          );
+      describe("Share button", () => {
+        const mockCreateMinutes = vi.spyOn(minutesService, "createMinutes");
+
+        beforeEach(() => {
+          vi.stubGlobal("confirm", vi.fn());
+        });
+
+        afterEach(() => {
+          vi.unstubAllGlobals();
+        });
+
+        test("renders", () => {
+          const shareButton = screen.getByText("Share", {
+            selector: "button",
+          });
+          expect(shareButton).toBeDefined();
+        });
+
+        test("opens confirm dialogue on click, calls minutesService, and sets contexts properly", async () => {
+          window.confirm.mockReturnValueOnce(true);
+          mockCreateMinutes.mockResolvedValueOnce(mockPostMinutesResponse);
+
+          const shareButton = screen.getByText("Share", {
+            selector: "button",
+          });
+
+          shareButton.click();
+
+          // Waits for async calls to finish
+          await waitFor(() => {
+            expect(window.confirm).toHaveBeenCalledOnce();
+            expect(mockCreateMinutes).toHaveBeenCalledOnce();
+            expect(updateMetadataMock).toHaveBeenCalledOnce();
+            expect(updateMetadataMock).toHaveBeenCalledWith({
+              writeAccess: true,
+              writeToken: mockPostMinutesResponse.writeToken,
+              readToken: mockPostMinutesResponse.readToken,
+            });
+            expect(updateEditorMock).toHaveBeenCalledOnce();
+            expect(
+              updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
+            ).toBeDefined();
+            expect(
+              updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
+            ).toHaveRole("button");
+            expect(mockErrorToast).not.toHaveBeenCalled();
+          });
+        });
+
+        test("notifies user with error message toast when error occurs", async () => {
+          window.confirm.mockReturnValueOnce(true);
+          mockCreateMinutes.mockRejectedValueOnce();
+
+          const shareButton = screen.getByText("Share", {
+            selector: "button",
+          });
+
+          shareButton.click();
+
+          await waitFor(() => {
+            expect(window.confirm).toHaveBeenCalledOnce();
+            expect(mockErrorToast).toHaveBeenCalled(
+              "Error while sharing minutes",
+            );
+          });
+        });
+
+        test("doesn't do anything when confirm dialogue is cancelled", async () => {
+          window.confirm.mockReturnValueOnce(false);
+          mockCreateMinutes.mockResolvedValueOnce(mockPostMinutesResponse);
+
+          const shareButton = screen.getByText("Share", {
+            selector: "button",
+          });
+
+          shareButton.click();
+
+          // Waits for async calls to finish
+          await waitFor(() => {
+            expect(window.confirm).toHaveBeenCalledOnce();
+            expect(mockCreateMinutes).not.toHaveBeenCalled();
+          });
         });
       });
 
-      test("doesn't do anything when confirm dialogue is cancelled", async () => {
-        window.confirm.mockReturnValueOnce(false);
-        mockCreateMinutes.mockResolvedValueOnce(mockPostMinutesResponse);
-
-        const shareButton = screen.getByText("Share", {
-          selector: "button",
+      describe("PreviewPrintPDFModal", () => {
+        test("renders preview and print pdf button", () => {
+          const previwePrintPdfButton = screen.getByText("Preview/Print PDF", {
+            selector: "button",
+          });
+          expect(previwePrintPdfButton).toBeDefined();
         });
 
-        shareButton.click();
+        test("opens PreviewPrintPDFModal on preview and print pdf button click", () => {
+          const previwePrintPdfButton = screen.getByText("Preview/Print PDF", {
+            selector: "button",
+          });
+          fireEvent.click(previwePrintPdfButton);
+          expect(updateEditorMock).toBeCalledWith({
+            isPreviewPrintPDFModalOpen: true,
+          });
+        });
 
-        // Waits for async calls to finish
-        await waitFor(() => {
-          expect(window.confirm).toHaveBeenCalledOnce();
-          expect(mockCreateMinutes).not.toHaveBeenCalled();
+        test("does not render DownloadPDFButton on desktop", () => {
+          const downloadPDFButton = screen.queryByText("Download PDF", {
+            selector: "button",
+          });
+          expect(downloadPDFButton).toBeNull();
         });
       });
     });
 
-    test("renders preview and print pdf button", () => {
-      const previwePrintPdfButton = screen.getByText("Preview/Print PDF", {
-        selector: "button",
+    describe("with saved minutes and write access", () => {
+      beforeEach(() => {
+        renderWith(mockMinutesContextState);
       });
-      expect(previwePrintPdfButton).toBeDefined();
+
+      test("renders LanguagePickerContainer", () => {
+        const languagePickerContainer = screen.getByTestId("flagTrigger");
+        expect(languagePickerContainer).toBeDefined();
+      });
+
+      test("renders correct storage status", () => {
+        const storageStatus = screen.getByText("Editing stored minutes");
+        expect(storageStatus).toBeInTheDocument();
+      });
+
+      describe("Save button", () => {
+        test("renders", () => {
+          const saveButton = screen.getByText("Save", {
+            selector: "button",
+          });
+          expect(saveButton).toBeDefined();
+        });
+
+        test("calls saveMinutes hook", () => {
+          const saveButton = screen.getByText("Save", {
+            selector: "button",
+          });
+          saveButton.click();
+
+          expect(mockSaveMinutes).toHaveBeenCalledOnce();
+        });
+      });
+
+      describe("Reload button", () => {
+        test("renders", () => {
+          const reloadButton = screen.getByText("Reload", {
+            selector: "button",
+          });
+          expect(reloadButton).toBeInTheDocument();
+        });
+
+        test("calls reloadMinutes hook", () => {
+          const reloadButton = screen.getByText("Reload", {
+            selector: "button",
+          });
+          reloadButton.click();
+
+          expect(mockReloadMinutes).toHaveBeenCalledOnce();
+        });
+      });
+
+      describe("Share button", () => {
+        beforeEach(() => {
+          vi.stubGlobal("confirm", vi.fn());
+        });
+
+        afterEach(() => {
+          vi.unstubAllGlobals();
+        });
+
+        test("renders", () => {
+          const shareButton = screen.getByText("Share", {
+            selector: "button",
+          });
+          expect(shareButton).toBeDefined();
+        });
+
+        test("doesn't open dialogue or send minutes. Only sets editor context", async () => {
+          const mockCreateMinutes = vi.spyOn(minutesService, "createMinutes");
+          mockCreateMinutes.mockResolvedValueOnce(mockPostMinutesResponse);
+
+          const shareButton = screen.getByText("Share", {
+            selector: "button",
+          });
+
+          shareButton.click();
+
+          // Waits for async calls to finish
+          await waitFor(() => {
+            expect(window.confirm).not.toHaveBeenCalled();
+            expect(mockCreateMinutes).not.toHaveBeenCalled();
+            expect(updateMetadataMock).not.toHaveBeenCalled();
+            expect(updateEditorMock).toHaveBeenCalledOnce();
+            expect(
+              updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
+            ).toBeDefined();
+            expect(
+              updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
+            ).toHaveRole("button");
+          });
+        });
+      });
     });
 
-    test("opens PreviewPrintPDFModal on preview and print pdf button click", () => {
-      const previwePrintPdfButton = screen.getByText("Preview/Print PDF", {
-        selector: "button",
+    describe("with saved minutes and no write access", () => {
+      beforeEach(() => {
+        renderWith({
+          ...mockMinutesContextState,
+          metadata: {
+            ...mockMinutesContextState.metadata,
+            writeAccess: false,
+            writeToken: null,
+          },
+        });
       });
-      fireEvent.click(previwePrintPdfButton);
-      expect(updateEditorMock).toBeCalledWith({
-        isPreviewPrintPDFModalOpen: true,
+
+      test("renders LanguagePickerContainer", () => {
+        const languagePickerContainer = screen.getByTestId("flagTrigger");
+        expect(languagePickerContainer).toBeDefined();
+      });
+
+      test("renders correct storage status", () => {
+        const storageStatus = screen.getByText("Reading stored minutes");
+        expect(storageStatus).toBeInTheDocument();
+      });
+
+      describe("Reload button", () => {
+        test("renders", () => {
+          const reloadButton = screen.getByText("Reload", {
+            selector: "button",
+          });
+          expect(reloadButton).toBeInTheDocument();
+        });
+
+        test("calls reloadMinutes hook", () => {
+          const reloadButton = screen.getByText("Reload", {
+            selector: "button",
+          });
+          reloadButton.click();
+
+          expect(mockReloadMinutes).toHaveBeenCalledOnce();
+        });
+      });
+
+      test("doesn't render save button", () => {
+        const saveButton = screen.queryByText("Save", {
+          selector: "button",
+        });
+        expect(saveButton).not.toBeInTheDocument();
+      });
+
+      describe("Share button", () => {
+        beforeEach(() => {
+          vi.stubGlobal("confirm", vi.fn());
+        });
+
+        afterEach(() => {
+          vi.unstubAllGlobals();
+        });
+
+        test("renders", () => {
+          const shareButton = screen.getByText("Share", {
+            selector: "button",
+          });
+          expect(shareButton).toBeDefined();
+        });
+
+        test("doesn't open dialogue or send minutes. Only sets editor context", async () => {
+          const mockCreateMinutes = vi.spyOn(minutesService, "createMinutes");
+          mockCreateMinutes.mockResolvedValueOnce(mockPostMinutesResponse);
+
+          const shareButton = screen.getByText("Share", {
+            selector: "button",
+          });
+
+          shareButton.click();
+
+          // Waits for async calls to finish
+          await waitFor(() => {
+            expect(window.confirm).not.toHaveBeenCalled();
+            expect(mockCreateMinutes).not.toHaveBeenCalled();
+            expect(updateMetadataMock).not.toHaveBeenCalled();
+            expect(updateEditorMock).toHaveBeenCalledOnce();
+            expect(
+              updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
+            ).toBeDefined();
+            expect(
+              updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
+            ).toHaveRole("button");
+          });
+        });
       });
     });
   });
-
-  describe("with saved minutes and write access", () => {
+  describe("mobile devices", () => {
     beforeEach(() => {
-      renderWith(mockMinutesContextState);
+      // eslint-disable-next-line no-import-assign
+      deviceDetect.isMobile = true;
     });
 
-    test("renders LanguagePickerContainer", () => {
-      const languagePickerContainer = screen.getByTestId("flagTrigger");
-      expect(languagePickerContainer).toBeDefined();
-    });
+    describe("renders DownloadPDFButton instead of PreviewPrintPDFModal button", () => {
+      beforeEach(async () => {
+        renderWith({
+          ...mockMinutesContextState,
+          metadata: {
+            readToken: null,
+            writeAccess: null,
+            writeToken: null,
+          },
+        });
+      });
 
-    test("renders correct storage status", () => {
-      const storageStatus = screen.getByText("Editing stored minutes");
-      expect(storageStatus).toBeInTheDocument();
-    });
-
-    describe("Save button", () => {
-      test("renders", () => {
-        const saveButton = screen.getByText("Save", {
+      test("renders DownloadPDFButton", () => {
+        const downloadPDF = screen.getByText("Download PDF", {
           selector: "button",
         });
-        expect(saveButton).toBeDefined();
+        expect(downloadPDF).toBeDefined();
       });
 
-      test("calls saveMinutes hook", () => {
-        const saveButton = screen.getByText("Save", {
+      test("does not render PreviewPrintPDFModal button", () => {
+        const PreviewPrintPDFModal = screen.queryByText("Preview/Print PDF", {
           selector: "button",
         });
-        saveButton.click();
-
-        expect(mockSaveMinutes).toHaveBeenCalledOnce();
-      });
-    });
-
-    describe("Reload button", () => {
-      test("renders", () => {
-        const reloadButton = screen.getByText("Reload", {
-          selector: "button",
-        });
-        expect(reloadButton).toBeInTheDocument();
-      });
-
-      test("calls reloadMinutes hook", () => {
-        const reloadButton = screen.getByText("Reload", {
-          selector: "button",
-        });
-        reloadButton.click();
-
-        expect(mockReloadMinutes).toHaveBeenCalledOnce();
-      });
-    });
-
-    describe("Share button", () => {
-      beforeEach(() => {
-        vi.stubGlobal("confirm", vi.fn());
-      });
-
-      afterEach(() => {
-        vi.unstubAllGlobals();
-      });
-
-      test("renders", () => {
-        const shareButton = screen.getByText("Share", {
-          selector: "button",
-        });
-        expect(shareButton).toBeDefined();
-      });
-
-      test("doesn't open dialogue or send minutes. Only sets editor context", async () => {
-        const mockCreateMinutes = vi.spyOn(minutesService, "createMinutes");
-        mockCreateMinutes.mockResolvedValueOnce(mockPostMinutesResponse);
-
-        const shareButton = screen.getByText("Share", {
-          selector: "button",
-        });
-
-        shareButton.click();
-
-        // Waits for async calls to finish
-        await waitFor(() => {
-          expect(window.confirm).not.toHaveBeenCalled();
-          expect(mockCreateMinutes).not.toHaveBeenCalled();
-          expect(updateMetadataMock).not.toHaveBeenCalled();
-          expect(updateEditorMock).toHaveBeenCalledOnce();
-          expect(
-            updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
-          ).toBeDefined();
-          expect(
-            updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
-          ).toHaveRole("button");
-        });
-      });
-    });
-  });
-
-  describe("with saved minutes and no write access", () => {
-    beforeEach(() => {
-      renderWith({
-        ...mockMinutesContextState,
-        metadata: {
-          ...mockMinutesContextState.metadata,
-          writeAccess: false,
-          writeToken: null,
-        },
-      });
-    });
-
-    test("renders LanguagePickerContainer", () => {
-      const languagePickerContainer = screen.getByTestId("flagTrigger");
-      expect(languagePickerContainer).toBeDefined();
-    });
-
-    test("renders correct storage status", () => {
-      const storageStatus = screen.getByText("Reading stored minutes");
-      expect(storageStatus).toBeInTheDocument();
-    });
-
-    describe("Reload button", () => {
-      test("renders", () => {
-        const reloadButton = screen.getByText("Reload", {
-          selector: "button",
-        });
-        expect(reloadButton).toBeInTheDocument();
-      });
-
-      test("calls reloadMinutes hook", () => {
-        const reloadButton = screen.getByText("Reload", {
-          selector: "button",
-        });
-        reloadButton.click();
-
-        expect(mockReloadMinutes).toHaveBeenCalledOnce();
-      });
-    });
-
-    test("doesn't render save button", () => {
-      const saveButton = screen.queryByText("Save", {
-        selector: "button",
-      });
-      expect(saveButton).not.toBeInTheDocument();
-    });
-
-    describe("Share button", () => {
-      beforeEach(() => {
-        vi.stubGlobal("confirm", vi.fn());
-      });
-
-      afterEach(() => {
-        vi.unstubAllGlobals();
-      });
-
-      test("renders", () => {
-        const shareButton = screen.getByText("Share", {
-          selector: "button",
-        });
-        expect(shareButton).toBeDefined();
-      });
-
-      test("doesn't open dialogue or send minutes. Only sets editor context", async () => {
-        const mockCreateMinutes = vi.spyOn(minutesService, "createMinutes");
-        mockCreateMinutes.mockResolvedValueOnce(mockPostMinutesResponse);
-
-        const shareButton = screen.getByText("Share", {
-          selector: "button",
-        });
-
-        shareButton.click();
-
-        // Waits for async calls to finish
-        await waitFor(() => {
-          expect(window.confirm).not.toHaveBeenCalled();
-          expect(mockCreateMinutes).not.toHaveBeenCalled();
-          expect(updateMetadataMock).not.toHaveBeenCalled();
-          expect(updateEditorMock).toHaveBeenCalledOnce();
-          expect(
-            updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
-          ).toBeDefined();
-          expect(
-            updateEditorMock.mock.calls[0][0].sharePopupAnchorElement,
-          ).toHaveRole("button");
-        });
+        expect(PreviewPrintPDFModal).toBeNull();
       });
     });
   });

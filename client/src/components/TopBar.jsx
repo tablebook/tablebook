@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
+import { isMobile } from "react-device-detect";
 import EditorContext from "../contexts/EditorContext";
 import LanguagePickerContainer from "./LanguagePickerContainer";
 import minutesService from "../services/minutesService";
@@ -11,6 +12,7 @@ import logoImage from "../assets/images/logo.png";
 import Image from "./Shared/Image";
 import useReloadMinutes from "../util/useReloadMinutes";
 import useSaveMinutes from "../util/useSaveMinutes";
+import DownloadPDFButton from "./DownloadPDFButton";
 
 function TopBar({ containerRef }) {
   const theme = useTheme();
@@ -186,14 +188,23 @@ function TopBar({ containerRef }) {
           {t("share")}
         </Button>
 
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={styles.topBarButton}
-          onClick={() => updateEditor({ isPreviewPrintPDFModalOpen: true })}
-        >
-          {t("preview/printPdf")}
-        </Button>
+        {isMobile ? (
+          <DownloadPDFButton
+            variant="contained"
+            color="secondary"
+            sx={styles.topBarButton}
+          />
+        ) : (
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={styles.topBarButton}
+            onClick={() => updateEditor({ isPreviewPrintPDFModalOpen: true })}
+          >
+            {t("preview/printPdf")}
+          </Button>
+        )}
+
         <Box>
           <LanguagePickerContainer />
         </Box>
