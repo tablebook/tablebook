@@ -18,8 +18,7 @@ function Signature({ signatureIndex }) {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
-      pt: 1,
-      pb: 3,
+      py: 1.5,
     },
 
     signatureContainer: {
