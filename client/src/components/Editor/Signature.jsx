@@ -30,7 +30,7 @@ function Signature({ signatureIndex }) {
     },
 
     signatureImage: {
-      maxHeight: 40,
+      maxHeight: 60,
       maxWidth: 150,
       alignSelf: "flex-start",
     },
@@ -60,7 +60,7 @@ function Signature({ signatureIndex }) {
     },
 
     imageContainer: {
-      height: 40,
+      height: 60,
       display: "flex",
       flexDirection: "column",
       justifyContent: "end",
