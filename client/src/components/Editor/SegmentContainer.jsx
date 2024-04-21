@@ -1,11 +1,12 @@
 import React from "react";
 import { Box } from "@mui/material";
 
-function SegmentContainer({ children }) {
+function SegmentContainer({ sx, children }) {
   const styles = {
     segmentContainer: {
       display: "flex",
       flexDirection: "row",
+      ...sx,
     },
   };
 

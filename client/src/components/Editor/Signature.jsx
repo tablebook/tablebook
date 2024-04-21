@@ -13,7 +13,6 @@ function Signature({ signatureIndex }) {
     mainContainer: {
       display: "flex",
       flexDirection: "column",
-      justifyContent: "end",
       width: 1000,
     },
 
@@ -26,8 +25,6 @@ function Signature({ signatureIndex }) {
     signatureContainer: {
       display: "flex",
       flexDirection: "column",
-      flex: 1,
-      justifyContent: "flex-end",
       pl: 2,
     },
 

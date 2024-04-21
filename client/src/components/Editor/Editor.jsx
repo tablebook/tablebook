@@ -31,9 +31,12 @@ function Editor() {
       minHeight: "100%",
     },
 
+    middleSpacing: {
+      flexGrow: 1,
+    },
+
     bottomContainer: {
       display: "flex",
-      flexGrow: 1,
       flexDirection: "row",
       minHeight: 100,
     },
@@ -57,6 +60,10 @@ function Editor() {
             <Segment segmentIndex={index} />
           </SegmentContainer>
         ))}
+
+        <SegmentContainer sx={styles.middleSpacing}>
+          <SideContainer />
+        </SegmentContainer>
 
         {minutesState.minutes.signatures.map((signature, index) => (
           <Box sx={styles.bottomContainer} key={signature.id}>
