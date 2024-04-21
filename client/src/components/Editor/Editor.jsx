@@ -91,7 +91,12 @@ function Editor() {
       {!(minutesState.metadata.writeAccess === false) && (
         <SegmentContainer>
           <SideContainer />
-          <AddButton onClick={handleAddField}>Add field</AddButton>
+          <AddButton
+            color={minutesState.minutes.colors.primary}
+            onClick={handleAddField}
+          >
+            Add field
+          </AddButton>
         </SegmentContainer>
       )}
 
@@ -113,7 +118,10 @@ function Editor() {
       {!(minutesState.metadata.writeAccess === false) && (
         <SegmentContainer>
           <SideContainer />
-          <AddButton onClick={handleAddSignatureField}>
+          <AddButton
+            color={minutesState.minutes.colors.primary}
+            onClick={handleAddSignatureField}
+          >
             Add signature field
           </AddButton>
         </SegmentContainer>

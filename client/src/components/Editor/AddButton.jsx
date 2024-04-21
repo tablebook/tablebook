@@ -2,7 +2,7 @@ import React from "react";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
-function AddButton({ onClick, children }) {
+function AddButton({ color, onClick, children }) {
   const theme = useTheme();
 
   const styles = {
@@ -15,6 +15,8 @@ function AddButton({ onClick, children }) {
     addButton: {
       display: "flex",
       flexDirection: "column",
+      color,
+      opacity: 0.7,
     },
 
     addButtonIcon: {
