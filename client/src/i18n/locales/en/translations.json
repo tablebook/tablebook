@@ -3,9 +3,9 @@
   "textColor": "Text color",
   "backgroundColor": "Background color",
   "restoreDefaults": "Restore Defaults",
-  "addAField": "Add a field",
+  "addField": "Add field",
   "sign": "Sign",
-  "addSignatureField": "Add Signature Field",
+  "addSignatureField": "Add signature field",
 
   "enterTheMainTitle": "Enter the main title",
   "enterTheContent": "Enter the content",

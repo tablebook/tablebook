@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Box, useTheme } from "@mui/material";
 import { v4 as uuid } from "uuid";
+import { useTranslation } from "react-i18next";
 
 import Title from "./Title";
 import SideContainer from "./SideContainer";
@@ -17,6 +18,7 @@ function Editor() {
   const theme = useTheme();
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
   const handleSignatureAffectingChange = useHandleSignatureAffectingChange();
+  const { t } = useTranslation();
 
   const styles = {
     editorContainer: {
@@ -95,7 +97,7 @@ function Editor() {
             color={minutesState.minutes.colors.primary}
             onClick={handleAddField}
           >
-            Add field
+            {t("addField")}
           </AddButton>
         </SegmentContainer>
       )}
@@ -122,7 +124,7 @@ function Editor() {
             color={minutesState.minutes.colors.primary}
             onClick={handleAddSignatureField}
           >
-            Add signature field
+            {t("addSignatureField")}
           </AddButton>
         </SegmentContainer>
       )}

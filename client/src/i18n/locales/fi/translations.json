@@ -3,7 +3,7 @@
   "textColor": "Tekstin väri",
   "backgroundColor": "Taustan väri",
   "restoreDefaults": "Alkuperäisvärit",
-  "addAField": "Lisää kenttä",
+  "addField": "Lisää kenttä",
   "sign": "Allekirjoita",
   "addSignatureField": "Lisää allekirjoituskenttä",
 
