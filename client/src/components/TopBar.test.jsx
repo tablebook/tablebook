@@ -73,7 +73,7 @@ describe("TopBar", () => {
       const originalModule = await vi.importActual("@react-pdf/renderer");
 
       const usePDF = vi.fn(() => [
-        { loading: global.testPDFLoading, error: global.testPDFError },
+        { loading: false, error: null },
         vi.fn(), // Mock function to simulate updating the PDF instance
       ]);
 
@@ -86,14 +86,10 @@ describe("TopBar", () => {
 
   afterEach(async () => {
     vi.clearAllMocks();
-    global.testPDFLoading = undefined;
-    global.testPDFError = undefined;
   });
 
   describe("desktiop devices", () => {
     beforeEach(() => {
-      global.testPDFLoading = false;
-      global.testPDFError = null;
       // eslint-disable-next-line no-import-assign
       deviceDetect.isMobile = false;
     });
@@ -272,20 +268,29 @@ describe("TopBar", () => {
         });
       });
 
-      test("renders preview and print pdf button", () => {
-        const previwePrintPdfButton = screen.getByText("Preview/Print PDF", {
-          selector: "button",
+      describe("PreviewPrintPDFModal", () => {
+        test("renders preview and print pdf button", () => {
+          const previwePrintPdfButton = screen.getByText("Preview/Print PDF", {
+            selector: "button",
+          });
+          expect(previwePrintPdfButton).toBeDefined();
         });
-        expect(previwePrintPdfButton).toBeDefined();
-      });
 
-      test("opens PreviewPrintPDFModal on preview and print pdf button click", () => {
-        const previwePrintPdfButton = screen.getByText("Preview/Print PDF", {
-          selector: "button",
+        test("opens PreviewPrintPDFModal on preview and print pdf button click", () => {
+          const previwePrintPdfButton = screen.getByText("Preview/Print PDF", {
+            selector: "button",
+          });
+          fireEvent.click(previwePrintPdfButton);
+          expect(updateEditorMock).toBeCalledWith({
+            isPreviewPrintPDFModalOpen: true,
+          });
         });
-        fireEvent.click(previwePrintPdfButton);
-        expect(updateEditorMock).toBeCalledWith({
-          isPreviewPrintPDFModalOpen: true,
+
+        test("does not render DownloadPDFButton on desktop", () => {
+          const downloadPDFButton = screen.queryByText("Download PDF", {
+            selector: "button",
+          });
+          expect(downloadPDFButton).toBeNull();
         });
       });
     });
@@ -480,10 +485,8 @@ describe("TopBar", () => {
       deviceDetect.isMobile = true;
     });
 
-    describe("downloadPDFButton is ready", () => {
+    describe("renders DownloadPDFButton instead of PreviewPrintPDFModal button", () => {
       beforeEach(async () => {
-        global.testPDFLoading = false;
-        global.testPDFError = null;
         renderWith({
           ...mockMinutesContextState,
           metadata: {
@@ -494,60 +497,18 @@ describe("TopBar", () => {
         });
       });
 
-      test("renders Download PDF button", () => {
+      test("renders DownloadPDFButton", () => {
         const downloadPDF = screen.getByText("Download PDF", {
           selector: "button",
         });
         expect(downloadPDF).toBeDefined();
       });
-    });
 
-    describe("downloadPDFButton is loading", () => {
-      beforeEach(async () => {
-        global.testPDFLoading = true;
-        global.testPDFError = null;
-        renderWith({
-          ...mockMinutesContextState,
-          metadata: {
-            readToken: null,
-            writeAccess: null,
-            writeToken: null,
-          },
-        });
-      });
-
-      test("renders Loading document button that is disabled", () => {
-        const loadingDocument = screen.getByText("Loading document", {
+      test("does not render PreviewPrintPDFModal button", () => {
+        const PreviewPrintPDFModal = screen.queryByText("Preview/Print PDF", {
           selector: "button",
         });
-        expect(loadingDocument).toBeDefined();
-        expect(loadingDocument).toBeDisabled();
-      });
-    });
-
-    describe("downloadPDFButton is throwing error", () => {
-      beforeEach(async () => {
-        global.testPDFLoading = false;
-        global.testPDFError = true;
-        renderWith({
-          ...mockMinutesContextState,
-          metadata: {
-            readToken: null,
-            writeAccess: null,
-            writeToken: null,
-          },
-        });
-      });
-
-      test("renders Error in PDF generation button that is disabled", () => {
-        const errorInPDFGeneration = screen.getByText(
-          "Error in PDF generation",
-          {
-            selector: "button",
-          },
-        );
-        expect(errorInPDFGeneration).toBeDefined();
-        expect(errorInPDFGeneration).toBeDisabled();
+        expect(PreviewPrintPDFModal).toBeNull();
       });
     });
   });
