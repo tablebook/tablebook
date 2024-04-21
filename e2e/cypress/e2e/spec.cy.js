@@ -37,7 +37,7 @@ describe("Scenarios", () => {
       .type("- Plan item 1\n- Plan item 2");
 
     // Add intro segment
-    cy.contains("Add a field").click();
+    cy.contains("Add field").click();
     cy.getByPlaceHolder("Enter the title").last().type("Intro");
     cy.getByPlaceHolder("Enter the content")
       .last()
@@ -127,7 +127,7 @@ describe("Scenarios", () => {
       "have.value",
       "Test minutes",
     );
-    cy.contains("Add a field");
+    cy.contains("Add field");
 
     // Edit and save
     cy.getByPlaceHolder("Enter the main title").type(" edited");
@@ -159,7 +159,7 @@ describe("Scenarios", () => {
       "have.value",
       "Test minutes edited",
     );
-    cy.contains("Add a field").should("not.exist");
+    cy.contains("Add field").should("not.exist");
 
     // Create new minutes
     cy.contains("Create New").click();

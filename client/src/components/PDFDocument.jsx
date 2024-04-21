@@ -178,8 +178,8 @@ function PDFDocument({ pdfReadyMinutes }) {
     },
 
     signatureImage: {
-      width: 100,
-      height: 50,
+      width: 150,
+      height: 60,
       objectFit: "contain",
     },
 

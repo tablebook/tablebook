@@ -1,5 +1,8 @@
 import React, { useContext } from "react";
 import { Box, useTheme } from "@mui/material";
+import { v4 as uuid } from "uuid";
+import { useTranslation } from "react-i18next";
+
 import Title from "./Title";
 import SideContainer from "./SideContainer";
 import SegmentContainer from "./SegmentContainer";
@@ -8,10 +11,14 @@ import Segment from "./Segment";
 import Signature from "./Signature";
 import MinutesContext from "../../contexts/MinutesContext";
 import SignatureButtons from "./SignatureButtons";
+import AddButton from "./AddButton";
+import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffectingChange";
 
 function Editor() {
-  const [minutesState] = useContext(MinutesContext);
   const theme = useTheme();
+  const [minutesState, { updateMinutes }] = useContext(MinutesContext);
+  const handleSignatureAffectingChange = useHandleSignatureAffectingChange();
+  const { t } = useTranslation();
 
   const styles = {
     editorContainer: {
@@ -34,6 +41,36 @@ function Editor() {
     },
   };
 
+  const handleAddField = () => {
+    if (!handleSignatureAffectingChange()) {
+      return;
+    }
+
+    const newSegments = [
+      ...minutesState.minutes.segments,
+      {
+        id: uuid(),
+        name: "",
+        content: "",
+      },
+    ];
+    updateMinutes({ segments: newSegments });
+  };
+
+  const handleAddSignatureField = () => {
+    const newSignatures = [
+      ...minutesState.minutes.signatures,
+      {
+        id: uuid(),
+        image: null,
+        signer: "",
+        timestamp: null,
+      },
+    ];
+
+    updateMinutes({ signatures: newSignatures });
+  };
+
   return (
     <Box sx={styles.editorContainer} data-testid="editor-component">
       <Box sx={styles.outerSpacing} />
@@ -53,6 +90,18 @@ function Editor() {
         </SegmentContainer>
       ))}
 
+      {!(minutesState.metadata.writeAccess === false) && (
+        <SegmentContainer>
+          <SideContainer />
+          <AddButton
+            color={minutesState.minutes.colors.primary}
+            onClick={handleAddField}
+          >
+            {t("addField")}
+          </AddButton>
+        </SegmentContainer>
+      )}
+
       <SegmentContainer sx={styles.middleSpacing}>
         <SideContainer />
       </SegmentContainer>
@@ -67,6 +116,18 @@ function Editor() {
           <Signature signatureIndex={index} />
         </SegmentContainer>
       ))}
+
+      {!(minutesState.metadata.writeAccess === false) && (
+        <SegmentContainer>
+          <SideContainer />
+          <AddButton
+            color={minutesState.minutes.colors.primary}
+            onClick={handleAddSignatureField}
+          >
+            {t("addSignatureField")}
+          </AddButton>
+        </SegmentContainer>
+      )}
       <Box sx={styles.outerSpacing} />
     </Box>
   );

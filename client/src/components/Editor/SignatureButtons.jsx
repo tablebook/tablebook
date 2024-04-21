@@ -19,6 +19,7 @@ function SignatureButtons({ signatureIndex }) {
       flexDirection: "column",
       justifyContent: "center",
       height: "100%",
+      gap: 0.5,
     },
 
     iconButton: {
@@ -55,21 +56,21 @@ function SignatureButtons({ signatureIndex }) {
     <Box sx={styles.buttonsContainer} data-testid="signature-buttons">
       <IconButton
         size="small"
-        onClick={handleDelete}
-        sx={styles.iconButton}
-        data-testid="deleteButton"
-      >
-        <DeleteIcon sx={styles.iconSize} />
-      </IconButton>
-
-      <IconButton
-        size="small"
         title={t("sign")}
         onClick={handleSignButtonClick}
         sx={styles.iconButton}
         data-testid="signButton"
       >
         <DrawIcon sx={styles.iconSize} />
+      </IconButton>
+
+      <IconButton
+        size="small"
+        onClick={handleDelete}
+        sx={styles.iconButton}
+        data-testid="deleteButton"
+      >
+        <DeleteIcon sx={styles.iconSize} />
       </IconButton>
     </Box>
   );
