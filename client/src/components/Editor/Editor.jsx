@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import Title from "./Title";
 import SideContainer from "./SideContainer";
 import SegmentContainer from "./SegmentContainer";
@@ -11,11 +11,11 @@ import SignatureButtons from "./SignatureButtons";
 
 function Editor() {
   const [minutesState] = useContext(MinutesContext);
+  const theme = useTheme();
 
   const styles = {
     editorContainer: {
       height: "fit-content",
-      my: 5,
       display: "flex",
       flexDirection: "column",
       backgroundColor: minutesState.minutes.colors.secondary,
@@ -27,10 +27,16 @@ function Editor() {
     middleSpacing: {
       flexGrow: 1,
     },
+
+    outerSpacing: {
+      backgroundColor: theme.palette.background.main,
+      height: 25,
+    },
   };
 
   return (
     <Box sx={styles.editorContainer} data-testid="editor-component">
+      <Box sx={styles.outerSpacing} />
       <SegmentContainer>
         <SideContainer />
         <Title />
@@ -61,6 +67,7 @@ function Editor() {
           <Signature signatureIndex={index} />
         </SegmentContainer>
       ))}
+      <Box sx={styles.outerSpacing} />
     </Box>
   );
 }
