@@ -21,7 +21,7 @@ function Title() {
 
   const styles = {
     titleContainer: {
-      width: 1000,
+      width: "100%",
       my: 2,
     },
 

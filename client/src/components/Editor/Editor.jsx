@@ -13,22 +13,15 @@ function Editor() {
   const [minutesState] = useContext(MinutesContext);
 
   const styles = {
-    outerContainer: {
-      flexGrow: 1,
-      display: "flex",
-      alignItems: "flex-start",
-      flexDirection: "row",
-      justifyContent: "center",
-      height: "100%",
-    },
-
     editorContainer: {
-      flexGrow: 1,
+      height: "fit-content",
+      my: 5,
       display: "flex",
       flexDirection: "column",
-      maxWidth: 700,
       backgroundColor: minutesState.minutes.colors.secondary,
       minHeight: "100%",
+      mx: "auto",
+      maxWidth: { xs: 500, md: 700 },
     },
 
     middleSpacing: {
@@ -37,39 +30,37 @@ function Editor() {
   };
 
   return (
-    <Box sx={styles.outerContainer}>
-      <Box sx={styles.editorContainer} data-testid="editor-component">
-        <SegmentContainer>
-          <SideContainer />
-          <Title />
+    <Box sx={styles.editorContainer} data-testid="editor-component">
+      <SegmentContainer>
+        <SideContainer />
+        <Title />
+      </SegmentContainer>
+
+      {minutesState.minutes.segments.map((segment, index) => (
+        <SegmentContainer key={segment.id}>
+          <SideContainer>
+            {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
+              <SegmentButtons segmentIndex={index} />
+            )}
+          </SideContainer>
+          <Segment segmentIndex={index} />
         </SegmentContainer>
+      ))}
 
-        {minutesState.minutes.segments.map((segment, index) => (
-          <SegmentContainer key={segment.id}>
-            <SideContainer>
-              {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
-                <SegmentButtons segmentIndex={index} />
-              )}
-            </SideContainer>
-            <Segment segmentIndex={index} />
-          </SegmentContainer>
-        ))}
+      <SegmentContainer sx={styles.middleSpacing}>
+        <SideContainer />
+      </SegmentContainer>
 
-        <SegmentContainer sx={styles.middleSpacing}>
-          <SideContainer />
+      {minutesState.minutes.signatures.map((signature, index) => (
+        <SegmentContainer key={signature.id}>
+          <SideContainer>
+            {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
+              <SignatureButtons signatureIndex={index} />
+            )}
+          </SideContainer>
+          <Signature signatureIndex={index} />
         </SegmentContainer>
-
-        {minutesState.minutes.signatures.map((signature, index) => (
-          <SegmentContainer key={signature.id}>
-            <SideContainer>
-              {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
-                <SignatureButtons signatureIndex={index} />
-              )}
-            </SideContainer>
-            <Signature signatureIndex={index} />
-          </SegmentContainer>
-        ))}
-      </Box>
+      ))}
     </Box>
   );
 }
