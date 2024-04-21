@@ -69,14 +69,7 @@ describe("DownloadPDFButton", () => {
     beforeEach(async () => {
       global.testPDFLoading = true;
       global.testPDFError = null;
-      renderWith({
-        ...mockMinutesContextState,
-        metadata: {
-          readToken: null,
-          writeAccess: null,
-          writeToken: null,
-        },
-      });
+      renderWith();
     });
 
     test("renders Loading document button that is disabled", () => {
@@ -92,14 +85,7 @@ describe("DownloadPDFButton", () => {
     beforeEach(async () => {
       global.testPDFLoading = false;
       global.testPDFError = true;
-      renderWith({
-        ...mockMinutesContextState,
-        metadata: {
-          readToken: null,
-          writeAccess: null,
-          writeToken: null,
-        },
-      });
+      renderWith();
     });
 
     test("renders Error in PDF generation button that is disabled", () => {
