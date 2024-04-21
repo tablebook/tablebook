@@ -19,6 +19,7 @@ function SignatureButtons({ signatureIndex }) {
       flexDirection: "column",
       justifyContent: "center",
       height: "100%",
+      gap: 0.5,
     },
 
     iconButton: {
