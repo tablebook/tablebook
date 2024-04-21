@@ -6,7 +6,8 @@ function SideContainer({ children }) {
 
   const styles = {
     sideContainer: {
-      width: 200,
+      width: 120,
+      flexShrink: 0,
       backgroundColor: theme.palette.background.main,
     },
   };

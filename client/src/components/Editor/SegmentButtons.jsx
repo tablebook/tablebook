@@ -17,6 +17,7 @@ function SegmentButtons({ segmentIndex }) {
     buttonsContainer: {
       display: "flex",
       flexDirection: "column",
+      mb: 2,
     },
 
     iconButton: {
@@ -110,7 +111,7 @@ function SegmentButtons({ segmentIndex }) {
 
       <IconButton
         size="small"
-        sx={{ ...styles.iconButton, mb: 2 }}
+        sx={styles.iconButton}
         onClick={handleMoveDown}
         data-testid="downButton"
       >

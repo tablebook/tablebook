@@ -13,6 +13,7 @@ function Segment({ segmentIndex }) {
   const styles = {
     contentContainer: {
       width: 1000,
+      mb: 2,
     },
 
     contentTitleText: {

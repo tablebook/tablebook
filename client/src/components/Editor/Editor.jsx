@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Box } from "@mui/material";
+import { Box, useTheme } from "@mui/material";
 import Title from "./Title";
 import SideContainer from "./SideContainer";
 import SegmentContainer from "./SegmentContainer";
@@ -11,62 +11,63 @@ import SignatureButtons from "./SignatureButtons";
 
 function Editor() {
   const [minutesState] = useContext(MinutesContext);
+  const theme = useTheme();
 
   const styles = {
-    outerContainer: {
-      py: 3,
-      flexGrow: 1,
-      display: "flex",
-      alignItems: "center",
-      flexDirection: "column",
-    },
-
     editorContainer: {
+      height: "fit-content",
       display: "flex",
       flexDirection: "column",
-      width: 700,
       backgroundColor: minutesState.minutes.colors.secondary,
-      mr: 5,
+      minHeight: "100%",
+      mx: "auto",
+      maxWidth: { xs: 500, sm: 500, md: "75%", lg: 700 },
     },
 
-    bottomContainer: {
-      display: "flex",
+    middleSpacing: {
       flexGrow: 1,
-      flexDirection: "row",
-      minHeight: 100,
+    },
+
+    outerSpacing: {
+      backgroundColor: theme.palette.background.main,
+      height: 25,
     },
   };
 
   return (
-    <Box sx={styles.outerContainer}>
-      <Box sx={styles.editorContainer} data-testid="editor-component">
-        <SegmentContainer>
-          <SideContainer />
-          <Title />
+    <Box sx={styles.editorContainer} data-testid="editor-component">
+      <Box sx={styles.outerSpacing} />
+      <SegmentContainer>
+        <SideContainer />
+        <Title />
+      </SegmentContainer>
+
+      {minutesState.minutes.segments.map((segment, index) => (
+        <SegmentContainer key={segment.id}>
+          <SideContainer>
+            {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
+              <SegmentButtons segmentIndex={index} />
+            )}
+          </SideContainer>
+          <Segment segmentIndex={index} />
         </SegmentContainer>
+      ))}
 
-        {minutesState.minutes.segments.map((segment, index) => (
-          <SegmentContainer key={segment.id}>
-            <SideContainer>
-              {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
-                <SegmentButtons segmentIndex={index} />
-              )}
-            </SideContainer>
-            <Segment segmentIndex={index} />
-          </SegmentContainer>
-        ))}
+      <SegmentContainer sx={styles.middleSpacing}>
+        <SideContainer />
+      </SegmentContainer>
 
-        {minutesState.minutes.signatures.map((signature, index) => (
-          <Box sx={styles.bottomContainer} key={signature.id}>
-            <SideContainer>
-              {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
-                <SignatureButtons signatureIndex={index} />
-              )}
-            </SideContainer>
-            <Signature signatureIndex={index} />
-          </Box>
-        ))}
-      </Box>
+      {minutesState.minutes.signatures.map((signature, index) => (
+        <SegmentContainer key={signature.id}>
+          <SideContainer>
+            {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
+              <SignatureButtons signatureIndex={index} />
+            )}
+          </SideContainer>
+          <Signature signatureIndex={index} />
+        </SegmentContainer>
+      ))}
+      <Box sx={styles.outerSpacing} />
     </Box>
   );
 }

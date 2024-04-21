@@ -17,6 +17,8 @@ function SignatureButtons({ signatureIndex }) {
     buttonsContainer: {
       display: "flex",
       flexDirection: "column",
+      justifyContent: "center",
+      height: "100%",
     },
 
     iconButton: {
@@ -64,7 +66,7 @@ function SignatureButtons({ signatureIndex }) {
         size="small"
         title={t("sign")}
         onClick={handleSignButtonClick}
-        sx={{ ...styles.iconButton, mb: 2 }}
+        sx={styles.iconButton}
         data-testid="signButton"
       >
         <DrawIcon sx={styles.iconSize} />

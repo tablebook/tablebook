@@ -34,12 +34,8 @@ function EditorPage() {
     },
     body: {
       display: "flex",
-      justifyContent: "space-between",
       flexGrow: 1,
       overflowY: "auto",
-    },
-    footer: {
-      height: 46,
     },
     scrollable: {
       flexGrow: 1,
@@ -47,6 +43,7 @@ function EditorPage() {
       display: "flex",
       flexDirection: "row",
     },
+    editorRightSpacing: { width: "24vw", minWidth: "5vw" },
   };
 
   useEffect(() => {
@@ -79,7 +76,7 @@ function EditorPage() {
         <SideBar />
         <Box sx={styles.scrollable}>
           <Editor />
-          <Box sx={{ width: "24vw" }} />
+          <Box sx={styles.editorRightSpacing} />
         </Box>
       </Box>
       <Box sx={styles.footer}>
