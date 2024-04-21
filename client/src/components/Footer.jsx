@@ -15,7 +15,7 @@ function Footer() {
       backgroundColor: theme.palette.footer.main,
       display: "flex",
       justifyContent: "space-evenly",
-      pt: 0.5,
+      py: 0.5,
     },
     footerItem: {
       display: "flex",

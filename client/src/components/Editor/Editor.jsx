@@ -14,19 +14,21 @@ function Editor() {
 
   const styles = {
     outerContainer: {
-      py: 3,
       flexGrow: 1,
       display: "flex",
-      alignItems: "center",
-      flexDirection: "column",
+      alignItems: "flex-start",
+      flexDirection: "row",
+      justifyContent: "center",
+      my: 3,
     },
 
     editorContainer: {
+      flexGrow: 1,
       display: "flex",
       flexDirection: "column",
-      width: 700,
+      maxWidth: 700,
       backgroundColor: minutesState.minutes.colors.secondary,
-      mr: 5,
+      minHeight: "100%",
     },
 
     bottomContainer: {
