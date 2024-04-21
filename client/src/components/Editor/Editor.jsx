@@ -8,6 +8,7 @@ import Segment from "./Segment";
 import Signature from "./Signature";
 import MinutesContext from "../../contexts/MinutesContext";
 import SignatureButtons from "./SignatureButtons";
+import AddButton from "./AddButton";
 
 function Editor() {
   const [minutesState] = useContext(MinutesContext);
@@ -53,6 +54,11 @@ function Editor() {
         </SegmentContainer>
       ))}
 
+      <SegmentContainer>
+        <SideContainer />
+        <AddButton>Add field</AddButton>
+      </SegmentContainer>
+
       <SegmentContainer sx={styles.middleSpacing}>
         <SideContainer />
       </SegmentContainer>
@@ -67,6 +73,10 @@ function Editor() {
           <Signature signatureIndex={index} />
         </SegmentContainer>
       ))}
+      <SegmentContainer>
+        <SideContainer />
+        <AddButton>Add signature field</AddButton>
+      </SegmentContainer>
       <Box sx={styles.outerSpacing} />
     </Box>
   );
