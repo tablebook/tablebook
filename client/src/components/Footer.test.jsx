@@ -28,12 +28,14 @@ describe("Footer", () => {
     expect(reportButton.href).toEqual(
       "https://github.com/tablebook/tablebook/issues/new",
     );
+    expect(reportButton).toHaveAttribute("target", "_blank");
   });
 
   test("renders github link", () => {
     const githubButton = screen.getByTestId("gitHubButton", { selector: "a" });
     expect(githubButton).toBeDefined();
     expect(githubButton.href).toEqual("https://github.com/tablebook/tablebook");
+    expect(githubButton).toHaveAttribute("target", "_blank");
   });
 
   test("renders copyright button", () => {
@@ -44,5 +46,6 @@ describe("Footer", () => {
     expect(copyrightButton.href).toEqual(
       "https://github.com/tablebook/tablebook/blob/main/LICENSE",
     );
+    expect(copyrightButton).toHaveAttribute("target", "_blank");
   });
 });

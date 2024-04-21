@@ -35,6 +35,7 @@ function Footer() {
           to="https://github.com/tablebook/tablebook/issues/new"
           color="primary.contrastText"
           underline="hover"
+          target="_blank"
           data-testid="reportButton"
         >
           <ReportIcon />
@@ -48,6 +49,7 @@ function Footer() {
           to="https://github.com/tablebook/tablebook"
           color="primary.contrastText"
           underline="hover"
+          target="_blank"
           data-testid="gitHubButton"
         >
           <GitHubIcon />
@@ -61,6 +63,7 @@ function Footer() {
           to="https://github.com/tablebook/tablebook/blob/main/LICENSE"
           color="primary.contrastText"
           underline="hover"
+          target="_blank"
           data-testid="copyrightButton"
         >
           <CopyrightIcon sx={styles.iconSize} />
