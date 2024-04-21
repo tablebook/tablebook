@@ -21,7 +21,7 @@ function Editor() {
       backgroundColor: minutesState.minutes.colors.secondary,
       minHeight: "100%",
       mx: "auto",
-      maxWidth: { xs: 500, md: 700 },
+      maxWidth: { xs: 500, sm: 500, md: "75%", lg: 700 },
     },
 
     middleSpacing: {
