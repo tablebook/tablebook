@@ -32,7 +32,10 @@ app.use(express.static(clientDistPath));
 
 app.use("/api/minutes", minutesController);
 
-app.get("/api/healthz", (request, response) => response.sendStatus(200));
+app.get("/api/healthz", (request, response) => {
+  console.log("Health check successful");
+  return response.sendStatus(200);
+});
 
 app.use(errorHandler);
 
