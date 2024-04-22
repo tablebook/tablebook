@@ -45,7 +45,7 @@ describe("Scenarios", () => {
 
     // Move intro segment to first
     cy.getByTestId("upButton").last().click();
-    cy.getByTestId("upButton").eq(1).click();
+    cy.getByTestId("upButton").eq(0).click();
 
     cy.getByTestId("segment-component")
       .first()

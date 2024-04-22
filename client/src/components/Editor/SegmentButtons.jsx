@@ -17,6 +17,7 @@ function SegmentButtons({ segmentIndex }) {
     buttonsContainer: {
       display: "flex",
       flexDirection: "column",
+      alignItems: "stretch",
       mb: 2,
     },
 
@@ -26,6 +27,12 @@ function SegmentButtons({ segmentIndex }) {
 
     iconSize: {
       fontSize: theme.fontSizes.l,
+    },
+
+    arrowWrapper: {
+      display: "flex",
+      flexDirection: "column",
+      height: 32,
     },
   };
 
@@ -50,11 +57,6 @@ function SegmentButtons({ segmentIndex }) {
   };
 
   const handleMoveUp = () => {
-    // do nothing if its the first segment
-    if (segmentIndex === 0) {
-      return;
-    }
-
     if (!handleSignatureAffectingChange()) {
       return;
     }
@@ -70,11 +72,6 @@ function SegmentButtons({ segmentIndex }) {
   };
 
   const handleMoveDown = () => {
-    // do nothing if its the last segment
-    if (segmentIndex === minutesState.minutes.segments.length - 1) {
-      return;
-    }
-
     if (!handleSignatureAffectingChange()) {
       return;
     }
@@ -91,14 +88,18 @@ function SegmentButtons({ segmentIndex }) {
 
   return (
     <Box sx={styles.buttonsContainer} data-testid="segment-buttons">
-      <IconButton
-        size="small"
-        sx={styles.iconButton}
-        onClick={handleMoveUp}
-        data-testid="upButton"
-      >
-        <KeyboardArrowUpIcon sx={styles.iconSize} />
-      </IconButton>
+      <Box sx={styles.arrowWrapper}>
+        {segmentIndex !== 0 && (
+          <IconButton
+            size="small"
+            sx={styles.iconButton}
+            onClick={handleMoveUp}
+            data-testid="upButton"
+          >
+            <KeyboardArrowUpIcon sx={styles.iconSize} />
+          </IconButton>
+        )}
+      </Box>
 
       <IconButton
         size="small"
@@ -109,14 +110,18 @@ function SegmentButtons({ segmentIndex }) {
         <DeleteIcon sx={styles.iconSize} />
       </IconButton>
 
-      <IconButton
-        size="small"
-        sx={styles.iconButton}
-        onClick={handleMoveDown}
-        data-testid="downButton"
-      >
-        <KeyboardArrowDownIcon sx={styles.iconSize} />
-      </IconButton>
+      <Box sx={styles.arrowWrapper}>
+        {segmentIndex !== minutesState.minutes.segments.length - 1 && (
+          <IconButton
+            size="small"
+            sx={styles.iconButton}
+            onClick={handleMoveDown}
+            data-testid="downButton"
+          >
+            <KeyboardArrowDownIcon sx={styles.iconSize} />
+          </IconButton>
+        )}
+      </Box>
     </Box>
   );
 }
