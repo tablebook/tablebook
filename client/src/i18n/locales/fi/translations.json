@@ -38,6 +38,7 @@
   "linkCopiedToClipboard": "Linkki kopioitu leikepöydälle",
   "couldntCopyLinkToClipboard": "Linkkiä ei voitu kopioida leikepöydälle",
   "preview/printPdf": "Esikatsele/tulosta",
+  "language": "kieli",
   "clearDocument": "Pyötäkirja tyhjentyy täysin. Vahvistetaanko?",
   "storeDocument": "Pöytäkirja tallentuu pilveen, mistä se on saatavilla kaikille linkin avulla. Vahvistetaanko?",
   "minutesSaved": "Pöytäkirja tallennettu!",

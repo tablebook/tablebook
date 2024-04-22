@@ -38,6 +38,7 @@
   "linkCopiedToClipboard": "Link copied to clipboard",
   "couldntCopyLinkToClipboard": "Couldn't copy link to clipboard",
   "preview/printPdf": "Preview/Print PDF",
+  "language": "language",
   "clearDocument": "This action will clear the whole document. Are you sure?",
   "storeDocument": "This action will store the document in the cloud where it will be accessible to anyone with the provided link. Are you sure?",
   "minutesSaved": "Minutes saved successfully!",
