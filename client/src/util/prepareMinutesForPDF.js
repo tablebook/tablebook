@@ -12,11 +12,6 @@ const preprocessMarkdown = (markdown) => {
 
 const transformAndStyleHtml = (html) => {
   const processedHTML = html
-    // Create newlines on one enter press inside <p> tags
-    .replace(
-      /<p>(.*?)<\/p>/gs,
-      (_, content) => `<p>${content.replace(/\n/g, "<br>")}</p>`,
-    )
     // Apply line-through style for <del> tags
     .replace(
       /<del>(.*?)<\/del>/g,
@@ -72,6 +67,10 @@ const sanitizeConfig = {
 };
 
 const prepareMinutesForPDF = (minutesState) => {
+  marked.setOptions({
+    breaks: true,
+  });
+
   const pdfReadyMinutes = {
     name: transformAndStyleHtml(
       DOMPurify.sanitize(
