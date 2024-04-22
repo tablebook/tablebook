@@ -3,6 +3,7 @@ import { render, waitFor, screen } from "@testing-library/react";
 import { afterEach, describe, test, vi, expect } from "vitest";
 import { ThemeProvider } from "@mui/material";
 import { toast } from "react-toastify";
+import { I18nextProvider } from "react-i18next";
 import MinutesContext from "../contexts/MinutesContext";
 import {
   mockGetMinutesResponse,
@@ -12,6 +13,7 @@ import theme from "../theme";
 import LoadingPage from "./LoadingPage";
 import logoImage from "../assets/images/logo.png";
 import minutesService from "../services/minutesService";
+import i18n from "../i18n/config";
 
 const mockNavigate = vi.fn();
 const mockToken = "mocktoken";
@@ -39,7 +41,9 @@ const renderElement = () =>
       ]}
     >
       <ThemeProvider theme={theme}>
-        <LoadingPage />
+        <I18nextProvider i18n={i18n}>
+          <LoadingPage />
+        </I18nextProvider>
       </ThemeProvider>
     </MinutesContext.Provider>,
   );

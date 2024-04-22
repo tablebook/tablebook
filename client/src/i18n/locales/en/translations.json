@@ -49,5 +49,7 @@
   "loadingDocument": "Loading document",
   "errorInPDFGeneration": "Error in PDF generation",
 
-  "reportAnIssue": "Problem"
+  "reportAnIssue": "Problem",
+
+  "loading": "Loading"
 }

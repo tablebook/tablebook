@@ -49,5 +49,7 @@
   "loadingDocument": "Ladataan dokumenttia",
   "errorInPDFGeneration": "Virhe PDF:än luomisessa",
 
-  "reportAnIssue": "Ongelma"
+  "reportAnIssue": "Ongelma",
+
+  "loading": "Ladataan"
 }

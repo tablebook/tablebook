@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, Typography, useTheme } from "@mui/material";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
 import logoImage from "../assets/images/logo.png";
@@ -13,6 +14,7 @@ function LoadingPage() {
   const navigate = useNavigate();
   const theme = useTheme();
   const [numberOfDots, setNumberOfDots] = useState(0);
+  const { t } = useTranslation();
 
   const styles = {
     container: {
@@ -72,7 +74,7 @@ function LoadingPage() {
       />
 
       <Box sx={styles.textContainer}>
-        <Typography sx={styles.message}>Loading</Typography>
+        <Typography sx={styles.message}>{t("loading")}</Typography>
         <Typography sx={styles.dots}>{".".repeat(numberOfDots)}</Typography>
       </Box>
     </Box>
