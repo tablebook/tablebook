@@ -5,7 +5,8 @@ const preprocessMarkdown = (markdown) => {
   // Escape input tags
   const preprocessedMarkdown = markdown
     .replace(/\[ \]/g, "\\[ \\]")
-    .replace(/\[x\]/gi, "\\[x\\]");
+    .replace(/\[x\]/gi, "\\[x\\]")
+    .replace(/^$\n?/gm, "\n&nbsp;\n");
 
   return preprocessedMarkdown;
 };
