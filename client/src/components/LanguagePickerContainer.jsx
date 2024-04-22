@@ -72,13 +72,9 @@ function LanguagePickerContainer() {
           <ListItemButton
             sx={styles.flagListItem}
             onClick={() => handleLanguageChange("en")}
+            data-testid="flagPicker"
           >
-            <Image
-              sx={styles.flag}
-              src={flagEn}
-              alt="EN"
-              data-testid="flagPicker"
-            />
+            <Image sx={styles.flag} src={flagEn} alt="EN" />
           </ListItemButton>
 
           <ListItemButton
