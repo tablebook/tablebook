@@ -207,6 +207,20 @@ describe("SegmentButtons", () => {
         expect(upButton).toBeInTheDocument();
       });
 
+      test("doesnt render if first segment", () => {
+        renderWith(0, {
+          ...mockMinutesContextState,
+          minutes: {
+            ...mockMinutesContextState.minutes,
+            segments: customSegments,
+          },
+        });
+
+        const upButton = screen.queryByTestId("upButton");
+
+        expect(upButton).not.toBeInTheDocument();
+      });
+
       test("on signature check confirm, calls the updateMinutes and clearSignatures", () => {
         renderWith(1, {
           ...mockMinutesContextState,
@@ -261,24 +275,6 @@ describe("SegmentButtons", () => {
         expect(window.confirm).toHaveBeenCalledOnce();
         expect(clearSignaturesMock).not.toHaveBeenCalled();
         expect(updateMinutesMock).not.toHaveBeenCalled();
-      });
-
-      test("doesnt call updateMinutes or clearSignatures when first segments button clicked", () => {
-        renderWith(0, {
-          ...mockMinutesContextState,
-          minutes: {
-            ...mockMinutesContextState.minutes,
-            segments: customSegments,
-          },
-        });
-
-        const upButton = screen.getByTestId("upButton");
-
-        upButton.click();
-
-        expect(window.confirm).not.toHaveBeenCalled();
-        expect(updateMinutesMock).not.toHaveBeenCalled();
-        expect(clearSignaturesMock).not.toHaveBeenCalled();
       });
     });
 
@@ -303,6 +299,20 @@ describe("SegmentButtons", () => {
         expect(downButton).toBeInTheDocument();
       });
 
+      test("doesnt render if last segment", () => {
+        renderWith(2, {
+          ...mockMinutesContextState,
+          minutes: {
+            ...mockMinutesContextState.minutes,
+            segments: customSegments,
+          },
+        });
+
+        const downButton = screen.queryByTestId("downButton");
+
+        expect(downButton).not.toBeInTheDocument();
+      });
+
       test("on signature check confirm, calls the updateMinutes and clearSignatures", () => {
         renderWith(1, {
           ...mockMinutesContextState,
@@ -355,24 +365,6 @@ describe("SegmentButtons", () => {
         downButton.click();
 
         expect(window.confirm).toHaveBeenCalledOnce();
-        expect(clearSignaturesMock).not.toHaveBeenCalled();
-        expect(updateMinutesMock).not.toHaveBeenCalled();
-      });
-
-      test("doesnt call updateMinutes or clearSignatures when last segments button clicked", () => {
-        renderWith(2, {
-          ...mockMinutesContextState,
-          minutes: {
-            ...mockMinutesContextState.minutes,
-            segments: customSegments,
-          },
-        });
-
-        const downButton = screen.getByTestId("downButton");
-
-        downButton.click();
-
-        expect(window.confirm).not.toHaveBeenCalled();
         expect(clearSignaturesMock).not.toHaveBeenCalled();
         expect(updateMinutesMock).not.toHaveBeenCalled();
       });
@@ -539,25 +531,6 @@ describe("SegmentButtons", () => {
           ],
         });
       });
-
-      test("doesnt call updateMinutes or clearSignatures when first segments button clicked", () => {
-        renderWith(0, {
-          ...mockMinutesContextState,
-          minutes: {
-            ...mockMinutesContextState.minutes,
-            segments: customSegments,
-            signatures: [],
-          },
-        });
-
-        const upButton = screen.getByTestId("upButton");
-
-        upButton.click();
-
-        expect(window.confirm).not.toHaveBeenCalled();
-        expect(updateMinutesMock).not.toHaveBeenCalled();
-        expect(clearSignaturesMock).not.toHaveBeenCalled();
-      });
     });
 
     describe("Down button", () => {
@@ -602,25 +575,6 @@ describe("SegmentButtons", () => {
             },
           ],
         });
-      });
-
-      test("doesnt call updateMinutes or clearSignatures when last segments button clicked", () => {
-        renderWith(2, {
-          ...mockMinutesContextState,
-          minutes: {
-            ...mockMinutesContextState.minutes,
-            segments: customSegments,
-            signatures: [],
-          },
-        });
-
-        const downButton = screen.getByTestId("downButton");
-
-        downButton.click();
-
-        expect(window.confirm).not.toHaveBeenCalled();
-        expect(clearSignaturesMock).not.toHaveBeenCalled();
-        expect(updateMinutesMock).not.toHaveBeenCalled();
       });
     });
   });
