@@ -42,7 +42,13 @@ function DownloadPDFButton({ variant, color, sx }) {
     ) {
       const link = document.createElement("a");
       link.href = PDFInstance.url;
-      link.download = `${minutesState.minutes.name.split(" ")[0]}_${moment().format("YYYY-MM-DD")}.pdf`;
+
+      // Create the filename for downloaded PDF based on the minutes title and current timestamp
+      const minutesTitle =
+        minutesState.minutes.name.trim().replace(/\s+/g, "_") || t("minutes");
+      const fileName = `${minutesTitle}_${moment().format("YYYY-MM-DD")}.pdf`;
+
+      link.download = fileName;
       document.body.appendChild(link);
       link.click();
       link.remove();
@@ -55,6 +61,7 @@ function DownloadPDFButton({ variant, color, sx }) {
     PDFInstance.error,
     triggerPDFDownload,
     minutesState.minutes.name,
+    t,
   ]);
 
   return (

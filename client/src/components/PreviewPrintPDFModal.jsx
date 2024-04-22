@@ -25,9 +25,10 @@ function PreviewPrintPDFModal() {
   const pdfDocumentHeight = "80dvh";
   const pdfDocumentWidth = `calc(${pdfDocumentHeight} * ${pdfDocumentRatio})`;
 
-  // Create the filename for downloaded PDF based on the minutes state and current timestamp
-  const titleFirstWord = minutesState.minutes.name.split(" ")[0];
-  const fileName = `${titleFirstWord}_${moment().format("YYYY-MM-DD")}.pdf`;
+  // Create the filename for downloaded PDF based on the minutes title and current timestamp
+  const minutesTitle =
+    minutesState.minutes.name.trim().replace(/\s+/g, "_") || t("minutes");
+  const fileName = `${minutesTitle}_${moment().format("YYYY-MM-DD")}.pdf`;
 
   const styles = {
     modalStyle: {

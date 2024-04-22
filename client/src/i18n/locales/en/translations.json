@@ -48,6 +48,7 @@
   "loadedMinutesFail": "Reloading minutes failed",
   "sharingError": "Error while sharing minutes",
 
+  "minutes": "Minutes",
   "printPDF": "Print PDF",
   "downloadPDF": "Download PDF",
   "closeWindow": "Close window",
