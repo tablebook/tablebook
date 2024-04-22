@@ -4,11 +4,12 @@ import { useTranslation } from "react-i18next";
 import EditorContext from "../contexts/EditorContext";
 import flagFi from "../i18n/locales/flags/fi.svg";
 import flagEn from "../i18n/locales/flags/en.svg";
+import Image from "./Shared/Image";
 
 function LanguagePickerContainer() {
   const [isLanguagePickerOpen, setIsLanguagePickerOpen] = useState(false);
   const [editorState, updateEditor] = useContext(EditorContext);
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const styles = {
     languagePickerContainer: {
@@ -64,7 +65,7 @@ function LanguagePickerContainer() {
       }}
       data-testid="flagTrigger"
     >
-      <Box sx={styles.flag} component="img" src={flagSrc} />
+      <Image sx={styles.flag} src={flagSrc} alt={t("language")} />
 
       {isLanguagePickerOpen && (
         <List sx={styles.flagList}>
@@ -72,11 +73,10 @@ function LanguagePickerContainer() {
             sx={styles.flagListItem}
             onClick={() => handleLanguageChange("en")}
           >
-            <Box
+            <Image
               sx={styles.flag}
-              component="img"
               src={flagEn}
-              alt="english"
+              alt="EN"
               data-testid="flagPicker"
             />
           </ListItemButton>
@@ -85,7 +85,7 @@ function LanguagePickerContainer() {
             sx={styles.flagListItem}
             onClick={() => handleLanguageChange("fi")}
           >
-            <Box sx={styles.flag} component="img" src={flagFi} alt="finnish" />
+            <Image sx={styles.flag} component="img" src={flagFi} alt="FI" />
           </ListItemButton>
         </List>
       )}

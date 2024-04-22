@@ -34,6 +34,7 @@
   "readLink": "Lukulinkki",
   "editLink": "Muokkauslinkki",
   "preview/printPdf": "Esikatsele/tulosta",
+  "language": "kieli",
   "clearDocument": "Pyötäkirja tyhjentyy täysin. Vahvistetaanko?",
   "storeDocument": "Pöytäkirja tallentuu pilveen, mistä se on saatavilla kaikille linkin avulla. Vahvistetaanko?",
   "minutesSaved": "Pöytäkirja tallennettu!",
