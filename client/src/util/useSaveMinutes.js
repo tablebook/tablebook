@@ -1,9 +1,11 @@
 import { useContext } from "react";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
 
 const useSaveMinutes = () => {
+  const { t } = useTranslation();
   const [minutesState] = useContext(MinutesContext);
 
   const saveMinutes = async () => {
@@ -13,9 +15,9 @@ const useSaveMinutes = () => {
         minutesState.minutes,
       );
 
-      toast.success("Minutes saved successfully!");
+      toast.success(t("minutesSaved"));
     } catch (error) {
-      toast.error("Saving minutes failed");
+      toast.error(t("minutesSavingFailed"));
     }
   };
 

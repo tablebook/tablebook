@@ -74,7 +74,7 @@ function Signature({ signatureIndex }) {
             <ImageElement
               src={signature.image}
               sx={styles.signatureImage}
-              alt="Signature"
+              alt={t("signature")}
             />
           )}
         </Box>

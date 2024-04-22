@@ -1,10 +1,12 @@
 import { useContext } from "react";
 import _ from "lodash";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
 
 const useReloadMinutes = () => {
+  const { t } = useTranslation();
   const [minutesState, { updateMinutes, updateMetadata }] =
     useContext(MinutesContext);
 
@@ -16,9 +18,7 @@ const useReloadMinutes = () => {
 
       if (
         !_.isEqual(minutesState.minutes, minutesResponse.data) && // If state differs from incoming minutes
-        !window.confirm(
-          "There are changes in the incoming minutes. Are you sure you want to overwrite the current minutes?",
-        ) // If user cancels
+        !window.confirm(t("changesInIncomingMinutes")) // If user cancels
       ) {
         return;
       }
@@ -30,9 +30,9 @@ const useReloadMinutes = () => {
         readToken: minutesResponse.readToken,
         writeToken: minutesResponse.writeToken,
       });
-      toast.success("Successfully loaded minutes");
+      toast.success(t("loadedMinutesSuccesful"));
     } catch (error) {
-      toast.error("Reloading minutes failed");
+      toast.error(t("loadedMinutesFail"));
     }
   };
 

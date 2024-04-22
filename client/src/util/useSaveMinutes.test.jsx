@@ -1,11 +1,13 @@
 import { expect, test, describe, afterEach, vi } from "vitest";
 import { renderHook, waitFor } from "@testing-library/react";
 import { toast } from "react-toastify";
+import { I18nextProvider } from "react-i18next";
 import React from "react";
 import {
   mockMinutesContextState,
   mockPostMinutesResponse,
 } from "./test.helpers";
+import i18n from "../i18n/config";
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
 import useSaveMinutes from "./useSaveMinutes";
@@ -35,7 +37,7 @@ describe("useSaveMinutes", () => {
             },
           ]}
         >
-          {children}
+          <I18nextProvider i18n={i18n}>{children}</I18nextProvider>
         </MinutesContext.Provider>
       ),
     }).result.current();

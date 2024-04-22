@@ -79,7 +79,7 @@ function LoadingPage() {
 
           updateMetadata(newMetaData);
         } catch (error) {
-          toast.error("There was a problem loading minutes");
+          toast.error(t("problemLoadingMinutes"));
         } finally {
           navigate("/minutes", { replace: true });
         }
