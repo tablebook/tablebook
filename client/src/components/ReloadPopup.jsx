@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { Popover, Typography, useTheme, Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import EditorContext from "../contexts/EditorContext";
 import PopupBase from "./Shared/PopupBase";
 import useReloadMinutes from "../util/useReloadMinutes";
@@ -8,6 +9,7 @@ import useSaveMinutes from "../util/useSaveMinutes";
 function ReloadPopup() {
   const [editorState, updateEditor] = useContext(EditorContext);
   const theme = useTheme();
+  const { t } = useTranslation();
   const reloadMinutes = useReloadMinutes();
   const saveMinutes = useSaveMinutes();
 
@@ -51,24 +53,23 @@ function ReloadPopup() {
         horizontal: "right",
       }}
     >
-      <PopupBase title="Different version detected">
+      <PopupBase title={t("differentVersionDetected")}>
         <Typography sx={styles.text}>
-          There is a different version of this saved minutes in the cloud. Do
-          you want to reload? Otherwise, consider saving.
+          {t("differentVersionDetectedConfirmation")}
         </Typography>
         <Button
           onClick={handleReloadButtonClicked}
           sx={styles.button}
           variant="contained"
         >
-          Reload
+          {t("reload")}
         </Button>
         <Button
           onClick={handleSaveButtonClicked}
           sx={styles.button}
           variant="contained"
         >
-          Save
+          {t("save")}
         </Button>
       </PopupBase>
     </Popover>

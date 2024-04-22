@@ -13,6 +13,7 @@
   "deleteSegment": "This action will delete the segment and its content. Are you sure?",
   "deleteSignature": "This action will delete the signature field. Are you sure?",
   "overrideSignature": "This action will override the previous signature. Are you sure?",
+  "clearAllSignatures": "This action will clear all signatures! Are you sure?",
   "signature": "Signature",
   "date": "Date",
 
@@ -29,10 +30,13 @@
   "unknownState": "Unknown state",
   "createNew": "Create New",
   "reload": "Reload",
+  "changesInIncomingMinutes": "There are changes in the incoming minutes. Are you sure you want to overwrite the current minutes?",
   "share": "Share",
   "save": "Save",
   "readLink": "Read link",
   "editLink": "Edit link",
+  "linkCopiedToClipboard": "Link copied to clipboard",
+  "couldntCopyLinkToClipboard": "Couldn't copy link to clipboard",
   "preview/printPdf": "Preview/Print PDF",
   "clearDocument": "This action will clear the whole document. Are you sure?",
   "storeDocument": "This action will store the document in the cloud where it will be accessible to anyone with the provided link. Are you sure?",
@@ -52,5 +56,9 @@
   "reportAnIssue": "Problem",
 
   "loading": "Loading",
-  "overwriteConfirmation": "This action will overwrite cached minutes. Are you sure?"
+  "serverConnectionFailed": "Server connection failed",
+  "problemLoadingMinutes": "There was a problem loading minutes",
+  "overwriteConfirmation": "This action will overwrite cached minutes. Are you sure?",
+  "differentVersionDetected": "Different version detected",
+  "differentVersionDetectedConfirmation": "There is a different version of this saved minutes in the cloud. Do you want to reload? Otherwise, consider saving."
 }

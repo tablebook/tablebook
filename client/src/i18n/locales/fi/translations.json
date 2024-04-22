@@ -9,10 +9,11 @@
 
   "enterTheMainTitle": "Lisää otsikko",
   "enterTheContent": "Lisää sisältöä",
+  "enterTheTitle": "Lisää alaotsikko",
   "deleteSegment": "Osio poistuu sisältöineen. Vahvistetaanko?",
   "deleteSignature": "Allekirjoitus poistuu. Vahvistetaanko?",
   "overrideSignature": "Aikaisempi allekirjoitus ylikirjoitetaan. Vahvistetaanko?",
-  "enterTheTitle": "Lisää alaotsikko",
+  "clearAllSignatures": "Toiminto poistaa kaikki allekirjoitukset! Vahvistetaanko?",
   "signature": "Allekirjoitus",
   "date": "Päiväys",
 
@@ -29,10 +30,13 @@
   "unknownState": "Unknown state",
   "createNew": "Luo uusi",
   "reload": "Päivitä",
+  "changesInIncomingMinutes": "Ladattavassa pöytäkirjassa on muutoksia. Oletko varma, että haluat ylikirjoittaa nykyisen pöytäkirjasi?",
   "share": "Jaa",
   "save": "Tallenna",
   "readLink": "Lukulinkki",
   "editLink": "Muokkauslinkki",
+  "linkCopiedToClipboard": "Linkki kopioitu leikepöydälle",
+  "couldntCopyLinkToClipboard": "Linkkiä ei voitu kopioida leikepöydälle",
   "preview/printPdf": "Esikatsele/tulosta",
   "clearDocument": "Pyötäkirja tyhjentyy täysin. Vahvistetaanko?",
   "storeDocument": "Pöytäkirja tallentuu pilveen, mistä se on saatavilla kaikille linkin avulla. Vahvistetaanko?",
@@ -52,5 +56,9 @@
   "reportAnIssue": "Ongelma",
 
   "loading": "Ladataan",
-  "overwriteConfirmation": "Tämä toiminto korvaa välimuistissa olevan pöytäkirjan. Oletko varma?"
+  "serverConnectionFailed": "Palvelimeen ei saatu yhteyttä",
+  "problemLoadingMinutes": "Pöytäkirjaa ladatessa ilmeni ongelmia",
+  "overwriteConfirmation": "Tämä toiminto korvaa välimuistissa olevan pöytäkirjan. Oletko varma?",
+  "differentVersionDetected": "Eri versio havaittu",
+  "differentVersionDetectedConfirmation": "Pöytäkirjasta on eri versio tallennettuna pilveen. Haluatko päivittää siihen? Muulloin harkitse tallentamista"
 }
