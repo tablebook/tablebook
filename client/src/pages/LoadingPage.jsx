@@ -70,9 +70,7 @@ function LoadingPage() {
           if (
             hasStateChanged() &&
             isIncomingStateDifferent &&
-            !window.confirm(
-              "This action will overwrite cached minutes. Are you sure?",
-            )
+            !window.confirm(t("overwriteConfirmation"))
           ) {
             return;
           }

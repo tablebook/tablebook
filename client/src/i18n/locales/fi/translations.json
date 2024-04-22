@@ -51,5 +51,6 @@
 
   "reportAnIssue": "Ongelma",
 
-  "loading": "Ladataan"
+  "loading": "Ladataan",
+  "overwriteConfirmation": "Tämä toiminto korvaa välimuistissa olevan pöytäkirjan. Oletko varma?"
 }

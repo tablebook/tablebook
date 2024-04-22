@@ -92,6 +92,9 @@ describe("LoadingPage", () => {
     await waitFor(() => {
       expect(mockToast).not.toHaveBeenCalled();
       expect(window.confirm).toHaveBeenCalledOnce();
+      expect(window.confirm).toHaveBeenCalledWith(
+        "This action will overwrite cached minutes. Are you sure?",
+      );
 
       expect(mockGetMinutesByToken).toHaveBeenCalledOnce();
       expect(mockGetMinutesByToken).toHaveBeenCalledWith(mockToken);

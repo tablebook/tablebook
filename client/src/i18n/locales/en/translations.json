@@ -51,5 +51,6 @@
 
   "reportAnIssue": "Problem",
 
-  "loading": "Loading"
+  "loading": "Loading",
+  "overwriteConfirmation": "This action will overwrite cached minutes. Are you sure?"
 }
