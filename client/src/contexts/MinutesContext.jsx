@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useMemo, useState } from "react";
 import { v4 as uuid } from "uuid";
+import deepEqualWithOmit from "../util/deepEqualWithOmit";
 
 const MinutesContext = createContext();
 
@@ -116,8 +117,10 @@ export function MinutesContextProvider({ children }) {
           return newState;
         });
       },
+
+      hasStateChanged: () => !deepEqualWithOmit(initialState, state, ["id"]),
     }),
-    [],
+    [state],
   );
 
   const contextValues = useMemo(

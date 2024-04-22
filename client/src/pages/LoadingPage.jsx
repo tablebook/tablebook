@@ -3,14 +3,17 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Box, Typography, useTheme } from "@mui/material";
 import { toast } from "react-toastify";
 import { useTranslation } from "react-i18next";
+
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
 import logoImage from "../assets/images/logo.png";
 import Image from "../components/Shared/Image";
+import deepEqualWithOmit from "../util/deepEqualWithOmit";
 
 function LoadingPage() {
   const { token } = useParams();
-  const [, { updateMinutes, updateMetadata }] = useContext(MinutesContext);
+  const [minutesState, { updateMinutes, updateMetadata, hasStateChanged }] =
+    useContext(MinutesContext);
   const navigate = useNavigate();
   const theme = useTheme();
   const [numberOfDots, setNumberOfDots] = useState(0);
@@ -47,13 +50,36 @@ function LoadingPage() {
         try {
           const minutesResponse = await minutesService.getMinutesByToken(token);
 
-          updateMinutes(minutesResponse.data);
-
-          updateMetadata({
+          const newMetaData = {
             writeAccess: Boolean(minutesResponse.writeToken),
             readToken: minutesResponse.readToken,
             writeToken: minutesResponse.writeToken,
-          });
+          };
+
+          const newState = {
+            minutes: minutesResponse.data,
+            metadata: newMetaData,
+          };
+
+          const isIncomingStateDifferent = !deepEqualWithOmit(
+            newState,
+            minutesState,
+            ["readToken", "writeToken"],
+          );
+
+          if (
+            hasStateChanged() &&
+            isIncomingStateDifferent &&
+            !window.confirm(
+              "This action will overwrite cached minutes. Are you sure?",
+            )
+          ) {
+            return;
+          }
+
+          updateMinutes(minutesResponse.data);
+
+          updateMetadata(newMetaData);
         } catch (error) {
           toast.error("There was a problem loading minutes");
         } finally {
@@ -62,7 +88,8 @@ function LoadingPage() {
       };
       handleToken();
     }
-  }, [navigate, token, updateMetadata, updateMinutes]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <Box sx={styles.container}>
