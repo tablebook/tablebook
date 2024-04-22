@@ -1,7 +1,9 @@
 import { useContext } from "react";
+import { useTranslation } from "react-i18next";
 import MinutesContext from "../contexts/MinutesContext";
 
 const useHandleSignatureAffectingChange = () => {
+  const { t } = useTranslation();
   const [minutesState, { clearSignatures }] = useContext(MinutesContext);
 
   /**
@@ -24,9 +26,7 @@ const useHandleSignatureAffectingChange = () => {
       return true;
     }
 
-    if (
-      !window.confirm("This action will clear all signatures! Are you sure?")
-    ) {
+    if (!window.confirm(t("clearAllSignatures"))) {
       return false;
     }
 

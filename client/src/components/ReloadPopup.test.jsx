@@ -1,8 +1,10 @@
 import React from "react";
 import { ThemeProvider } from "@mui/material/styles";
+import { I18nextProvider } from "react-i18next";
 import { render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 import theme from "../theme";
+import i18n from "../i18n/config";
 import ReloadPopup from "./ReloadPopup";
 import EditorContext from "../contexts/EditorContext";
 import { mockEditorContextState } from "../util/test.helpers";
@@ -41,7 +43,9 @@ describe("ReloadPopup", () => {
         ]}
       >
         <ThemeProvider theme={theme}>
-          <ReloadPopup />
+          <I18nextProvider i18n={i18n}>
+            <ReloadPopup />
+          </I18nextProvider>
         </ThemeProvider>
       </EditorContext.Provider>,
     );

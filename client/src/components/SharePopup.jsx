@@ -32,9 +32,9 @@ function SharePopup() {
 
     try {
       await navigator.clipboard.writeText(inputElementValue);
-      toast.info("Link copied to clipboard");
+      toast.info(t("linkCopiedToClipboard"));
     } catch (error) {
-      toast.error("Couldn't copy link to clipboard");
+      toast.error(t("couldntCopyLinkToClipboard"));
     }
   };
 
