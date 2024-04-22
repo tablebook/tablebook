@@ -48,6 +48,7 @@
   "loadedMinutesFail": "Pöytäkirjan päivittäminen epäonnistui",
   "sharingError": "Ongelma pöytäkirjan jakamisessa",
 
+  "minutes": "Pöytäkirja",
   "printPDF": "Tulosta PDF",
   "downloadPDF": "Lataa PDF",
   "closeWindow": "Sulje ikkuna",
