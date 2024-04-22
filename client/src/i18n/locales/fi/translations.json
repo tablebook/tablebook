@@ -49,5 +49,8 @@
   "loadingDocument": "Ladataan dokumenttia",
   "errorInPDFGeneration": "Virhe PDF:än luomisessa",
 
-  "reportAnIssue": "Ongelma"
+  "reportAnIssue": "Ongelma",
+
+  "loading": "Ladataan",
+  "overwriteConfirmation": "Tämä toiminto korvaa välimuistissa olevan pöytäkirjan. Oletko varma?"
 }
