@@ -14,6 +14,7 @@ export default ({ mode }) => {
       coverage: {
         reporter: ["text", "lcov"],
       },
+      reporters: ["verbose"],
     },
     esbuild: {
       loader: "jsx",
