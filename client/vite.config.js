@@ -12,7 +12,7 @@ export default ({ mode }) => {
       environment: "jsdom",
       setupFiles: "./src/test/setup.js",
       coverage: {
-        reporter: ["text", "json", "html"],
+        reporter: ["text", "lcov"],
       },
     },
     esbuild: {
