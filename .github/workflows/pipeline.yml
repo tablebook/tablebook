@@ -33,7 +33,7 @@ jobs:
 
       - name: Run tests on Server
         working-directory: ./server
-        run: npm test
+        run: npm run test:coverage
         env:
             SECRET: testsecret
 
@@ -47,7 +47,7 @@ jobs:
 
       - name: Run tests on Client
         working-directory: ./client
-        run: npm test
+        run: npm run test:coverage
 
       - name: Build the Client
         working-directory: ./client
@@ -82,6 +82,12 @@ jobs:
           command: npm test
           wait-on: http://localhost:8080
           working-directory: ./e2e
+
+      - name: Create full coverage report
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
 
   tag_release:
     needs: ["verification"]
