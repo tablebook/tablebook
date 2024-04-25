@@ -47,6 +47,7 @@
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
       "/node_modules/"
-    ]
+    ],
+    "coverageReporters": ["text", "lcov"]
   }
 }
