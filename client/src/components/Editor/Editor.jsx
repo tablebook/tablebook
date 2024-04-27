@@ -27,8 +27,8 @@ function Editor() {
       flexDirection: "column",
       backgroundColor: minutesState.minutes.colors.secondary,
       minHeight: "100%",
-      mx: "auto",
-      maxWidth: { xs: 500, sm: 500, md: "75%", lg: 700 },
+      mr: { xs: "60px", sm: "120px" },
+      width: { xs: 400, sm: "75%", lg: 800 },
     },
 
     middleSpacing: {
