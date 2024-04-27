@@ -112,8 +112,8 @@ describe("TopBar", () => {
         expect(titleElement.href).toEqual("http://localhost:3000/minutes");
       });
 
-      test("renders LanguagePickerContainer", () => {
-        const languagePickerContainer = screen.getByTestId("flagTrigger");
+      test("renders language button", () => {
+        const languagePickerContainer = screen.getByAltText("language");
         expect(languagePickerContainer).toBeDefined();
       });
 
@@ -300,8 +300,8 @@ describe("TopBar", () => {
         renderWith(mockMinutesContextState);
       });
 
-      test("renders LanguagePickerContainer", () => {
-        const languagePickerContainer = screen.getByTestId("flagTrigger");
+      test("renders language button", () => {
+        const languagePickerContainer = screen.getByAltText("language");
         expect(languagePickerContainer).toBeDefined();
       });
 
@@ -401,8 +401,8 @@ describe("TopBar", () => {
         });
       });
 
-      test("renders LanguagePickerContainer", () => {
-        const languagePickerContainer = screen.getByTestId("flagTrigger");
+      test("renders language button", () => {
+        const languagePickerContainer = screen.getByAltText("language");
         expect(languagePickerContainer).toBeDefined();
       });
 
