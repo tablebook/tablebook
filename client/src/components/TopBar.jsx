@@ -33,6 +33,11 @@ function TopBar({ containerRef }) {
       height: "100%",
     },
 
+    logo: {
+      height: 60,
+      width: 60,
+    },
+
     titleText: {
       display: { xs: "none", md: "block" },
     },
@@ -40,22 +45,24 @@ function TopBar({ containerRef }) {
     topBarButton: {
       fontSize: theme.fontSizes.s,
       mx: 1.5,
+      flexShrink: 0,
     },
 
-    buttonContainer: {
+    buttonsContainer: {
       display: "flex",
       px: 1,
       alignItems: "center",
+      overflow: "auto",
+      height: "100%",
     },
 
     titleContainer: {
       display: "flex",
       backgroundColor: theme.palette.background.main,
-      height: 60,
       borderRadius: 9,
       boxShadow: 3,
       px: 2,
-      ml: 1,
+      m: 1,
     },
 
     statusMessageContainer: {
@@ -67,6 +74,7 @@ function TopBar({ containerRef }) {
       px: 2,
       py: 1,
       borderRadius: 1,
+      flexShrink: 0,
     },
 
     statusMessage: {
@@ -78,7 +86,6 @@ function TopBar({ containerRef }) {
       border: 1,
       borderRadius: 1,
       borderColor: "black",
-      boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
     },
   };
 
@@ -152,14 +159,14 @@ function TopBar({ containerRef }) {
         color="primary.contrastText"
       >
         <Box sx={styles.titleContainer}>
-          <Image src={logoImage} />
+          <Image sx={styles.logo} src={logoImage} />
           <Typography sx={styles.titleText} variant="header">
             TableBook
           </Typography>
         </Box>
       </Link>
 
-      <Box sx={styles.buttonContainer}>
+      <Box sx={styles.buttonsContainer}>
         <Box sx={styles.statusMessageContainer}>
           <Typography color="background.contrastText">
             {getStatusMessage()}
