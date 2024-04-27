@@ -10,7 +10,7 @@ function PopupBase({ title, children }) {
     },
     innerContainer: {
       p: 3,
-      width: 400,
+      width: { xs: "auto", md: 400 },
       display: "flex",
       flexDirection: "column",
       gap: 1,
