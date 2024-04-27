@@ -1,12 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Box, useTheme } from "@mui/material";
-
-import ColorPickerContainer from "./ColorPickerContainer";
-import MinutesContext from "../../contexts/MinutesContext";
 
 function SideBar() {
   const theme = useTheme();
-  const [minutesState] = useContext(MinutesContext);
 
   const styles = {
     sideBarContainer: {
@@ -34,13 +30,7 @@ function SideBar() {
     },
   };
 
-  return (
-    <Box sx={styles.sideBarContainer}>
-      {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
-        <ColorPickerContainer />
-      )}
-    </Box>
-  );
+  return <Box sx={styles.sideBarContainer} />;
 }
 
 export default SideBar;

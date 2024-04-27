@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Box, Button, useTheme, Typography } from "@mui/material";
+import { Box, Button, useTheme, Typography, Paper } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useDebouncedCallback } from "use-debounce";
 import ColorPicker from "./ColorPicker";
@@ -22,21 +22,13 @@ function ColorPickerContainer() {
 
   const styles = {
     colorPickerContainer: {
-      width: "85%",
-      maxWidth: 240,
       position: "relative",
       display: "flex",
       flexDirection: "column",
     },
 
-    customizeTitle: {
-      fontSize: theme.fontSizes.m,
-      textAlign: "center",
-      fontWeight: "bold",
-    },
-
-    colorPickerTitle: {
-      backgroundColor: theme.palette.secondary.main,
+    colorPickerTitleContainer: {
+      backgroundColor: theme.palette.background.main,
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
@@ -46,8 +38,10 @@ function ColorPickerContainer() {
       m: 1,
     },
 
-    colorPickerPara: {
-      color: theme.palette.secondary.contrastText,
+    colorPickerTitle: {
+      fontSize: theme.fontSizes.m,
+      textAlign: "center",
+      flexGrow: 1,
     },
 
     restoreButtonContainer: {
@@ -58,7 +52,7 @@ function ColorPickerContainer() {
 
     restoreButton: {
       width: "75%",
-      fontSize: theme.fontSizes.xs,
+      fontSize: theme.fontSizes.s,
     },
   };
 
@@ -95,18 +89,16 @@ function ColorPickerContainer() {
 
   return (
     <Box sx={styles.colorPickerContainer} data-testid="colorPickerContainer">
-      <Typography sx={styles.customizeTitle}>{t("customize")}:</Typography>
-
-      <Box sx={styles.colorPickerTitle}>
-        <Typography sx={styles.colorPickerPara}>{t("textColor")}</Typography>
+      <Paper sx={styles.colorPickerTitleContainer}>
+        <Typography sx={styles.colorPickerTitle}>{t("textColor")}</Typography>
         <ColorPicker
           onColorChange={(color) => updateColor("primary", color)}
           currColor={minutesState.minutes.colors.primary}
         />
-      </Box>
+      </Paper>
 
-      <Box sx={styles.colorPickerTitle}>
-        <Typography sx={styles.colorPickerPara}>
+      <Box sx={styles.colorPickerTitleContainer}>
+        <Typography sx={styles.colorPickerTitle}>
           {t("backgroundColor")}
         </Typography>
         <ColorPicker
@@ -118,7 +110,6 @@ function ColorPickerContainer() {
       <Box sx={styles.restoreButtonContainer}>
         <Button
           variant="contained"
-          color="secondary"
           sx={styles.restoreButton}
           onClick={restoreDefaults}
         >

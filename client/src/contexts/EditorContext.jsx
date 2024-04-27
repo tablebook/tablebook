@@ -10,6 +10,7 @@ const initialState = {
   sharePopupAnchorElement: null,
   reloadPopupAnchorElement: null,
   languagePopupAnchorElement: null,
+  colorSettingsPopupAnchorElement: null,
 };
 
 export function EditorContextProvider({ children }) {

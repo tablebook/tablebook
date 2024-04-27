@@ -13,6 +13,7 @@ import EditorContext from "../contexts/EditorContext";
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
 import LanguagePickerPopup from "../components/LanguagePickerPopup";
+import ColorSettingsPopup from "../components/ColorSettingsPopup";
 
 function EditorPage() {
   const theme = useTheme();
@@ -88,6 +89,7 @@ function EditorPage() {
       <SharePopup />
       <ReloadPopup />
       <LanguagePickerPopup />
+      <ColorSettingsPopup />
     </Box>
   );
 }

@@ -1,5 +1,4 @@
 {
-  "customize": "customize",
   "textColor": "Text color",
   "backgroundColor": "Background color",
   "restoreDefaults": "Restore Defaults",
@@ -47,6 +46,8 @@
   "loadedMinutesSuccesful": "Successfully loaded minutes",
   "loadedMinutesFail": "Reloading minutes failed",
   "sharingError": "Error while sharing minutes",
+  "colorSettings": "Color settings",
+
 
   "minutes": "Minutes",
   "printPDF": "Print PDF",
