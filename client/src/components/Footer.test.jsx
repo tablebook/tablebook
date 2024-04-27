@@ -38,6 +38,17 @@ describe("Footer", () => {
     expect(githubButton).toHaveAttribute("target", "_blank");
   });
 
+  test("renders markdown link", () => {
+    const markdownButton = screen.getByTestId("markdownButton", {
+      selector: "a",
+    });
+    expect(markdownButton).toBeDefined();
+    expect(markdownButton.href).toEqual(
+      "https://www.markdownguide.org/basic-syntax/",
+    );
+    expect(markdownButton).toHaveAttribute("target", "_blank");
+  });
+
   test("renders copyright button", () => {
     const copyrightButton = screen.getByTestId("copyrightButton", {
       selector: "a",

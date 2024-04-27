@@ -5,6 +5,7 @@ import { Link as RouterLink } from "react-router-dom";
 import ReportIcon from "@mui/icons-material/Report";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import CopyrightIcon from "@mui/icons-material/Copyright";
+import MarkdownIcon from "./Shared/MarkdownIcon";
 
 function Footer() {
   const theme = useTheme();
@@ -60,13 +61,27 @@ function Footer() {
       <Box sx={styles.footerItem}>
         <Link
           component={RouterLink}
+          to="https://www.markdownguide.org/basic-syntax/"
+          color="primary.contrastText"
+          underline="hover"
+          target="_blank"
+          data-testid="markdownButton"
+        >
+          <MarkdownIcon height={24} />
+          <Typography sx={styles.itemText}>Markdown</Typography>
+        </Link>
+      </Box>
+
+      <Box sx={styles.footerItem}>
+        <Link
+          component={RouterLink}
           to="https://github.com/tablebook/tablebook/blob/main/LICENSE"
           color="primary.contrastText"
           underline="hover"
           target="_blank"
           data-testid="copyrightButton"
         >
-          <CopyrightIcon sx={styles.iconSize} />
+          <CopyrightIcon />
           <Typography sx={styles.itemText}>Copyright</Typography>
         </Link>
       </Box>
