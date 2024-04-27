@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { isMobile } from "react-device-detect";
 import EditorContext from "../contexts/EditorContext";
-import LanguagePickerContainer from "./LanguagePickerContainer";
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
 import logoImage from "../assets/images/logo.png";
@@ -13,11 +12,13 @@ import Image from "./Shared/Image";
 import useReloadMinutes from "../util/useReloadMinutes";
 import useSaveMinutes from "../util/useSaveMinutes";
 import DownloadPDFButton from "./DownloadPDFButton";
+import flagFi from "../i18n/locales/flags/fi.svg";
+import flagEn from "../i18n/locales/flags/en.svg";
 
 function TopBar({ containerRef }) {
   const theme = useTheme();
   const { t } = useTranslation();
-  const [, updateEditor] = useContext(EditorContext);
+  const [editorState, updateEditor] = useContext(EditorContext);
   const [minutesState, { updateMetadata, clearState }] =
     useContext(MinutesContext);
   const reloadMinutes = useReloadMinutes();
@@ -70,6 +71,14 @@ function TopBar({ containerRef }) {
 
     statusMessage: {
       textAlign: "center",
+    },
+
+    flag: {
+      width: 38,
+      border: 1,
+      borderRadius: 1,
+      borderColor: "black",
+      boxShadow: "0 8px 16px rgba(0,0,0,0.2)",
     },
   };
 
@@ -125,6 +134,14 @@ function TopBar({ containerRef }) {
         return t("unknownState");
     }
   };
+
+  const handleLanguageButtonClicked = (event) => {
+    const languageButton = event.currentTarget;
+
+    updateEditor({ languagePopupAnchorElement: languageButton });
+  };
+
+  const flagSrc = editorState.language === "en" ? flagEn : flagFi;
 
   return (
     <Box sx={styles.topBarContainer} ref={containerRef}>
@@ -205,9 +222,9 @@ function TopBar({ containerRef }) {
           </Button>
         )}
 
-        <Box>
-          <LanguagePickerContainer />
-        </Box>
+        <Button onClick={handleLanguageButtonClicked}>
+          <Image sx={styles.flag} src={flagSrc} alt={t("language")} />
+        </Button>
       </Box>
     </Box>
   );

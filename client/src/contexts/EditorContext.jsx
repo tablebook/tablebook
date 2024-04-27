@@ -9,6 +9,7 @@ const initialState = {
   isPreviewPrintPDFModalOpen: false,
   sharePopupAnchorElement: null,
   reloadPopupAnchorElement: null,
+  languagePopupAnchorElement: null,
 };
 
 export function EditorContextProvider({ children }) {

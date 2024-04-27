@@ -12,6 +12,7 @@ import ReloadPopup from "../components/ReloadPopup";
 import EditorContext from "../contexts/EditorContext";
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
+import LanguagePickerPopup from "../components/LanguagePickerPopup";
 
 function EditorPage() {
   const theme = useTheme();
@@ -86,6 +87,7 @@ function EditorPage() {
       <PreviewPrintPDFModal />
       <SharePopup />
       <ReloadPopup />
+      <LanguagePickerPopup />
     </Box>
   );
 }
