@@ -24,29 +24,44 @@ function SignatureModal() {
   const signaturePadRef = useRef(null);
 
   const styles = {
+    outerModalStyle: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      overflow: "auto",
+      flexDirection: "column",
+    },
+
     modalStyle: {
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: 500,
       bgcolor: theme.palette.background.main,
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      p: 4,
+      p: { xs: 2, sm: 4 },
+      m: 2,
       border: "2px solid black",
       borderRadius: 1,
+      maxWidth: 500,
+      width: "75%",
+      gap: { xs: 2, sm: 3 },
+    },
+
+    title: {
+      textAlign: "center",
     },
 
     canvasBox: {
-      my: 4,
       bgcolor: state.minutes.colors.secondary,
       border: "1px solid black",
+      width: "100%",
+      "> canvas": {
+        width: "100%",
+        aspectRatio: 5 / 2,
+      },
     },
 
     signerContainer: {
-      width: 500,
+      width: "100%",
       bgcolor: state.minutes.colors.secondary,
       border: "1px solid black",
     },
@@ -70,7 +85,6 @@ function SignatureModal() {
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
-      my: 4,
     },
 
     timestampCheckboxStyle: {
@@ -82,8 +96,13 @@ function SignatureModal() {
 
     buttonsBox: {
       display: "flex",
-      width: 400,
-      justifyContent: "space-between",
+      width: "100%",
+      justifyContent: "center",
+      gap: { xs: 1, sm: 6 },
+    },
+
+    checkboxLabel: {
+      textAlign: "center",
     },
   };
 
@@ -131,18 +150,17 @@ function SignatureModal() {
       open={editor.isSignatureModalOpen}
       onClose={handleModalClose}
       aria-labelledby="signature-modal"
+      sx={styles.outerModalStyle}
     >
       <Box sx={styles.modalStyle}>
-        <Typography variant="h4">{t("drawYourSignature")}</Typography>
+        <Typography sx={styles.title} variant="h4">
+          {t("drawYourSignature")}
+        </Typography>
         <Box sx={styles.canvasBox}>
           <SignatureCanvas
             ref={signaturePadRef}
             dotSize={3}
             penColor={state.minutes.colors.primary}
-            canvasProps={{
-              width: 500,
-              height: 200,
-            }}
           />
         </Box>
         <Box sx={styles.signerContainer}>
@@ -162,7 +180,9 @@ function SignatureModal() {
             sx={styles.timestampCheckboxStyle}
             inputProps={{ "data-testid": "timestamp-checkbox" }}
           />
-          <Typography>{t("insertCurrentTimestampOnMinutes")}</Typography>
+          <Typography sx={styles.checkboxLabel}>
+            {t("insertCurrentTimestampOnMinutes")}
+          </Typography>
         </Box>
         <Box sx={styles.buttonsBox}>
           <Button variant="contained" color="primary" onClick={clearSignature}>

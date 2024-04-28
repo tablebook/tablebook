@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
 
-function PopupBase({ title, children }) {
+function PopupBase({ title, children, width }) {
   const theme = useTheme();
   const styles = {
     outerContainer: {
@@ -10,7 +10,7 @@ function PopupBase({ title, children }) {
     },
     innerContainer: {
       p: 3,
-      width: 400,
+      width: width || { xs: "auto", md: 400 },
       display: "flex",
       flexDirection: "column",
       gap: 1,

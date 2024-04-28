@@ -2,7 +2,6 @@ import { Box, useTheme } from "@mui/material";
 import React, { useContext, useEffect, useRef } from "react";
 import _ from "lodash";
 import TopBar from "../components/TopBar";
-import SideBar from "../components/SideBar/SideBar";
 import Editor from "../components/Editor/Editor";
 import Footer from "../components/Footer";
 import SharePopup from "../components/SharePopup";
@@ -12,6 +11,9 @@ import ReloadPopup from "../components/ReloadPopup";
 import EditorContext from "../contexts/EditorContext";
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
+import LanguagePickerPopup from "../components/LanguagePickerPopup";
+import ColorSettingsPopup from "../components/ColorSettingsPopup";
+import ColorPickerPopup from "../components/ColorPickerPopup";
 
 function EditorPage() {
   const theme = useTheme();
@@ -33,17 +35,12 @@ function EditorPage() {
       flexShrink: 0,
     },
     body: {
-      display: "flex",
-      flexGrow: 1,
-      overflowY: "auto",
-    },
-    scrollable: {
       flexGrow: 1,
       overflowY: "auto",
       display: "flex",
       flexDirection: "row",
+      justifyContent: "space-evenly",
     },
-    editorRightSpacing: { width: "24vw", minWidth: "5vw" },
   };
 
   useEffect(() => {
@@ -73,11 +70,7 @@ function EditorPage() {
         <TopBar containerRef={topBarRef} />
       </Box>
       <Box sx={styles.body}>
-        <SideBar />
-        <Box sx={styles.scrollable}>
-          <Editor />
-          <Box sx={styles.editorRightSpacing} />
-        </Box>
+        <Editor />
       </Box>
       <Box sx={styles.footer}>
         <Footer />
@@ -86,6 +79,9 @@ function EditorPage() {
       <PreviewPrintPDFModal />
       <SharePopup />
       <ReloadPopup />
+      <LanguagePickerPopup />
+      <ColorSettingsPopup />
+      <ColorPickerPopup />
     </Box>
   );
 }

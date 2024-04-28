@@ -13,6 +13,7 @@ import MinutesContext from "../../contexts/MinutesContext";
 import SignatureButtons from "./SignatureButtons";
 import AddButton from "./AddButton";
 import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffectingChange";
+import ColorsButton from "./ColorsButton";
 
 function Editor() {
   const theme = useTheme();
@@ -27,8 +28,8 @@ function Editor() {
       flexDirection: "column",
       backgroundColor: minutesState.minutes.colors.secondary,
       minHeight: "100%",
-      mx: "auto",
-      maxWidth: { xs: 500, sm: 500, md: "75%", lg: 700 },
+      mr: { xs: "60px", sm: "120px" },
+      width: { xs: 400, sm: "75%", lg: 800 },
     },
 
     middleSpacing: {
@@ -38,6 +39,22 @@ function Editor() {
     outerSpacing: {
       backgroundColor: theme.palette.background.main,
       height: 25,
+    },
+
+    colorIcon: {
+      fontSize: theme.fontSizes.l,
+    },
+
+    colorButton: {
+      flexGrow: 1,
+      display: "flex",
+      flexDirection: "column",
+    },
+
+    colorButtonContainer: {
+      display: "flex",
+      alignItems: "center",
+      height: "100%",
     },
   };
 
@@ -75,7 +92,9 @@ function Editor() {
     <Box sx={styles.editorContainer} data-testid="editor-component">
       <Box sx={styles.outerSpacing} />
       <SegmentContainer>
-        <SideContainer />
+        <SideContainer>
+          {!(minutesState.metadata.writeAccess === false) && <ColorsButton />}
+        </SideContainer>
         <Title />
       </SegmentContainer>
 

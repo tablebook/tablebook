@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { isMobile } from "react-device-detect";
 import EditorContext from "../contexts/EditorContext";
-import LanguagePickerContainer from "./LanguagePickerContainer";
 import minutesService from "../services/minutesService";
 import MinutesContext from "../contexts/MinutesContext";
 import logoImage from "../assets/images/logo.png";
@@ -13,11 +12,13 @@ import Image from "./Shared/Image";
 import useReloadMinutes from "../util/useReloadMinutes";
 import useSaveMinutes from "../util/useSaveMinutes";
 import DownloadPDFButton from "./DownloadPDFButton";
+import flagFi from "../i18n/locales/flags/fi.svg";
+import flagEn from "../i18n/locales/flags/en.svg";
 
 function TopBar({ containerRef }) {
   const theme = useTheme();
   const { t } = useTranslation();
-  const [, updateEditor] = useContext(EditorContext);
+  const [editorState, updateEditor] = useContext(EditorContext);
   const [minutesState, { updateMetadata, clearState }] =
     useContext(MinutesContext);
   const reloadMinutes = useReloadMinutes();
@@ -32,6 +33,11 @@ function TopBar({ containerRef }) {
       height: "100%",
     },
 
+    logo: {
+      height: 60,
+      width: 60,
+    },
+
     titleText: {
       display: { xs: "none", md: "block" },
     },
@@ -39,22 +45,24 @@ function TopBar({ containerRef }) {
     topBarButton: {
       fontSize: theme.fontSizes.s,
       mx: 1.5,
+      flexShrink: 0,
     },
 
-    buttonContainer: {
+    buttonsContainer: {
       display: "flex",
       px: 1,
       alignItems: "center",
+      overflow: "auto",
+      height: "100%",
     },
 
     titleContainer: {
       display: "flex",
       backgroundColor: theme.palette.background.main,
-      height: 60,
       borderRadius: 9,
       boxShadow: 3,
       px: 2,
-      ml: 1,
+      m: 1,
     },
 
     statusMessageContainer: {
@@ -66,10 +74,18 @@ function TopBar({ containerRef }) {
       px: 2,
       py: 1,
       borderRadius: 1,
+      flexShrink: 0,
     },
 
     statusMessage: {
       textAlign: "center",
+    },
+
+    flag: {
+      width: 38,
+      border: 1,
+      borderRadius: 1,
+      borderColor: "black",
     },
   };
 
@@ -126,6 +142,14 @@ function TopBar({ containerRef }) {
     }
   };
 
+  const handleLanguageButtonClicked = (event) => {
+    const languageButton = event.currentTarget;
+
+    updateEditor({ languagePopupAnchorElement: languageButton });
+  };
+
+  const flagSrc = editorState.language === "en" ? flagEn : flagFi;
+
   return (
     <Box sx={styles.topBarContainer} ref={containerRef}>
       <Link
@@ -135,19 +159,20 @@ function TopBar({ containerRef }) {
         color="primary.contrastText"
       >
         <Box sx={styles.titleContainer}>
-          <Image src={logoImage} />
+          <Image sx={styles.logo} src={logoImage} />
           <Typography sx={styles.titleText} variant="header">
             TableBook
           </Typography>
         </Box>
       </Link>
 
-      <Box sx={styles.buttonContainer}>
+      <Box sx={styles.buttonsContainer}>
         <Box sx={styles.statusMessageContainer}>
           <Typography color="background.contrastText">
             {getStatusMessage()}
           </Typography>
         </Box>
+
         <Button
           variant="contained"
           color="secondary"
@@ -205,9 +230,9 @@ function TopBar({ containerRef }) {
           </Button>
         )}
 
-        <Box>
-          <LanguagePickerContainer />
-        </Box>
+        <Button onClick={handleLanguageButtonClicked}>
+          <Image sx={styles.flag} src={flagSrc} alt={t("language")} />
+        </Button>
       </Box>
     </Box>
   );

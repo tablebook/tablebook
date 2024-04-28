@@ -1,5 +1,4 @@
 {
-  "customize": "muokkaa",
   "textColor": "Tekstin väri",
   "backgroundColor": "Taustan väri",
   "restoreDefaults": "Alkuperäisvärit",
@@ -47,6 +46,7 @@
   "loadedMinutesSuccesful": "Pöytäkirjan päivittäminen onnistui",
   "loadedMinutesFail": "Pöytäkirjan päivittäminen epäonnistui",
   "sharingError": "Ongelma pöytäkirjan jakamisessa",
+  "colors": "Värit",
 
   "minutes": "Pöytäkirja",
   "printPDF": "Tulosta PDF",
