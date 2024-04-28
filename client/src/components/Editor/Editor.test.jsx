@@ -48,8 +48,13 @@ describe("Editor", () => {
       renderWith(mockMinutesContextState);
     });
     test("renders title component", () => {
-      const titleComponent = screen.getByTestId("title-component");
+      const titleComponent = screen.getByTestId("colorIconButton");
       expect(titleComponent).toBeDefined();
+    });
+
+    test("renders colors button", () => {
+      const colorsButton = screen.getByTestId("colorIconButton");
+      expect(colorsButton).toBeDefined();
     });
 
     test("renders the right amount of segment components", () => {
@@ -255,6 +260,11 @@ describe("Editor", () => {
     test("doesn't render add field button", () => {
       const addAFieldButton = screen.queryByText("Add field");
       expect(addAFieldButton).not.toBeInTheDocument();
+    });
+
+    test("doesn't render colors button", () => {
+      const colorsButton = screen.queryByTestId("colorIconButton");
+      expect(colorsButton).not.toBeInTheDocument();
     });
   });
 });

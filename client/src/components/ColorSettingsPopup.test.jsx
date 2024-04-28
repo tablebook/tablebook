@@ -61,7 +61,7 @@ describe("ColorSettingsPopup", () => {
   });
 
   test("should render all components", () => {
-    const titleElement = screen.getByText("Color settings");
+    const titleElement = screen.getByText("Colors");
     const textColorElement = screen.getByText("Text color");
     const backgroundColorElement = screen.getByText("Background color");
     const restoreButton = screen.getByText("Restore Defaults");
