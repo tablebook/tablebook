@@ -27,7 +27,14 @@ function ColorPickerButton({ color, onClick }) {
     },
   };
 
-  return <Paper elevation={8} sx={styles.button} onClick={onClick} />;
+  return (
+    <Paper
+      elevation={8}
+      sx={styles.button}
+      onClick={onClick}
+      data-testid="colorpicker-button"
+    />
+  );
 }
 
 function ColorSettingsPopup() {

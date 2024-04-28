@@ -1,6 +1,6 @@
 import React from "react";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
-import { render, waitFor, screen } from "@testing-library/react";
+import { render, waitFor, screen, fireEvent } from "@testing-library/react";
 
 import { I18nextProvider } from "react-i18next";
 import { ThemeProvider } from "@mui/material";
@@ -79,5 +79,13 @@ describe("ColorPickerPopup", () => {
     );
 
     expect(colorInputWithCorrectValue).toBeDefined();
+  });
+
+  test("should check signatures on picker click", () => {
+    const colorPicker = screen.getByTestId("colorpicker");
+
+    fireEvent.mouseDown(colorPicker);
+
+    expect(mockHandleSignatureAffectingChange).toHaveBeenCalledOnce();
   });
 });
