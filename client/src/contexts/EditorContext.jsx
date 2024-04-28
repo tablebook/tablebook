@@ -11,6 +11,8 @@ const initialState = {
   reloadPopupAnchorElement: null,
   languagePopupAnchorElement: null,
   colorSettingsPopupAnchorElement: null,
+  colorPickerPopupAnchorElement: null,
+  colorPickerPopupColor: null,
 };
 
 export function EditorContextProvider({ children }) {
