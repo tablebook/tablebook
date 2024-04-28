@@ -180,7 +180,8 @@ function PDFDocument({ pdfReadyMinutes }) {
     signatureImage: {
       width: 150,
       height: 60,
-      objectFit: "contain",
+      objectFit: "scale-down",
+      objectPosition: "0 100%",
     },
 
     signatureAndDateLine: {
