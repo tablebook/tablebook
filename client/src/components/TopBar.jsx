@@ -148,12 +148,6 @@ function TopBar({ containerRef }) {
     updateEditor({ languagePopupAnchorElement: languageButton });
   };
 
-  const handleColorButtonClicked = (event) => {
-    const languageButton = event.currentTarget;
-
-    updateEditor({ colorSettingsPopupAnchorElement: languageButton });
-  };
-
   const flagSrc = editorState.language === "en" ? flagEn : flagFi;
 
   return (
@@ -178,17 +172,6 @@ function TopBar({ containerRef }) {
             {getStatusMessage()}
           </Typography>
         </Box>
-
-        {!(minutesState.metadata.writeAccess === false) && ( // If writeAccess is anything other than false
-          <Button
-            variant="contained"
-            color="secondary"
-            sx={styles.topBarButton}
-            onClick={handleColorButtonClicked}
-          >
-            {t("colorSettings")}
-          </Button>
-        )}
 
         <Button
           variant="contained"

@@ -1,7 +1,8 @@
 import React, { useContext } from "react";
-import { Box, useTheme } from "@mui/material";
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { v4 as uuid } from "uuid";
 import { useTranslation } from "react-i18next";
+import PaletteIcon from "@mui/icons-material/Palette";
 
 import Title from "./Title";
 import SideContainer from "./SideContainer";
@@ -13,10 +14,12 @@ import MinutesContext from "../../contexts/MinutesContext";
 import SignatureButtons from "./SignatureButtons";
 import AddButton from "./AddButton";
 import useHandleSignatureAffectingChange from "../../util/useHandleSignatureAffectingChange";
+import EditorContext from "../../contexts/EditorContext";
 
 function Editor() {
   const theme = useTheme();
   const [minutesState, { updateMinutes }] = useContext(MinutesContext);
+  const [, updateEditor] = useContext(EditorContext);
   const handleSignatureAffectingChange = useHandleSignatureAffectingChange();
   const { t } = useTranslation();
 
@@ -38,6 +41,22 @@ function Editor() {
     outerSpacing: {
       backgroundColor: theme.palette.background.main,
       height: 25,
+    },
+
+    colorIcon: {
+      fontSize: theme.fontSizes.l,
+    },
+
+    colorButton: {
+      flexGrow: 1,
+      display: "flex",
+      flexDirection: "column",
+    },
+
+    colorButtonContainer: {
+      display: "flex",
+      alignItems: "center",
+      height: "100%",
     },
   };
 
@@ -71,11 +90,29 @@ function Editor() {
     updateMinutes({ signatures: newSignatures });
   };
 
+  const handleColorButtonClicked = (event) => {
+    const button = event.currentTarget;
+
+    updateEditor({ colorSettingsPopupAnchorElement: button });
+  };
+
   return (
     <Box sx={styles.editorContainer} data-testid="editor-component">
       <Box sx={styles.outerSpacing} />
       <SegmentContainer>
-        <SideContainer />
+        <SideContainer>
+          {!(minutesState.metadata.writeAccess === false) && (
+            <Box sx={styles.colorButtonContainer}>
+              <IconButton
+                sx={styles.colorButton}
+                onClick={handleColorButtonClicked}
+              >
+                <PaletteIcon sx={styles.colorIcon} />
+                <Typography>{t("colors")}</Typography>
+              </IconButton>
+            </Box>
+          )}
+        </SideContainer>
         <Title />
       </SegmentContainer>
 

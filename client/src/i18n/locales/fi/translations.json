@@ -46,7 +46,7 @@
   "loadedMinutesSuccesful": "Pöytäkirjan päivittäminen onnistui",
   "loadedMinutesFail": "Pöytäkirjan päivittäminen epäonnistui",
   "sharingError": "Ongelma pöytäkirjan jakamisessa",
-  "colorSettings": "Väriasetukset",
+  "colors": "Värit",
 
   "minutes": "Pöytäkirja",
   "printPDF": "Tulosta PDF",

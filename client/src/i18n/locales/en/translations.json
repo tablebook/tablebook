@@ -46,7 +46,7 @@
   "loadedMinutesSuccesful": "Successfully loaded minutes",
   "loadedMinutesFail": "Reloading minutes failed",
   "sharingError": "Error while sharing minutes",
-  "colorSettings": "Color settings",
+  "colors": "Colors",
 
 
   "minutes": "Minutes",

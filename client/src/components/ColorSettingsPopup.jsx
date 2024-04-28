@@ -112,7 +112,7 @@ function ColorSettingsPopup() {
         horizontal: "right",
       }}
     >
-      <PopupBase title={t("colorSettings")} width={250}>
+      <PopupBase title={t("colors")} width={250}>
         <Box
           sx={styles.colorPickerContainer}
           data-testid="colorPickerContainer"
