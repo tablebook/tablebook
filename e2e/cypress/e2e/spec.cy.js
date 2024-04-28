@@ -58,23 +58,18 @@ describe("Scenarios", () => {
       .should("have.html", "- Starting item 1#\n- Starting item 2#");
 
     // Change color
-    cy.getByTestId("color-picker-box").first().click();
-    cy.getByTestId("color-picker-box")
-      .parent()
-      .find("input")
-      .clear()
-      .type("ffb2b2");
+    cy.getByTestId("colorIconButton").click();
+    cy.getByTestId("colorpicker-button").first().click();
+    cy.getByTestId("colorinput").clear().type("ffb2b2");
 
     cy.get("body").click(); // Click outside
 
-    cy.getByTestId("color-picker-box").last().click();
-    cy.getByTestId("color-picker-box")
-      .parent()
-      .find("input")
-      .clear()
-      .type("552a2a");
+    cy.getByTestId("colorpicker-button").last().click();
+    cy.getByTestId("colorinput").clear().type("552a2a");
 
-    cy.get("body").click(); // Click outside
+    cy.get("body").click(); // Click outside twice
+    cy.wait(500);
+    cy.get("body").click();
 
     cy.getByTestId("editor-component").should(
       "have.css",
