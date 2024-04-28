@@ -69,22 +69,25 @@ function ColorPickerPopup() {
         horizontal: "left",
       }}
     >
-      <Box sx={styles.container}>
+      <Box sx={styles.container} data-testid="colorpicker-container">
         <HexColorPicker
           color={selectedColor}
           onChange={setColor}
           onMouseDownCapture={handlePickerClick}
           onTouchStartCapture={handlePickerClick}
+          data-testid="colorpicker"
         />
         <HexColorInput
           color={selectedColor}
           onChange={setColor}
+          onBeforeInputCapture={handlePickerClick}
           style={{
             textAlign: "center",
             fontSize: theme.fontSizes.m,
             border: 0,
             textTransform: "uppercase",
           }}
+          data-testid="colorinput"
         />
       </Box>
     </Popover>
