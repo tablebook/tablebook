@@ -35,7 +35,7 @@ jobs:
         working-directory: ./server
         run: npm run test:coverage
         env:
-            SECRET: testsecret
+          SECRET: testsecret
 
       - name: Install the Client dependencies
         working-directory: ./client
@@ -64,7 +64,7 @@ jobs:
       - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.10.0
         with:
-          mongodb-version: '6.0'
+          mongodb-version: "6.0"
 
       - name: Start server
         working-directory: ./server
@@ -87,7 +87,6 @@ jobs:
         uses: coverallsapp/github-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
 
   tag_release:
     needs: ["verification"]
@@ -130,6 +129,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Set up QEMU for cross-platform builds
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
       # Set up BuildKit Docker container builder to be able to build
       # multi-platform images and export cache
       # https://github.com/docker/setup-buildx-action
@@ -156,6 +159,7 @@ jobs:
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.tag_release.outputs.version }}
             ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
           push: true
+          platforms: linux/amd64,linux/arm64
 
   deploy_to_render:
     needs: [publish_docker_image]
