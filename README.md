@@ -3,6 +3,7 @@
 > Online meeting minutes editor
 
 **Currently live at https://tablebook.onrender.com**
+<br><br>
 **Or alternatively at https://tablebook.tuukka.net**
 
 [![Coverage Status](https://coveralls.io/repos/github/tablebook/tablebook/badge.svg)](https://coveralls.io/github/tablebook/tablebook)
