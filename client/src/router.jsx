@@ -19,7 +19,7 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <Navigate to="/minutes" replace/>,
+    element: <Navigate to="/minutes" replace />,
   },
 ]);
 
