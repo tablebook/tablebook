@@ -2,7 +2,7 @@ services:
   mongodb:
     image: mongo:latest
     ports:
-      - "27017:27017"
+      - 27017:27017
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
       interval: 10s
@@ -13,7 +13,6 @@ services:
     attach: false
 
   client:
-    image: client
     build:
       context: ./client
       dockerfile: Dockerfile.dev
@@ -30,7 +29,6 @@ services:
     restart: unless-stopped
 
   server:
-    image: server
     build:
       context: ./server
       dockerfile: Dockerfile.dev
