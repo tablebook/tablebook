@@ -1,6 +1,6 @@
 
 # Build stage gets deleted when build is done
-FROM node:20-bookworm-slim as build-stage
+FROM node:20-bookworm-slim AS build-stage
 
 ## Build client
 
